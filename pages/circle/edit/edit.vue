@@ -13,8 +13,8 @@
 
 		<!-- 增加图片上传组件 -->
 		<view class="pic">
-			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="3" mode="grid"
-				@success="uploadSuccess" />
+			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="3" mode="grid" @success="uploadSuccess"
+				@delete="deleteImage" />
 		</view>
 
 		<view class="btn">
@@ -63,6 +63,12 @@
 				this.picurls = this.picurls.concat(e.tempFilePaths);
 			},
 
+			// 点击删除已经上传的图片
+			deleteImage(e) {
+				// 从 this.picurls 数组中移除被删除的图片路径
+				this.picurls.splice(e.index, 1);
+			},
+
 			onSubmit() {
 				console.log(this.formValue);
 				console.log(this.picurls);
@@ -74,8 +80,10 @@
 			addData() {
 				db.collection("circle_articles").add({
 					...this.formValue,
+					description: this.formValue.content.slice(0, 50),
 					picurls: this.picurls
 				}).then(res => {
+					console.log(res);
 					uni.hideLoading();
 					uni.showToast({
 						title: "发布成功"

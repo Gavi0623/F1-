@@ -91,3 +91,24 @@ export async function likeFun(artid) {
 		utilsObj.operation("news_articles", "like_count", artid, 1)
 	}
 }
+
+// 圈子点赞操作数据库的方法
+export async function likeCirFun(artid) {
+	// 查询当前用户是否点赞过该文章
+	let count = await db.collection("circle_like").where(
+		`article_id=='${artid}' && user_id==$cloudEnv_uid `).count()
+
+	if (count.result.total) {
+		// 取消点赞
+		db.collection("circle_like").where(`article_id=='${artid}' && user_id==$cloudEnv_uid `)
+			.remove();
+		// 更改点赞数
+		utilsObj.operation("circle_articles", "like_count", artid, -1)
+	} else {
+		// 追加数据
+		db.collection("circle_like").add({
+			article_id: artid
+		});
+		utilsObj.operation("circle_articles", "like_count", artid, 1)
+	}
+}

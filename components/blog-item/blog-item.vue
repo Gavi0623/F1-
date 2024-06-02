@@ -3,11 +3,14 @@
 		<view class="head">
 			<view class="userinfo">
 				<view class="avatar">
-					<image src="../../static/images/panda.jpg" mode="aspectFill"></image>
+					<image
+						:src="item.user_id[0].avatar_file ? item.user_id[0].avatar_file.url : '../../static/images/user-default.jpg'"
+						mode="aspectFill"></image>
 				</view>
-				<view class="name">丁真</view>
+				<view class="name">{{item.user_id[0].nickname || item.user_id[0].username}}
+				</view>
 				<view class="time">
-					<uni-dateformat :date="Date.now()" format="MM月dd hh:mm"
+					<uni-dateformat :date="item.publish_date" format="MM月dd hh:mm"
 						:threshold="[60000,3600000*24*30]"></uni-dateformat>
 				</view>
 			</view>
@@ -18,21 +21,30 @@
 		</view>
 
 		<view class="body">
-			<view class="title">默认标题</view>
-			<view class="text">
-				<view class="t">博客摘要部分博客摘要部分博客摘要部分博客摘要部分博客摘要部分博客摘要部分</view>
+			<view class="title" @tap="goDetail">{{item.title}}</view>
+			<view class="text" @tap="goDetail">
+				<view class="t">{{item.description}}</view>
 			</view>
 			<view class="piclist">
-				<view class="pic" :class="picArr.length==1 ? 'only': ''" v-for="item in 3" :key="item">
-					<image src="../../static/images/pic2.jpg" mode="aspectFill"></image>
+				<view class="pic" :class="item.picurls.length==1 ? 'only': ''" v-for="(pic,index) in item.picurls"
+					:key="index">
+					<image @tap="clickPic(index)" :src="pic" mode="aspectFill"></image>
 				</view>
 			</view>
 		</view>
 
 		<view class="info">
-			<view class="box"><text class="iconfont icon-yanjing"></text> <text>15</text></view>
-			<view class="box"><text class="iconfont icon-xiaoxi-zhihui"></text> <text>30</text></view>
-			<view class="box"><text class="iconfont icon-dianzan"></text> <text>22</text></view>
+			<view class="box">
+				<text class="iconfont icon-yanjing"></text> <text>{{item.view_count}}</text>
+			</view>
+			<view class="box" @tap="goDetail">
+				<text class="iconfont icon-xiaoxi-zhihui"></text>
+				<text>{{item.comment_count ? item.comment_count : "评论"}}</text>
+			</view>
+			<view class="box" :class="item.isLike ? 'active' : ''" @tap="clickLike">
+				<text class="iconfont icon-dianzan"></text>
+				<text>{{item.like_count ? item.like_count : "点赞"}}</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -45,16 +57,85 @@
 		store,
 		mutations
 	} from '@/uni_modules/uni-id-pages/common/store.js'
+	import {
+		giveName,
+		giveAvatar,
+		likeCirFun
+	} from "../../utils/tools.js"
+	import pageJson from "@/pages.json"
 
 	export default {
 		name: "blog-item",
+		props: {
+			item: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
 		data() {
 			return {
 
 			};
 		},
 
+		created() {
+			console.log(this.item);
+		},
 
+
+		methods: {
+			giveName,
+			giveAvatar,
+
+			// 点赞操作
+			clickLike() {
+				if (!store.hasLogin) {
+					uni.showModal({
+						title: "是否登录？",
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/" + pageJson.uniIdRouter.loginPage
+								})
+							}
+						}
+					})
+					return;
+				}
+
+				let time = Date.now();
+				if (time - this.likeTime < 2000) {
+					uni.showToast({
+						title: "请勿频繁操作",
+						icon: "none"
+					})
+					return;
+				}
+				this.likeTime = time;
+				this.item.isLike ? this.item.like_count-- : this.item.like_count++
+				this.item.isLike = !this.item.isLike;
+
+				likeCirFun(this.item._id)
+
+			},
+
+			// 点击跳转到详情页
+			goDetail() {
+				uni.navigateTo({
+					url: "/pages/circle/detail/detail?id=" + this.item._id
+				})
+			},
+
+			// 单击图片预览
+			clickPic(index) {
+				uni.previewImage({
+					urls: this.item.picurls,
+					current: index
+				})
+			}
+		}
 	}
 </script>
 

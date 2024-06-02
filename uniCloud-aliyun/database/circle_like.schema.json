@@ -17,7 +17,7 @@
 		"article_id": {
 			"bsonType": "string",
 			"description": "文章ID，opendb-news-posts 表中的`_id`字段",
-			"foreignKey": "opendb-news-articles._id"
+			"foreignKey": "circle_articles._id"
 		},
 		"user_id": {
 			"bsonType": "string",

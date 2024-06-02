@@ -148,6 +148,13 @@
 			"style": {
 				"navigationBarTitleText": "反馈详情"
 			}
+		},
+		{
+			"path" : "pages/circle/detail/detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "圈子详情页"
+			}
 		}
 	],
 	"globalStyle": {

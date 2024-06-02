@@ -18,7 +18,7 @@
 		</view>
 
 		<view class="content">
-			<view class="item" v-for="(item,index) in 2" :key="index">
+			<view class="item" v-for="(item,index) in dataList" :key="index">
 				<!-- 引入组件 -->
 				<blog-item @delEvent="P_delevent" :item="item"></blog-item>
 			</view>
@@ -37,6 +37,12 @@
 
 <script>
 	const db = uniCloud.database();
+	const dbCmd = db.command;
+
+	import {
+		store,
+		mutations
+	} from '@/uni_modules/uni-id-pages/common/store.js'
 
 	export default {
 		data() {
@@ -84,11 +90,24 @@
 			this.getData();
 		},
 
+		onReachBottom() {
+			this.uniLoad = 'loading';
+			if (this.noMore) return this.uniLoad = 'noMore';
+			this.getData();
+		},
+
 		methods: {
+			P_delevent() {
+				this.dataList = [];
+				this.getData();
+			},
+
 			clickNav(e) {
 				this.loadState = true;
 				this.dataList = [];
+				this.uniLoad = 'more';
 				this.navActive = e.index;
+				this.noMore = false;
 				this.getData();
 			},
 
@@ -104,8 +123,18 @@
 						"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab")
 					.getTemp();
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+				let query = db.collection(artTemp, userTemp);
+				// 根据当前选择的导航栏选项来设置查询条件
+				query = query.where({
+					tab: this.navlist[this.navActive].type
+				});
 
-			}
+				query.orderBy('publish_date', 'desc').get().then(res => {
+					this.dataList = res.result.data;
+					this.loadState = false;
+				});
+
+			},
 		}
 	}
 </script>
