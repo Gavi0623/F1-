@@ -41,7 +41,7 @@
 				<text class="iconfont icon-xiaoxi-zhihui"></text>
 				<text>{{item.comment_count ? item.comment_count : "评论"}}</text>
 			</view>
-			<view class="box" :class="item.isLike ? 'active' : ''" @tap="clickLike">
+			<view class="box" :class="isLike ? 'active' : ''" @tap="clickLike">
 				<text class="iconfont icon-dianzan"></text>
 				<text>{{item.like_count ? item.like_count : "点赞"}}</text>
 			</view>
@@ -76,12 +76,18 @@
 		},
 		data() {
 			return {
-
+				isLike: false
 			};
 		},
 
-		created() {
+		mounted() {
 			console.log(this.item);
+			this.checkLikeStatus()
+
+		},
+
+		onLoad() {
+			this.checkLikeStatus();
 		},
 
 
@@ -89,8 +95,21 @@
 			giveName,
 			giveAvatar,
 
+			// 查询当前用户是否点赞过某篇文章的方法
+			async checkLikeStatus() {
+				if (!store.hasLogin) return;
+
+				let count = await db.collection("circle_like").where(
+					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
+
+				console.log(count);
+
+				if (count.result.total) this.isLike = true; // 如果点过赞，返回true
+			},
+
+
 			// 点赞操作
-			clickLike() {
+			async clickLike() {
 				if (!store.hasLogin) {
 					uni.showModal({
 						title: "是否登录？",
@@ -113,12 +132,16 @@
 					})
 					return;
 				}
+
 				this.likeTime = time;
-				this.item.isLike ? this.item.like_count-- : this.item.like_count++
-				this.item.isLike = !this.item.isLike;
+				this.isLike = true;
 
-				likeCirFun(this.item._id)
+				let count = await db.collection("circle_like").where(
+					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
 
+				if (!count.result.total) this.item.like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
+
+				likeCirFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
 			},
 
 			// 点击跳转到详情页

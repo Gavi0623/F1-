@@ -89,8 +89,8 @@
 				</view>
 
 				<view class="group">
-					<view class="item">
-						<view class="left" @tap="logout">
+					<view class="item" @tap="logout">
+						<view class="left">
 							<text class="iconfont icon-tuichu"></text><text class="text">退出登录</text>
 						</view>
 						<view class="right"><text class="iconfont icon-arrow-right-copy-copy"></text></view>
@@ -150,21 +150,9 @@
 				// 统计当前用户获赞
 				let likeCount = await db.collection("circle_articles").where(`user_id == $cloudEnv_uid`)
 					.groupBy('user_id').groupField('sum(like_count) as totalScore').get();
-				this.totalObj.likeNum = likeCount.result.data[0].totalScore
-				// console.log(likeCount);
-				// console.log(this.totalObj);
-			},
-
-			goLoginPage() {
-				// 判断当前是否登录
-				if (!this.hasLogin) {
-					uni.showToast({
-						title: '未登录',
-						icon: 'none'
-					});
-					return true;
-				}
-				return false;
+				this.totalObj.likeNum = likeCount.result.data[0]?.totalScore ?? 0
+				console.log(likeCount);
+				console.log(this.totalObj);
 			},
 
 			// 意见反馈
@@ -175,19 +163,33 @@
 				})
 			},
 
-			// 退出登录
+			// 退出登录操作
 			logout() {
-				// 当用户没有登录时禁用退出登录选项
-				if (!this.hasLogin) return;
-
+				// 使用goLoginPage方法检查用户是否已登录
+				if (this.goLoginPage()) return; // 如果用户未登录，则返回并不执行退出操作
+				// 显示确认退出的对话框
 				uni.showModal({
-					title: "确认退出？",
-					success: (res) => {
-						console.log(res);
-						if (res.confirm) mutations.logout();
+					title: "确认退出？", // 对话框标题
+					success: (res) => { // 对话框操作成功的回调函数
+						console.log(res); // 在控制台输出操作结果
+						if (res.confirm) mutations.logout(); // 如果用户确认退出，则执行退出操作
 					}
 				})
-			}
+			},
+			// 检查用户是否已登录
+			goLoginPage() {
+				// 检查hasLogin状态，如果为false表示用户未登录
+				if (!this.hasLogin) {
+					// 显示未登录的提示信息
+					uni.showToast({
+						title: '未登录', // 提示内容
+						icon: 'none' // 图标样式
+					});
+					return true; // 返回true表示用户未登录
+				}
+				return false; // 返回false表示用户已登录
+			},
+
 		}
 	}
 </script>

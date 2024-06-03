@@ -58,11 +58,13 @@ function getIp() {
 
 // 获取昵称
 export function giveName(item) {
+	// console.log(item);
 	return item.user_id[0].nickname || item.user_id[0].username || item.user_id[0].mobile || "未设置昵称"
 }
 
 // 获取默认头像
 export function giveAvatar(item) {
+	// console.log(item);
 	return item.user_id[0]?.avatar_file?.url ?? '../../static/images/user-default.jpg'
 }
 
@@ -99,16 +101,18 @@ export async function likeCirFun(artid) {
 		`article_id=='${artid}' && user_id==$cloudEnv_uid `).count()
 
 	if (count.result.total) {
-		// 取消点赞
-		db.collection("circle_like").where(`article_id=='${artid}' && user_id==$cloudEnv_uid `)
-			.remove();
-		// 更改点赞数
-		utilsObj.operation("circle_articles", "like_count", artid, -1)
+		console.log(count);
+		// 如果当前用户已经点过赞
+		let isLike = true;
+		uni.showToast({
+			title: "你已经赞过",
+			icon: "none"
+		});
 	} else {
 		// 追加数据
 		db.collection("circle_like").add({
 			article_id: artid
 		});
-		utilsObj.operation("circle_articles", "like_count", artid, 1)
+		utilsObj.operation("circle_articles", "like_count", artid, 1);
 	}
 }

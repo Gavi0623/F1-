@@ -1,7 +1,7 @@
 <!-- detai.vue -->
 <template>
 	<view class="detail">
-		<view class="container">
+		<view class="container" v-if="detailObj">
 			<view v-if="loadState">
 				<u-skeleton rows="5" title loading></u-skeleton>
 			</view>
@@ -14,7 +14,7 @@
 					<view class="name">{{giveName(detailObj)}}</view>
 					<view class="small">
 						<uni-dateformat :date="detailObj.publish_date" format="yyyy年MM月dd hh:mm:ss"></uni-dateformat>
-						· 发布于{{detailObj.province}}
+						<text class="province">发布于：{{detailObj.province}}</text>
 					</view>
 				</view>
 			</view>
@@ -22,8 +22,9 @@
 			<view class="title">{{detailObj.title}}</view>
 
 			<view class="content">
+				<!-- 弹出层 -->
 				<u-popup :show="showPopup" @close="closePopup" @open="openPopup">
-					<u-button>点赞</u-button>
+					<u-button @click="clickLike">点赞</u-button>
 				</u-popup>
 
 				<u--text @tap="showPopup = true" :text="detailObj.content"></u--text>
@@ -35,7 +36,7 @@
 			</view>
 
 			<view class="like" @tap="showPopup = true">
-				<text class="iconfont icon-dianzan"></text>
+				<text class="iconfont icon-dianzan" :class="detailObj.isLike ? 'active' : ''"></text>
 				<text>{{likeUserArr}} {{detailObj.like_count}}人赞过</text>
 			</view>
 
@@ -108,6 +109,37 @@
 				// console.log('close');
 			},
 
+			// 点赞操作
+			async clickLike() {
+				if (!store.hasLogin) {
+					uni.showModal({
+						title: "是否登录？",
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/" + pageJson.uniIdRouter.loginPage
+								})
+							}
+						}
+					})
+					return;
+				}
+
+				let time = Date.now();
+				if (time - this.likeTime < 2000) {
+					uni.showToast({
+						title: "请勿频繁操作",
+						icon: "none"
+					})
+					return;
+				}
+
+				this.showPopup = false;
+
+				// 调用点赞方法
+				likeCirFun(this.artid);
+			},
+
 			// 单击图片预览
 			clickPic(index) {
 				uni.previewImage({
@@ -119,16 +151,26 @@
 			// 获取点赞的用户
 			getLikeUser() {
 				let likeTemp = db.collection("circle_like").where(`article_id == '${this.artid}'`).getTemp();
-				let userTemp = db.collection("uni-id-users").field("_id,nickname,username").getTemp();
+				let userTemp = db.collection("uni-id-users").field("_id, nickname, username").getTemp();
 
 				db.collection(likeTemp, userTemp).orderBy("publish_date desc").get().then(res => {
 					console.log(res);
 					res.result.data = res.result.data.reverse(); // 数据反转
-					if (res.result.data.nickname) {
-						this.likeUserArr = res.result.data;
-					} else {
-						this.likeUserArr = res.result.data.nickname;
-					}
+
+					// 初始化点赞用户字符串
+					this.likeUserArr = "";
+
+					// 遍历点赞用户
+					res.result.data.forEach((item, index) => {
+						// 如果nickname存在且不为空，则使用nickname，否则使用username
+						let displayName = item.user_id[0].nickname || item.user_id[0].username;
+						console.log(displayName);
+						// 将displayName附加到点赞用户字符串中，用逗号分隔
+						this.likeUserArr += (index ? ', ' : '') + displayName;
+					});
+
+					// 输出点赞用户字符串
+					console.log(this.likeUserArr);
 
 				})
 			},
@@ -209,6 +251,10 @@
 					.small {
 						font-size: 20rpx;
 						color: #999;
+
+						.province {
+							margin-left: 15rpx;
+						}
 					}
 				}
 			}
@@ -238,6 +284,10 @@
 					word-wrap: break-word;
 					word-break: break-all;
 					overflow-wrap: break-word;
+				}
+
+				.active {
+					color: #fa3534;
 				}
 			}
 
