@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-container">
 		<uni-forms ref="form" :value="formData" validate-trigger="submit" err-show-type="toast">
-			<uni-forms-item name="content" label="留言内容/回复内容" required>
+			<uni-forms-item name="content" label="反馈内容/留言内容" required>
 				<textarea @input="binddata('content', $event.detail.value)" class="uni-textarea-border"
 					v-model="formData.content" trim="right"></textarea>
 			</uni-forms-item>
@@ -137,5 +137,6 @@
 		border-radius: 4px;
 		line-height: 1;
 		margin: 0;
+		background-color: #fa3534;
 	}
 </style>

@@ -39,9 +39,9 @@
 
 		<view class="main">
 			<view class="info">
-				<view class="item"><text>33</text>获赞</view>
-				<view class="item"><text>11</text>评论</view>
-				<view class="item"><text>5</text>发文</view>
+				<view class="item"><text>{{totalObj.likeNum}}</text>&nbsp;获赞</view>
+				<view class="item"><text>11</text>&nbsp;评论</view>
+				<view class="item"><text>{{totalObj.artNum}}</text>&nbsp;发文</view>
 			</view>
 
 			<view class="list">
@@ -159,7 +159,7 @@
 			goFeedback() {
 				if (this.goLoginPage()) return;
 				uni.navigateTo({
-					url: "/uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback"
+					url: "/uni_modules/uni-feedback/pages/opendb-feedback/list"
 				})
 			},
 
