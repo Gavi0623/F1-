@@ -1,8 +1,7 @@
 <template>
 	<view class="container">
-		<unicloud-db ref="udb" v-slot:default="{data, pagination, loading, hasMore, error}" collection="opendb-feedback"
-			orderby="desc">
-			<!-- {{data}} -->
+		<unicloud-db ref="udb" v-slot:default="{data, pagination, loading, hasMore, error}" :collection="collectionList"
+			field="article_id,publish_date,user_id" where="user_id == $cloudEnv_uid" orderby="publish_date desc">
 			<view v-if="error">{{error.message}}</view>
 			<view v-else-if="data">
 				<uni-list>
@@ -11,8 +10,8 @@
 						<template v-slot:body>
 							<text>
 								<!-- 此处默认显示为_id，请根据需要自行修改为其他字段 -->
-								<!-- 如果使用了联表查询，请参考生成的 admin 项目中 list.vue 页面的绑定字段的写法 -->
-								{{item.content}}
+								<!-- 如果使用了联表查询，请参考生成的 admin 项目中 list.vue 页面 -->
+								{{item._id}}
 							</text>
 						</template>
 					</uni-list-item>
@@ -20,25 +19,21 @@
 			</view>
 			<uni-load-more :status="loading?'loading':(hasMore ? 'more' : 'noMore')"></uni-load-more>
 		</unicloud-db>
-
 	</view>
 </template>
 
 <script>
-	const db = uniCloud.database();
-
+	const db = uniCloud.database()
 	export default {
 		data() {
 			return {
+				collectionList: "circle_like",
 				loadMore: {
 					contentdown: '',
 					contentrefresh: '',
 					contentnomore: ''
 				}
 			}
-		},
-		onLoad() {
-			// this.getData();
 		},
 		onPullDownRefresh() {
 			this.$refs.udb.loadData({
@@ -59,7 +54,7 @@
 			fabClick() {
 				// 打开新增页面
 				uni.navigateTo({
-					url: './opendb-feedback',
+					url: './add',
 					events: {
 						// 监听新增数据成功后, 刷新当前页面数据
 						refreshData: () => {
@@ -69,13 +64,10 @@
 						}
 					}
 				})
-			},
-
-
+			}
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	.container {}
+<style>
 </style>

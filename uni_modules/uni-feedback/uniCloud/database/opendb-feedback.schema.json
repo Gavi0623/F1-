@@ -3,7 +3,7 @@
 	"required": ["content"],
 	"permission": {
 		"create": "auth.uid != null",
-		"read": true,
+		"read": "'Manager' in auth.role",
 		"delete": false,
 		"update": false
 	},

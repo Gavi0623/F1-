@@ -19,6 +19,9 @@
 				<button type="primary" class="uni-button" @click="submit">提交</button>
 			</view>
 		</uni-forms>
+
+		<uni-fab v-if="uniIDHasRole('Manager') || uniIDHasRole('admin')" :pattern="pattern" ref="fab" horizontal="right"
+			vertical="bottom" :pop-menu="false" @fabClick="fabClick" />
 	</view>
 </template>
 
@@ -53,6 +56,9 @@
 				formOptions: {},
 				rules: {
 					...getValidator(Object.keys(formData))
+				},
+				pattern: {
+					icon: "list"
 				}
 			}
 		},
@@ -90,6 +96,12 @@
 					})
 				}).finally(() => {
 					uni.hideLoading()
+				})
+			},
+
+			fabClick() {
+				uni.navigateTo({
+					url: "./list"
 				})
 			}
 		}

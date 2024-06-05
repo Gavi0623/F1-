@@ -14,8 +14,7 @@
 							<view class="nickname">{{userInfo.nickname || userInfo.username || userInfo.mobile}}</view>
 						</view>
 						<view class="year">
-							<uni-dateformat :date="new Date() - 360000"
-								:threshold="[3600,99*365*24*60*60*1000]"></uni-dateformat>
+							<uni-dateformat :date="date" :threshold="[3600,99*365*24*60*60*1000]"></uni-dateformat>
 							注册
 						</view>
 					</view>
@@ -46,7 +45,7 @@
 
 			<view class="list">
 				<view class="group">
-					<view class="item">
+					<view class="item" @tap="myArticle">
 						<view class="left">
 							<text class="iconfont icon-bianji"></text>
 							<text class="text">我的长文</text>
@@ -55,7 +54,7 @@
 							<text class="iconfont icon-arrow-right-copy-copy"></text>
 						</view>
 					</view>
-					<view class="item">
+					<view class="item" @tap="myLike">
 						<view class="left">
 							<text class="iconfont icon-xihuan"></text><text class="text">我的点赞</text>
 						</view>
@@ -98,7 +97,7 @@
 				</view>
 			</view>
 		</view>
-
+		<!-- {{userInfo}} -->
 
 	</view>
 </template>
@@ -117,11 +116,13 @@
 				totalObj: {
 					artNum: 0,
 					likeNum: 0
-				}
+				},
+				date: null
 			};
 		},
 		onLoad() {
 			this.getTotal();
+			this.getData();
 		},
 		computed: {
 			userInfo() {
@@ -132,6 +133,15 @@
 			},
 		},
 		methods: {
+			getData() {
+				if (!this.hasLogin) return;
+				db.collection("uni-id-users").where("_id == $cloudEnv_uid").field("_id,register_date").get().then(res => {
+					console.log(res);
+					this.date = res.result.data[0].register_date; // 获取当前用户注册时间
+				})
+
+			},
+
 			// 编辑个人资料
 			toUserInfo() {
 				uni.navigateTo({
@@ -155,11 +165,27 @@
 				console.log(this.totalObj);
 			},
 
+			// 跳转至我的长文
+			myArticle() {
+				if (this.goLoginPage()) return;
+				uni.navigateTo({
+					url: "/pages/circle_articles/list"
+				})
+			},
+
+			// 跳转至我的点赞列表
+			myLike() {
+				if (this.goLoginPage()) return;
+				uni.navigateTo({
+					url: "/pages/circle_like/list"
+				})
+			},
+
 			// 意见反馈
 			goFeedback() {
 				if (this.goLoginPage()) return;
 				uni.navigateTo({
-					url: "/uni_modules/uni-feedback/pages/opendb-feedback/list"
+					url: "/uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback"
 				})
 			},
 

@@ -5,7 +5,9 @@
         'uni-fab--rightBottom': rightBottom,
         'uni-fab--leftTop': leftTop,
         'uni-fab--rightTop': rightTop
-      }" class="uni-fab" :style="nvueBottom">
+      }" class="uni-fab"
+				:style="nvueBottom"
+			>
 			<view :class="{
           'uni-fab__content--left': horizontal === 'left',
           'uni-fab__content--right': horizontal === 'right',
@@ -32,8 +34,7 @@
 		  'uni-fab__circle--leftTop': leftTop,
 		  'uni-fab__circle--rightTop': rightTop,
 		  'uni-fab__content--other-platform': !isAndroidNvue
-		}" class="uni-fab__circle uni-fab__plus" :style="{ 'background-color': styles.buttonColor, 'bottom': nvueBottom }"
-			@click="_onClick">
+		}" class="uni-fab__circle uni-fab__plus" :style="{ 'background-color': styles.buttonColor, 'bottom': nvueBottom }" @click="_onClick">
 			<uni-icons class="fab-circle-icon" :type="styles.icon" :color="styles.iconColor" size="32"
 				:class="{'uni-fab__plus--active': isShow && content.length > 0}"></uni-icons>
 			<!-- <view class="fab-circle-v"  :class="{'uni-fab__plus--active': isShow && content.length > 0}"></view>
@@ -113,7 +114,7 @@
 					color: '#3c3e49',
 					selectedColor: '#007AFF',
 					backgroundColor: '#fff',
-					buttonColor: '#fa3534',
+					buttonColor: '#007AFF',
 					iconColor: '#fff',
 					icon: 'plusempty'
 				}
@@ -232,8 +233,8 @@
 	}
 </script>
 
-<style lang="scss">
-	$uni-shadow-base: 0 1px 5px 2px rgba($color: #000000, $alpha: 0.3) !default;
+<style lang="scss" >
+	$uni-shadow-base:0 1px 5px 2px rgba($color: #000000, $alpha: 0.3) !default;
 
 	.uni-fab {
 		position: fixed;

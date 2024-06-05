@@ -22,7 +22,7 @@
 
 		</view>
 
-		<view class="edit" @tap="goEdit">
+		<view v-if="uniIDHasRole('Home Manager') || uniIDHasRole('admin')" class="edit" @tap="goEdit">
 			<text class="iconfont icon-bianji"></text>
 		</view>
 	</view>
