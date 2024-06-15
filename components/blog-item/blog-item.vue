@@ -72,7 +72,8 @@
 				default () {
 					return {}
 				}
-			}
+			},
+			like_count: Number
 		},
 		data() {
 			return {
@@ -139,7 +140,9 @@
 				let count = await db.collection("circle_like").where(
 					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
 
-				if (!count.result.total) this.item.like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
+				let like_count = this.item.like_count;
+				if (!count.result.total) like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
+				this.$emit("update:like_count", like_count)
 
 				likeCirFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
 			},

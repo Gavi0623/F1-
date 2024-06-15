@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/circle/circle",
+    "pages/race/race",
+    "pages/my/my",
+    "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
+    "uni_modules/uni-id-pages/pages/userinfo/userinfo",
+    "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
+    "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",
+    "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+    "uni_modules/uni-id-pages/pages/login/login-withpwd",
+    "uni_modules/uni-id-pages/pages/login/login-smscode",
+    "uni_modules/uni-id-pages/pages/register/register",
+    "uni_modules/uni-id-pages/pages/register/register-by-email",
+    "uni_modules/uni-id-pages/pages/retrieve/retrieve",
+    "uni_modules/uni-id-pages/pages/retrieve/retrieve-by-email",
+    "uni_modules/uni-id-pages/pages/common/webview/webview",
+    "uni_modules/uni-id-pages/pages/userinfo/change_pwd/change_pwd",
+    "uni_modules/uni-id-pages/pages/register/register-admin",
+    "uni_modules/uni-id-pages/pages/userinfo/set-pwd/set-pwd",
+    "uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify",
+    "pages/index/detail/detail",
+    "pages/circle/edit/edit",
+    "pages/index/edit/edit",
+    "uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback",
+    "uni_modules/uni-feedback/pages/opendb-feedback/edit",
+    "uni_modules/uni-feedback/pages/opendb-feedback/list",
+    "uni_modules/uni-feedback/pages/opendb-feedback/detail",
+    "pages/circle/detail/detail",
+    "pages/circle_articles/list",
+    "pages/circle_like/list"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#fa3534",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#888",
+    "selectedColor": "#fa3534",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/icon/首页.png",
+        "selectedIconPath": "static/icon/首页-fill.png"
+      },
+      {
+        "pagePath": "pages/circle/circle",
+        "text": "圈子",
+        "iconPath": "static/icon/圈子.png",
+        "selectedIconPath": "static/icon/圈子-fill.png"
+      },
+      {
+        "pagePath": "pages/race/race",
+        "text": "比赛",
+        "iconPath": "static/icon/sfsc.png",
+        "selectedIconPath": "static/icon/sfsc-fill.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/icon/my.png",
+        "selectedIconPath": "static/icon/my-fill.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

@@ -20,7 +20,7 @@
 		<view class="content">
 			<view class="item" v-for="(item,index) in dataList" :key="index">
 				<!-- 引入组件 -->
-				<blog-item @delEvent="P_delevent" :item="item"></blog-item>
+				<blog-item @delEvent="P_delevent" :item="item" :like_count.sync="item.like_count"></blog-item>
 			</view>
 		</view>
 

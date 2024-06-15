@@ -1,6 +1,21 @@
 <template>
 	<view class="index">
 		<view class="content">
+			<view class="swiper">
+				<!-- Skeleton骨架屏 -->
+				<view class="loadingState" v-show="swiperState">
+					<u-skeleton rows="4" title loading></u-skeleton>
+				</view>
+				<!-- $event 就是当前被点击的轮播图的索引。 -->
+				<u-swiper :list="swiperList" keyName="image" showTitle autoplay circular @click="SgoDetail($event)"
+					v-if="swiperList.length > 0"></u-swiper>
+			</view>
+
+			<!-- Skeleton骨架屏 -->
+			<view class="loadingState" v-show="loadState">
+				<u-skeleton rows="6" title loading></u-skeleton>
+			</view>
+
 			<view class="item" @tap="goDetail(item._id)" v-for="(item,index) in dataList" :key="item._id">
 				<!-- 左半部分的标题 -->
 				<view class="text">
@@ -20,6 +35,11 @@
 				</view>
 			</view>
 
+			<!-- 触底加载更多 -->
+			<view class="wrap">
+				<u-loadmore :status="status" />
+			</view>
+
 		</view>
 
 		<view v-if="uniIDHasRole('Home Manager') || uniIDHasRole('admin')" class="edit" @tap="goEdit">
@@ -34,12 +54,27 @@
 	export default {
 		data() {
 			return {
+				swiperState: true,
+				loadState: true,
+				status: 'loadmore',
+				page: 1, // 当前页码
+				pageSize: 6, // 每页显示的数据条数
 				title: 'Hello',
-				dataList: []
+				dataList: [],
+				swiperList: []
 			}
 		},
 		onLoad() {
 			this.getData();
+			this.getSwiperList();
+		},
+		onReachBottom() {
+			// 当用户滚动到底部时
+			// 如果当前状态是 'loadmore'，则加载更多数据
+			if (this.status === 'loadmore') {
+				this.page++;
+				this.getData();
+			}
 		},
 		methods: {
 			// 点击跳转到详情页
@@ -47,7 +82,13 @@
 				uni.navigateTo({
 					url: "/pages/index/detail/detail?id=" + id
 				});
-
+			},
+			// 点击轮播图跳转详情页
+			SgoDetail(index) {
+				let id = this.swiperList[index].id;
+				uni.navigateTo({
+					url: "/pages/index/detail/detail?id=" + id
+				});
 			},
 
 			// 跳转至首页编辑页面
@@ -57,16 +98,68 @@
 				})
 			},
 
+			// 获取轮播内容，筛选近7日观看量最高的5条文章
+			getSwiperList() {
+				let now = new Date().getTime();
+				let sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+
+				db.collection("news_articles")
+					.where({
+						publish_date: db.command.gte(sevenDaysAgo),
+						comment_count: db.command.gte(0)
+					})
+					.field("picurls,title")
+					.orderBy("comment_count", "desc")
+					.limit(5)
+					.get()
+					.then(res => {
+						console.log(res);
+						this.swiperList = res.result.data.map(item => ({
+							image: item.picurls.length > 0 ? item.picurls[0] :
+								'../../static/images/5b08bfb0bd54d276.jpg',
+							title: item.title,
+							id: item._id
+						}));
+						this.swiperState = false; // 隐藏骨架屏
+					})
+					.catch(err => {
+						this.swiperState = false; // 隐藏骨架屏
+						console.error(err);
+					});
+			},
+
 			getData() {
 				let artTemp = db.collection("news_articles").field(
-					"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date").getTemp();
+					"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date"
+				).getTemp();
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
 
-				db.collection(artTemp, userTemp).orderBy("publish_date desc").get().then(res => {
-					console.log(res);
-					this.dataList = res.result.data;
-				})
-			}
+				// 根据当前页码和每页数据条数，计算需要跳过的数据条数
+				db.collection(artTemp, userTemp)
+					.orderBy("publish_date", "desc")
+					.skip((this.page - 1) * this.pageSize)
+					.limit(this.pageSize)
+					.get()
+					.then(res => {
+						console.log(res);
+						// 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
+						if (res.result.data.length < this.pageSize) {
+							this.status = 'nomore';
+						} else {
+							// 否则,说明还有更多数据,将状态设置为 'loadmore'
+							this.status = 'loadmore';
+						}
+						// 将本次返回的数据追加到 dataList 中
+						this.dataList = this.dataList.concat(res.result.data);
+						// 隐藏骨架屏
+						this.loadState = false;
+					})
+					.catch(err => {
+						// 隐藏骨架屏
+						this.loadState = false;
+						console.error(err);
+					});
+			},
 		}
 	}
 </script>
@@ -75,6 +168,18 @@
 	.index {
 		.content {
 			padding: 30rpx;
+
+			.loadingState {
+				padding: 30rpx;
+			}
+
+			.swiper {
+				padding-bottom: 20rpx;
+
+				.loadingState {
+					padding: 30rpx;
+				}
+			}
 
 			.item {
 				display: flex;
@@ -120,6 +225,10 @@
 						height: 100%;
 					}
 				}
+			}
+
+			.wrap {
+				padding: 24rpx;
 			}
 		}
 

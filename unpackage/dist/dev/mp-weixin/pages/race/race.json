@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "比赛",
+  "usingComponents": {
+    "game-item": "/components/game-item/game-item"
+  }
+}

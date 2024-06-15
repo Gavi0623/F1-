@@ -139,7 +139,6 @@
 					console.log(res);
 					this.date = res.result.data[0].register_date; // 获取当前用户注册时间
 				})
-
 			},
 
 			// 编辑个人资料
