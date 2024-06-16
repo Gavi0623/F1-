@@ -1,21 +1,39 @@
 <template>
 	<view class="gameItem">
 		<view class="f1-schedule">
-			<view class="race-item" v-for="race in races" :key="race.id">
+			<view class="race-item">
 				<view class="race-info">
-					<view class="race-name">{{ race.raceName }}</view>
+					<view class="race-name">{{ schedule.racename }}</view>
 					<view class="race-schedule">
 						<view class="schedule-item">
-							<view class="schedule-title">练习赛</view>
-							<view class="schedule-time">{{ race.practiceTime }}</view>
+							<view class="schedule-title">一练</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.practice1" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
+						</view>
+						<view class="schedule-item">
+							<view class="schedule-title">二练</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.practice2" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
+						</view>
+						<view class="schedule-item">
+							<view class="schedule-title">三练</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.practice3" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
 						</view>
 						<view class="schedule-item">
 							<view class="schedule-title">排位赛</view>
-							<view class="schedule-time">{{ race.qualifyingTime }}</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.qualifying" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
 						</view>
 						<view class="schedule-item">
 							<view class="schedule-title">正赛</view>
-							<view class="schedule-time">{{ race.raceTime }}</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.race" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -25,33 +43,46 @@
 </template>
 
 <script>
+	const db = uniCloud.database();
+
 	export default {
 		name: "game-item",
+		props: {
+			schedule: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
+		/* props: {
+			schedule: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
+		: 这是组件的 props 定义,
+		它接收一个名为 schedule 的 Object 类型的属性,
+		如果父组件没有传递该属性,
+		则默认值为一个空对象。
+		data() {
+			return {};
+		},
+		: 这是组件的数据选项,
+		可以在这里定义组件所需的数据。 */
 		data() {
 			return {
-				races: [{
-						id: 1,
-						raceName: "Bahrain Grand Prix",
-						practiceTime: "2023-03-03 15:00",
-						qualifyingTime: "2023-03-04 18:00",
-						raceTime: "2023-03-05 18:00",
-					},
-					{
-						id: 2,
-						raceName: "Saudi Arabian Grand Prix",
-						practiceTime: "2023-03-17 15:00",
-						qualifyingTime: "2023-03-18 18:00",
-						raceTime: "2023-03-19 18:00",
-					},
-					{
-						id: 3,
-						raceName: "Australian Grand Prix",
-						practiceTime: "2023-03-31 15:00",
-						qualifyingTime: "2023-04-01 18:00",
-						raceTime: "2023-04-02 18:00",
-					},
-				],
+
 			};
+		},
+		onLoad() {
+
+		},
+
+		methods: {
+
 		}
 	}
 </script>

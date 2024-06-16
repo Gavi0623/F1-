@@ -1,0 +1,64 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"racename": {
+			"bsonType": "string",
+			"title": "比赛名称",
+			"description": "比赛名称",
+			"label": "比赛名称"
+		},
+		"practice1": {
+			"bsonType": "timestamp",
+			"title": "一练时间",
+			"description": "一练时间",
+			"label": "一练时间"
+		},
+		"practice2": {
+			"bsonType": "timestamp",
+			"title": "二练时间",
+			"description": "二练时间",
+			"label": "二练时间"
+		},
+		"practice3": {
+			"bsonType": "timestamp",
+			"title": "三练时间",
+			"description": "三练时间",
+			"label": "三练时间"
+		},
+		"qualifying": {
+			"bsonType": "timestamp",
+			"title": "排位赛时间",
+			"description": "排位赛时间",
+			"label": "排位赛时间"
+		},
+		"race": {
+			"bsonType": "timestamp",
+			"title": "正赛时间",
+			"description": "正赛时间",
+			"label": "正赛时间"
+		},
+		"sprintQualifying": {
+			"bsonType": "timestamp",
+			"title": "冲刺排位赛时间",
+			"description": "冲刺排位赛时间",
+			"label": "冲刺排位赛时间"
+		},
+		"sprint": {
+			"bsonType": "timestamp",
+			"title": "冲刺赛时间",
+			"description": "冲刺赛时间",
+			"label": "冲刺赛时间"
+		}
+	}
+}
