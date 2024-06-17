@@ -11,9 +11,17 @@
 		</view>
 
 		<view class="container">
-			<view class="schedule" v-for="(schedule,index) in scheduleList" :key="index">
+			<view class="schedule" v-if="value1==0" v-for="(schedule,index) in scheduleList" :key="index">
 				<!-- 在父组件中引用子组件 game-item,并将 schedule 对象作为 props 传递给子组件。 -->
-				<game-item :schedule="schedule" v-if="value1==0"></game-item>
+				<game-item :schedule="schedule"></game-item>
+			</view>
+
+			<view class="driver" v-if="value1==1">
+				<driver-item></driver-item>
+			</view>
+
+			<view class="team" v-if="value1==2">
+				<team-item></team-item>
 			</view>
 
 		</view>

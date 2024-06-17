@@ -1,0 +1,42 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+// drivers2024.schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"name": {
+			"bsonType": "string",
+			"description": "车手名称"
+		},
+		"team": {
+			"bsonType": "string",
+			"description": "所属车队",
+			"foreignKey": "teams2024.drivers"
+		},
+		"points": {
+			"bsonType": "int",
+			"description": "车手积分"
+		},
+		"champion": {
+			"bsonType": "int",
+			"description": "冠军"
+		},
+		"runner": {
+			"bsonType": "int",
+			"description": "亚军"
+		},
+		"third": {
+			"bsonType": "int",
+			"description": "季军"
+		}
+	}
+}

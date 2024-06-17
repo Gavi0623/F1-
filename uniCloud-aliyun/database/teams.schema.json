@@ -1,0 +1,95 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"teamname": {
+			"bsonType": "string",
+			"title": "车队名称",
+			"description": "车队名称",
+			"label": "车队名称"
+		},
+		"Base": {
+			"bsonType": "string",
+			"title": "基地",
+			"description": "基地",
+			"label": "基地"
+		},
+		"teamchief": {
+			"bsonType": "string",
+			"title": "车队经理",
+			"description": "车队经理",
+			"label": "车队经理"
+		},
+		"technicalchief": {
+			"bsonType": "string",
+			"title": "技术主管",
+			"description": "技术主管",
+			"label": "技术主管"
+		},
+		"chassis": {
+			"bsonType": "string",
+			"title": "底盘",
+			"description": "底盘",
+			"label": "底盘"
+		},
+		"powerunit": {
+			"bsonType": "string",
+			"title": "动力装置",
+			"description": "动力装置",
+			"label": "动力装置"
+		},
+		"firstTeamEntry": {
+			"bsonType": "int",
+			"title": "第一次参赛",
+			"description": "第一次参赛",
+			"label": "第一次参赛"
+		},
+		"worldChampionships": {
+			"bsonType": "int",
+			"title": "车队冠军",
+			"description": "车队冠军",
+			"label": "车队冠军"
+		},
+		"highestRaceFinish": {
+			"bsonType": "int",
+			"title": "最佳完赛成绩",
+			"description": "最佳完赛成绩",
+			"label": "最佳完赛成绩"
+		},
+		"bestfinishes": {
+			"bsonType": "int",
+			"title": "最佳完赛次数",
+			"description": "最佳完赛次数",
+			"label": "最佳完赛次数"
+		},
+		"PolePositions": {
+			"bsonType": "int",
+			"title": "杆位次数",
+			"description": "杆位次数",
+			"label": "杆位次数"
+		},
+		"FastestLaps": {
+			"bsonType": "int",
+			"title": "最快圈数",
+			"description": "最快圈数",
+			"label": "最快圈数"
+		},
+		"drivers": {
+			"bsonType": "array",
+			"title": "车手",
+			"description": "车手，参考`drivers` 表",
+			"label": "车手",
+			"foreignKey": "drivers.name"
+		}
+	}
+}

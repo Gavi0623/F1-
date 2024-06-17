@@ -1,0 +1,77 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"name": {
+			"bsonType": "string",
+			"title": "车手名称",
+			"description": "车手名称",
+			"label": "车手名称"
+		},
+		"number": {
+			"bsonType": "int",
+			"title": "车手号码",
+			"description": "车手号码",
+			"label": "车手号码"
+		},
+		"teams": {
+			"bsonType": "string",
+			"title": "所属车队",
+			"description": "所属车队",
+			"label": "所属车队",
+			"foreignKey": "teams.teamname"
+		},
+		"Country": {
+			"bsonType": "string",
+			"title": "国家",
+			"description": "国家",
+			"label": "国家"
+		},
+		"Podiums": {
+			"bsonType": "int",
+			"title": "领奖台",
+			"description": "领奖台",
+			"label": "领奖台"
+		},
+		"Points": {
+			"bsonType": "int",
+			"title": "分数",
+			"description": "分数",
+			"label": "分数"
+		},
+		"highestRaceFinish": {
+			"bsonType": "int",
+			"title": "最佳完赛成绩",
+			"description": "最佳完赛成绩",
+			"label": "最佳完赛成绩"
+		},
+		"bestfinishes": {
+			"bsonType": "int",
+			"title": "最佳完赛次数",
+			"description": "最佳完赛次数",
+			"label": "最佳完赛次数"
+		},
+		"WorldChampionships": {
+			"bsonType": "int",
+			"title": "总冠军",
+			"description": "总冠军",
+			"label": "总冠军"
+		},
+		"birthDate": {
+			"bsonType": "string",
+			"title": "出生日",
+			"description": "出生日",
+			"label": "出生日"
+		}
+	}
+}
