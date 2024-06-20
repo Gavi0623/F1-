@@ -14,7 +14,6 @@
 			<view class="data-header" v-if="displayType === '0'">
 				<view class="data-header-item data-header-rank">排名</view>
 				<view class="data-header-item data-header-name">车手</view>
-				<view class="data-header-item data-header-team">车队</view>
 				<view class="data-header-item data-header-points">总积分</view>
 			</view>
 			<view class="data-header" v-if="displayType === '1'">
@@ -25,9 +24,9 @@
 				<view class="data-header-item data-header-third">季</view>
 			</view>
 			<view class="driver-item" v-for="(driver,index) in driverData" :key="driver.name">
-				<view class="driver-rank">{{ driver.rank }}</view>
+				<view class="driver-rank">{{ index + 1 }}</view>
+				<view class="item-color" :style="{ 'background-color': driver.teamColor }"></view>
 				<view class="driver-name">{{ driver.name }}</view>
-				<view class="driver-team" v-if="displayType === '0'">{{ driver.team }}</view>
 				<view class="driver-points" v-if="displayType === '0'">{{ driver.points }}</view>
 				<view class="driver-champion" v-if="displayType === '1'">{{ driver.champion }}</view>
 				<view class="driver-runner" v-if="displayType === '1'">{{ driver.runner }}</view>
@@ -38,70 +37,31 @@
 </template>
 
 <script>
+	const db = uniCloud.database();
+
 	export default {
 		name: "driver-item",
 		data() {
 			return {
-				driverData: [{
-						name: '维斯塔潘',
-						points: 370,
-						champion: 1,
-						runner: 0,
-						third: 0,
-						team: 'RedBull',
-						rank: 1
-					},
-					{
-						name: '佩雷兹',
-						points: 253,
-						champion: 0,
-						runner: 1,
-						third: 0,
-						team: 'RedBull',
-						rank: 2
-					},
-					{
-						name: '汉密尔顿',
-						points: 240,
-						champion: 0,
-						runner: 0,
-						third: 1,
-						team: 'Mercedes',
-						rank: 3
-					},
-					{
-						name: '拉塞尔',
-						points: 212,
-						champion: 0,
-						runner: 0,
-						third: 0,
-						team: 'Mercedes',
-						rank: 4
-					},
-					{
-						name: '雷克莱克',
-						points: 165,
-						champion: 0,
-						runner: 0,
-						third: 0,
-						team: 'Ferrari',
-						rank: 5
-					},
-					{
-						name: 'sainz',
-						points: 153,
-						champion: 0,
-						runner: 0,
-						third: 0,
-						team: 'Ferrari',
-						rank: 6
-					}
-				],
+				driverData: [],
 				displayType: '0'
 			};
 		},
 
+		created() {
+			this.getData();
+		},
+
 		methods: {
+			// 获取车手数据
+			getData() {
+				db.collection("drivers2024").orderBy("points desc").get().then(res => {
+					console.log(res);
+					this.driverData = res.result.data;
+				})
+			},
+
+			// 切换导航栏
 			changeDisplayType(type) {
 				this.displayType = type
 			}
@@ -186,6 +146,11 @@
 				.driver-rank {
 					width: 80rpx;
 					text-align: center;
+				}
+
+				.item-color {
+					width: 8rpx;
+					height: 28rpx;
 				}
 
 				.driver-name {

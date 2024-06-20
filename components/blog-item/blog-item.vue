@@ -3,12 +3,9 @@
 		<view class="head">
 			<view class="userinfo">
 				<view class="avatar">
-					<image
-						:src="item.user_id[0].avatar_file ? item.user_id[0].avatar_file.url : '../../static/images/user-default.jpg'"
-						mode="aspectFill"></image>
+					<image :src="giveAvatar(item)" mode="aspectFill"></image>
 				</view>
-				<view class="name">{{item.user_id[0].nickname || item.user_id[0].username}}
-				</view>
+				<view class="name">{{giveName(item)}}</view>
 				<view class="time">
 					<uni-dateformat :date="item.publish_date" format="MM月dd hh:mm"
 						:threshold="[60000,3600000*24*30]"></uni-dateformat>

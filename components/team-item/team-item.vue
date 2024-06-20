@@ -23,9 +23,10 @@
 				<view class="data-header-item data-header-third">季</view>
 			</view>
 
-			<view class="driver-item" v-for="(team,index) in teamData" :key="team.name">
-				<view class="driver-rank">{{ team.rank }}</view>
-				<view class="driver-team">{{ team.team }}</view>
+			<view class="driver-item" v-for="(team,index) in teamList" :key="index">
+				<view class="driver-rank">{{ index + 1 }}</view>
+				<view class="item-color" :style="{ 'background-color': team.teamColor }"></view>
+				<view class="driver-team">{{ team.name }}</view>
 				<view class="driver-points" v-if="displayType === '0'">{{ team.points }}</view>
 				<view class="driver-champion" v-if="displayType === '1'">{{ team.champion }}</view>
 				<view class="driver-runner" v-if="displayType === '1'">{{ team.runner }}</view>
@@ -36,60 +37,28 @@
 </template>
 
 <script>
+	const db = uniCloud.database();
+
 	export default {
 		name: "team-item",
 		data() {
 			return {
 				displayType: '0',
-				teamData: [{
-						rank: 1,
-						name: 'Mercedes',
-						team: 'Mercedes',
-						points: 701,
-						champion: 6,
-						runner: 5,
-						third: 5
-					},
-					{
-						rank: 2,
-						name: 'Red Bull',
-						team: 'Red Bull',
-						points: 417,
-						champion: 2,
-						runner: 3,
-						third: 2
-					},
-					{
-						rank: 3,
-						name: 'Ferrari',
-						team: 'Ferrari',
-						points: 477,
-						champion: 2,
-						runner: 2,
-						third: 2
-					},
-					{
-						rank: 4,
-						name: 'McLaren',
-						team: 'McLaren',
-						points: 145,
-						champion: 0,
-						runner: 0,
-						third: 0
-					},
-					{
-						rank: 5,
-						name: 'Renault',
-						team: 'Renault',
-						points: 91,
-						champion: 0,
-						runner: 0,
-						third: 0
-					}
-				]
+				teamList: []
 			};
 		},
+		created() {
+			this.getData();
+		},
 		methods: {
+			getData() {
+				db.collection("teams2024").orderBy("points desc").get().then(res => {
+					console.log(res);
+					this.teamList = res.result.data;
+				}).catch(err => {
+					console.error(err);
+				})
+			},
 			changeDisplayType(type) {
 				this.displayType = type;
 			}
@@ -175,6 +144,11 @@
 				.driver-rank {
 					width: 80rpx;
 					text-align: center;
+				}
+
+				.item-color {
+					width: 8rpx;
+					height: 28rpx;
 				}
 
 				.driver-name {

@@ -63,9 +63,14 @@ export function giveName(item) {
 }
 
 // 获取默认头像
-export function giveAvatar(item) {
-	// console.log(item);
-	return item.user_id[0]?.avatar_file?.url ?? '../../static/images/user-default.jpg'
+/**
+ * 获取用户头像的 URL
+ * @param {Object} item - 包含用户信息的对象
+ * @param {string} [defaultPath] - 默认头像的相对路径,如果未提供则使用 '../../static/images/user-default.jpg'
+ * @returns {string} - 用户头像的 URL,如果没有头像则返回默认头像的路径
+ */
+export function giveAvatar(item, defaultPath = '../../static/images/user-default.jpg') {
+	return item?.user_id?.[0]?.avatar_file?.url ?? defaultPath;
 }
 
 

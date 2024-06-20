@@ -8,7 +8,8 @@
 
 			<view class="userinfo">
 				<view class="avatar">
-					<image :src="giveAvatar(detailObj)" mode="aspectFill"></image>
+					<image :src="giveAvatar(detailObj,'../../../static/images/user-default.jpg')" mode="aspectFill">
+					</image>
 				</view>
 				<view class="text">
 					<view class="name">{{giveName(detailObj)}}</view>
@@ -64,10 +65,10 @@
 		data() {
 			return {
 				artid: "", // 存放当前文章的id
-				detailObj: null,
 				showPopup: false,
 				loadState: true,
-				likeUserArr: []
+				likeUserArr: [],
+				detailObj: null
 			};
 		},
 
@@ -79,8 +80,8 @@
 			this.artid = e.id;
 			// console.log(e);
 			this.getData();
-			this.getLikeUser();
 			this.readUpdate();
+			this.getLikeUser();
 		},
 
 		methods: {
@@ -149,11 +150,11 @@
 			},
 
 			// 获取点赞的用户
-			getLikeUser() {
+			async getLikeUser() {
 				let likeTemp = db.collection("circle_like").where(`article_id == '${this.artid}'`).getTemp();
 				let userTemp = db.collection("uni-id-users").field("_id, nickname, username").getTemp();
 
-				db.collection(likeTemp, userTemp).orderBy("publish_date desc").get().then(res => {
+				await db.collection(likeTemp, userTemp).orderBy("publish_date desc").get().then(res => {
 					console.log(res);
 					res.result.data = res.result.data.reverse(); // 数据反转
 
@@ -162,8 +163,9 @@
 
 					// 遍历点赞用户
 					res.result.data.forEach((item, index) => {
+						console.log(item);
 						// 如果nickname存在且不为空，则使用nickname，否则使用username
-						let displayName = item.user_id[0].nickname || item.user_id[0].username;
+						let displayName = item.user_id[0]?.nickname || item.user_id[0]?.username;
 						console.log(displayName);
 						// 将displayName附加到点赞用户字符串中，用逗号分隔
 						this.likeUserArr += (index ? ', ' : '') + displayName;

@@ -41,6 +41,23 @@
 
 			</view>
 
+			<view class="comment">
+				<!-- 没有评论时显示暂无评论 -->
+				<view style="padding-bottom: 50rpx;" v-if="!commentList.length && noComment">
+					<u-empty mode="comment" icon="http://cdn.uviewui.com/uview/empty/comment.png"></u-empty>
+				</view>
+
+				<!-- 评论内容 -->
+				<view class="content" v-if="commentList.length">
+					<view class="item" v-for="(item,index) in commentList" :key="index">
+						<indexComment-item :item="item"></indexComment-item>
+					</view>
+				</view>
+			</view>
+
+			<!-- 评论框 -->
+			<indexComment-frame :commentObj="commentObj"></indexComment-frame>
+
 		</view>
 	</view>
 </template>
@@ -70,7 +87,13 @@
 					img: "margin: 10rpx 0"
 				},
 				loadState: true,
-				detailObj: null
+				detailObj: null,
+				commentObj: {
+					article_id: "",
+					comment_type: 0
+				},
+				commentList: [],
+				noComment: false
 			};
 		},
 
@@ -80,9 +103,11 @@
 				return;
 			}
 			this.artid = e.id;
+			this.commentObj.article_id = e.id; // 将文章id传给评论模块
 			this.getData();
 			this.readUpdate();
 			this.getLikeUser();
+			this.getComment();
 		},
 
 		methods: {
@@ -184,7 +209,21 @@
 				}).catch(err => {
 					this.errFun();
 				})
-			}
+			},
+
+			// 获取评论
+			getComment() {
+				let commentTemp = db.collection("news_comments").where(`article_id == '${this.artid}'`).
+				orderBy("comment_date desc").limit(5).getTemp();
+				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+
+				db.collection(commentTemp, userTemp).get().then(res => {
+					console.log(res);
+					this.commentList = res.result.data;
+
+					if (res.result.data == 0) this.noComment = true;
+				})
+			},
 		}
 	}
 </script>
@@ -287,6 +326,15 @@
 						border: 3px solid #fff;
 						margin-left: -20rpx;
 					}
+				}
+			}
+
+			.comment {
+				padding: 30rpx;
+				padding-bottom: 120rpx;
+
+				.item {
+					padding: 10rpx 0;
 				}
 			}
 

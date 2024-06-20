@@ -14,7 +14,7 @@
 
 		<!-- Skeleton骨架屏 -->
 		<view class="loadingState" v-show="loadState">
-			<!-- <u-skeleton rows="4" title loading></u-skeleton> -->
+			<u-skeleton rows="4" title loading></u-skeleton>
 		</view>
 
 		<view class="content">
@@ -24,8 +24,9 @@
 			</view>
 		</view>
 
-		<view class="">
-			<uni-load-more :status="uniLoad"></uni-load-more>
+		<!-- 触底加载更多 -->
+		<view class="wrap">
+			<u-loadmore :status="status" />
 		</view>
 
 		<!-- 修改按钮 -->
@@ -47,7 +48,9 @@
 	export default {
 		data() {
 			return {
-				uniLoad: "more",
+				status: 'loadmore',
+				page: 1, // 当前页码
+				pageSize: 6, // 每页显示的数据条数
 				noMore: false,
 				navlist: [{
 					name: "红牛",
@@ -85,14 +88,16 @@
 				loadState: true,
 			};
 		},
-
-		onLoad() {
-			this.getData();
+		onReachBottom() {
+			// 当用户滚动到底部时
+			// 如果当前状态是 'loadmore'，则加载更多数据
+			if (this.status === 'loadmore') {
+				this.page++;
+				this.getData();
+			}
 		},
 
-		onReachBottom() {
-			this.uniLoad = 'loading';
-			if (this.noMore) return this.uniLoad = 'noMore';
+		onLoad() {
 			this.getData();
 		},
 
@@ -105,9 +110,7 @@
 			clickNav(e) {
 				this.loadState = true;
 				this.dataList = [];
-				this.uniLoad = 'more';
 				this.navActive = e.index;
-				this.noMore = false;
 				this.getData();
 			},
 
@@ -129,10 +132,23 @@
 					tab: this.navlist[this.navActive].type
 				});
 
-				query.orderBy('publish_date', 'desc').get().then(res => {
-					this.dataList = res.result.data;
-					this.loadState = false;
-				});
+				query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
+					.limit(this.pageSize).get().then(res => {
+						console.log(res);
+
+						// 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
+						if (res.result.data.length < this.pageSize) {
+							this.status = 'nomore';
+						} else {
+							// 否则,说明还有更多数据,将状态设置为 'loadmore'
+							this.status = 'loadmore';
+						}
+
+						// 将本次返回的数据追加到 dataList 中
+						this.dataList = this.dataList.concat(res.result.data);
+						// 隐藏骨架屏
+						this.loadState = false;
+					});
 
 			},
 		}

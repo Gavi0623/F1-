@@ -17,11 +17,6 @@
 			"bsonType": "string",
 			"description": "车队名称"
 		},
-		"drivers": {
-			"bsonType": "array",
-			"defaultValue": "车手，关联`drivers2024` 表",
-			"foreignKey": "drivers2024.team"
-		},
 		"points": {
 			"bsonType": "int",
 			"description": "车队积分"
@@ -37,6 +32,10 @@
 		"third": {
 			"bsonType": "int",
 			"description": "季军"
+		},
+		"teamColor": {
+			"bsonType": "string",
+			"description": "车队主色调"
 		}
 	}
 }

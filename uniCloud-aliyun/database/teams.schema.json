@@ -85,11 +85,15 @@
 			"label": "最快圈数"
 		},
 		"drivers": {
-			"bsonType": "array",
+			"bsonType": "string",
 			"title": "车手",
 			"description": "车手，参考`drivers` 表",
 			"label": "车手",
 			"foreignKey": "drivers.name"
+		},
+		"teamColor": {
+			"bsonType": "string",
+			"description": "车队主色调"
 		}
 	}
 }

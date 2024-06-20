@@ -39,7 +39,7 @@
 		<view class="main">
 			<view class="info">
 				<view class="item"><text>{{totalObj.likeNum}}</text>&nbsp;获赞</view>
-				<view class="item"><text>11</text>&nbsp;评论</view>
+				<!-- <view class="item"><text>11</text>&nbsp;评论</view> -->
 				<view class="item"><text>{{totalObj.artNum}}</text>&nbsp;发文</view>
 			</view>
 
@@ -62,14 +62,14 @@
 							<text class="iconfont icon-arrow-right-copy-copy"></text>
 						</view>
 					</view>
-					<view class="item">
+					<!-- <view class="item">
 						<view class="left">
 							<text class="iconfont icon-xiaoxi-zhihui"></text><text class="text">评论过的</text>
 						</view>
 						<view class="right">
 							<text class="iconfont icon-arrow-right-copy-copy"></text>
 						</view>
-					</view>
+					</view> -->
 				</view>
 
 				<view class="group">
