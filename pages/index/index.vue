@@ -195,7 +195,7 @@
 					padding-right: 20rpx;
 
 					.title {
-						font-size: 44rpx;
+						font-size: 38rpx;
 						color: #333;
 						text-align: justify;
 						display: -webkit-box;

@@ -9,13 +9,14 @@
 				<view class="username">
 					{{giveName(item)}}
 					<view class="operate">
-						{{item.like_count}}<text class="iconfont icon-dianzan" @tap="commentLike"></text>
-						<text class="iconfont icon-shanchu" @tap="delComment"></text>
+						{{item.like_count}}
+						<text class="iconfont icon-dianzan" v-if="!closeBtn" @tap="commentLike"></text>
+						<text class="iconfont icon-shanchu" v-if="!closeBtn" @tap="delComment"></text>
 					</view>
 				</view>
 				<view class="comment-content">{{item.comment_content}}</view>
 				<view class="info">
-					<view class="reply-btn">3回复 </view>
+					<view class="reply-btn" v-if="!childState" @tap="goReply">{{item.totalReply}}回复</view>
 					<view>
 						<uni-dateformat :date="item.comment_date" :threshold="[60000,3600000*24*30]">
 						</uni-dateformat>
@@ -47,17 +48,32 @@
 				default () {
 					return {}
 				}
+			},
+			childState: {
+				type: Boolean,
+				default: false
+			},
+			closeBtn: {
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
-			return {
-
-			};
+			return {};
 		},
 
 		methods: {
 			giveName,
 			giveAvatar,
+
+			// 回复评论
+			goReply() {
+				// 将数据放入缓存
+				uni.setStorageSync("replyItem", this.item);
+				uni.navigateTo({
+					url: "/pages/index/reply/reply"
+				})
+			},
 
 			// 删除评论
 			delComment() {

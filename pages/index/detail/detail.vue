@@ -47,7 +47,7 @@
 					<u-empty mode="comment" icon="http://cdn.uviewui.com/uview/empty/comment.png"></u-empty>
 				</view>
 
-				<view class="comment-header">
+				<view class="comment-header" v-if="commentList.length">
 					<view class="comment-num">
 						<text>评论：</text> {{commentList.length}}
 					</view>
@@ -230,7 +230,8 @@
 
 			// 获取评论
 			async getComment() {
-				let commentTemp = db.collection("news_comments").where(`article_id == '${this.artid}'`);
+				let commentTemp = db.collection("news_comments").where(
+					`article_id == '${this.artid}' && comment_type==0`);
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
 
 				if (this.current == 0) {
@@ -239,13 +240,36 @@
 					commentTemp = commentTemp.orderBy("like_count desc").limit(5).getTemp();
 				}
 
-				await db.collection(commentTemp, userTemp).get().then(res => {
-					// console.log(res);
-					this.commentList = [];
-					this.commentList = res.result.data;
+				let res = await db.collection(commentTemp, userTemp).get();
+				// console.log(res);
 
-					if (res.result.data == 0) this.noComment = true;
+				// 获取当前文章的一级评论id
+				let idArr = res.result.data.map(item => {
+					return item._id
 				})
+				// console.log(idArr);
+
+				// 统计当前文章一级评论的二级回复数量
+				let replyArr = await db.collection("news_comments").where({
+					reply_comment_id: db.command.in(idArr)
+				}).groupBy('reply_comment_id').groupField('count(*) as totalReply').get()
+				// console.log(replyArr);
+
+				// 循环遍历评论列表，并将二级回复数量添加到每个评论对象中。
+				res.result.data.forEach(item => {
+					let index = replyArr.result.data.findIndex(find => {
+						return find.reply_comment_id == item._id
+					})
+					// console.log(index); // -1表示没有二级回复
+					if (index > -1) {
+						item.totalReply = replyArr.result.data[index].totalReply
+					}
+				})
+
+				if (res.result.data == 0) this.noComment = true;
+
+				this.commentList = [];
+				this.commentList = res.result.data;
 			},
 			// 评论成功后的回调
 			P_commentEnv(e) {

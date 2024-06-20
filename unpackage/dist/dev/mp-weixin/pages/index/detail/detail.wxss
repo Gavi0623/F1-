@@ -108,4 +108,23 @@
   border: 3px solid #fff;
   margin-left: -20rpx;
 }
+.detail .container .comment.data-v-ce12fd2e {
+  padding: 30rpx;
+  padding-bottom: 120rpx;
+}
+.detail .container .comment .comment-header.data-v-ce12fd2e {
+  display: flex;
+  line-height: 60rpx;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10rpx;
+}
+.detail .container .comment .comment-header .comment-num.data-v-ce12fd2e {
+  flex: 1;
+}
+.detail .container .comment .comment-header .subsection.data-v-ce12fd2e {
+  width: 40%;
+}
+.detail .container .comment .item.data-v-ce12fd2e {
+  padding: 10rpx 0;
+}
 

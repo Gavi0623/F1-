@@ -29,7 +29,8 @@
     "uni_modules/uni-feedback/pages/opendb-feedback/detail",
     "pages/circle/detail/detail",
     "pages/circle_articles/list",
-    "pages/circle_like/list"
+    "pages/circle_like/list",
+    "pages/index/reply/reply"
   ],
   "subPackages": [],
   "window": {

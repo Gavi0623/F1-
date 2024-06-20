@@ -86,6 +86,8 @@
 				dataList: [],
 				navActive: 0,
 				loadState: true,
+				clickable: true, // 标记是否可点击
+				lastClickTime: 0 // 上一次点击的时间
 			};
 		},
 		onReachBottom() {
@@ -108,10 +110,29 @@
 			},
 
 			clickNav(e) {
+				// 检查导航栏是否可点击
+				if (!this.clickable) {
+					// 如果用户在3秒内再次点击,弹出提示框
+					if (Date.now() - this.lastClickTime < 3000) {
+						uni.showToast({
+							title: '请稍后再试',
+							icon: 'none'
+						});
+						return;
+					}
+				}
+
 				this.loadState = true;
 				this.dataList = [];
 				this.navActive = e.index;
 				this.getData();
+
+				this.clickable = false; // 设置标记为不可点击
+				this.lastClickTime = Date.now(); // 更新上一次点击的时间
+
+				setTimeout(() => {
+					this.clickable = true; // 3秒后重新设置为可点击
+				}, 3000);
 			},
 
 			// 跳转至圈子编辑页面
@@ -121,7 +142,7 @@
 				})
 			},
 
-			getData() {
+			async getData() {
 				let artTemp = db.collection("circle_articles").field(
 						"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab")
 					.getTemp();
@@ -132,8 +153,8 @@
 					tab: this.navlist[this.navActive].type
 				});
 
-				query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
-					.limit(this.pageSize).get().then(res => {
+				await query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
+					.limit(this.pageSize).get().then(async res => {
 						console.log(res);
 
 						// 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
@@ -145,7 +166,7 @@
 						}
 
 						// 将本次返回的数据追加到 dataList 中
-						this.dataList = this.dataList.concat(res.result.data);
+						this.dataList = await this.dataList.concat(res.result.data);
 						// 隐藏骨架屏
 						this.loadState = false;
 					});

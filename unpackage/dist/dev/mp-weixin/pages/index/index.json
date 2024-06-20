@@ -1,6 +1,9 @@
 {
   "navigationBarTitleText": "首页",
   "usingComponents": {
-    "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat"
+    "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
+    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat",
+    "u-loadmore": "/uni_modules/uview-ui/components/u-loadmore/u-loadmore"
   }
 }

@@ -164,6 +164,13 @@
 			"style": {
 				"navigationBarTitleText": "点赞列表"
 			}
+		},
+		{
+			"path" : "pages/index/reply/reply",
+			"style" : 
+			{
+				"navigationBarTitleText" : "首页回复页面"
+			}
 		}
 	],
 	"globalStyle": {

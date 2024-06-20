@@ -1,4 +1,4 @@
-<!-- comment-frame -->
+<!-- indexComment-frame -->
 <template>
 	<view>
 		<view class="commentFrame">
@@ -27,15 +27,20 @@
 				default: () => {
 					return {}
 				}
+			},
+			placeholder: {
+				type: String,
+				default: "评论点什么吧~"
 			}
 		},
 		data() {
 			return {
 				replyContent: "",
-				placeholder: "评论点什么吧~"
 			};
 		},
 		methods: {
+			getProvince,
+
 			async goComment() {
 				let province = await getProvince(); // 获取用户当前位置
 				// 如果评论内容为空

@@ -102,13 +102,16 @@ var components
 try {
   components = {
     uTabs: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 416))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 450))
+    },
+    uSkeleton: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 420))
     },
     blogItem: function () {
-      return Promise.all(/*! import() | components/blog-item/blog-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/blog-item/blog-item")]).then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 424))
+      return Promise.all(/*! import() | components/blog-item/blog-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/blog-item/blog-item")]).then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 458))
     },
-    uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 431))
+    uLoadmore: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 442))
     },
   }
 } catch (e) {
@@ -167,11 +170,15 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uniCloud, uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
+//
 //
 //
 //
@@ -215,7 +222,11 @@ var dbCmd = db.command;
 var _default = {
   data: function data() {
     return {
-      uniLoad: "more",
+      status: 'loadmore',
+      page: 1,
+      // 当前页码
+      pageSize: 6,
+      // 每页显示的数据条数
       noMore: false,
       navlist: [{
         name: "红牛",
@@ -250,15 +261,21 @@ var _default = {
       }],
       dataList: [],
       navActive: 0,
-      loadState: true
+      loadState: true,
+      clickable: true,
+      // 标记是否可点击
+      lastClickTime: 0 // 上一次点击的时间
     };
   },
-  onLoad: function onLoad() {
-    this.getData();
-  },
   onReachBottom: function onReachBottom() {
-    this.uniLoad = 'loading';
-    if (this.noMore) return this.uniLoad = 'noMore';
+    // 当用户滚动到底部时
+    // 如果当前状态是 'loadmore'，则加载更多数据
+    if (this.status === 'loadmore') {
+      this.page++;
+      this.getData();
+    }
+  },
+  onLoad: function onLoad() {
     this.getData();
   },
   methods: {
@@ -267,12 +284,28 @@ var _default = {
       this.getData();
     },
     clickNav: function clickNav(e) {
+      var _this = this;
+      // 检查导航栏是否可点击
+      if (!this.clickable) {
+        // 如果用户在3秒内再次点击,弹出提示框
+        if (Date.now() - this.lastClickTime < 3000) {
+          uni.showToast({
+            title: '请稍后再试',
+            icon: 'none'
+          });
+          return;
+        }
+      }
       this.loadState = true;
       this.dataList = [];
-      this.uniLoad = 'more';
       this.navActive = e.index;
-      this.noMore = false;
       this.getData();
+      this.clickable = false; // 设置标记为不可点击
+      this.lastClickTime = Date.now(); // 更新上一次点击的时间
+
+      setTimeout(function () {
+        _this.clickable = true; // 3秒后重新设置为可点击
+      }, 3000);
     },
     // 跳转至圈子编辑页面
     goEdit: function goEdit() {
@@ -281,18 +314,61 @@ var _default = {
       });
     },
     getData: function getData() {
-      var _this = this;
-      var artTemp = db.collection("circle_articles").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab").getTemp();
-      var userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-      var query = db.collection(artTemp, userTemp);
-      // 根据当前选择的导航栏选项来设置查询条件
-      query = query.where({
-        tab: this.navlist[this.navActive].type
-      });
-      query.orderBy('publish_date', 'desc').get().then(function (res) {
-        _this.dataList = res.result.data;
-        _this.loadState = false;
-      });
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var artTemp, userTemp, query;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                artTemp = db.collection("circle_articles").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab").getTemp();
+                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+                query = db.collection(artTemp, userTemp); // 根据当前选择的导航栏选项来设置查询条件
+                query = query.where({
+                  tab: _this2.navlist[_this2.navActive].type
+                });
+                _context2.next = 6;
+                return query.orderBy('publish_date', 'desc').skip((_this2.page - 1) * _this2.pageSize).limit(_this2.pageSize).get().then( /*#__PURE__*/function () {
+                  var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {
+                    return _regenerator.default.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            console.log(res);
+
+                            // 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
+                            if (res.result.data.length < _this2.pageSize) {
+                              _this2.status = 'nomore';
+                            } else {
+                              // 否则,说明还有更多数据,将状态设置为 'loadmore'
+                              _this2.status = 'loadmore';
+                            }
+
+                            // 将本次返回的数据追加到 dataList 中
+                            _context.next = 4;
+                            return _this2.dataList.concat(res.result.data);
+                          case 4:
+                            _this2.dataList = _context.sent;
+                            // 隐藏骨架屏
+                            _this2.loadState = false;
+                          case 6:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+                  return function (_x) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 };

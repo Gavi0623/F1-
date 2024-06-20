@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "首页回复页面",
+  "usingComponents": {
+    "index-comment-item": "/components/indexComment-item/indexComment-item",
+    "index-comment-frame": "/components/indexComment-frame/indexComment-frame"
+  }
+}

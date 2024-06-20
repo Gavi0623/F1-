@@ -101,8 +101,17 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uSkeleton: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 420))
+    },
+    uSwiper: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 428))
+    },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 410))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 436))
+    },
+    uLoadmore: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 442))
     },
   }
 } catch (e) {
@@ -126,12 +135,13 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.swiperList.length
   var l0 = _vm.__map(_vm.dataList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var g0 = item.picurls && item.picurls.length
+    var g1 = item.picurls && item.picurls.length
     return {
       $orig: $orig,
-      g0: g0,
+      g1: g1,
     }
   })
   var m0 = _vm.uniIDHasRole("Home Manager") || _vm.uniIDHasRole("admin")
@@ -139,6 +149,7 @@ var render = function () {
     {},
     {
       $root: {
+        g0: g0,
         l0: l0,
         m0: m0,
       },
@@ -213,21 +224,65 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var db = uniCloud.database();
 var _default = {
   data: function data() {
     return {
+      swiperState: true,
+      loadState: true,
+      status: 'loadmore',
+      page: 1,
+      // 当前页码
+      pageSize: 6,
+      // 每页显示的数据条数
       title: 'Hello',
-      dataList: []
+      dataList: [],
+      swiperList: []
     };
   },
   onLoad: function onLoad() {
     this.getData();
+    this.getSwiperList();
+  },
+  onReachBottom: function onReachBottom() {
+    // 当用户滚动到底部时
+    // 如果当前状态是 'loadmore'，则加载更多数据
+    if (this.status === 'loadmore') {
+      this.page++;
+      this.getData();
+    }
   },
   methods: {
     // 点击跳转到详情页
     goDetail: function goDetail(id) {
+      uni.navigateTo({
+        url: "/pages/index/detail/detail?id=" + id
+      });
+    },
+    // 点击轮播图跳转详情页
+    SgoDetail: function SgoDetail(index) {
+      var id = this.swiperList[index].id;
       uni.navigateTo({
         url: "/pages/index/detail/detail?id=" + id
       });
@@ -238,13 +293,52 @@ var _default = {
         url: "/pages/index/edit/edit"
       });
     },
-    getData: function getData() {
+    // 获取轮播内容，筛选近7日观看量最高的5条文章
+    getSwiperList: function getSwiperList() {
       var _this = this;
+      var now = new Date().getTime();
+      var sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+      db.collection("news_articles").where({
+        publish_date: db.command.gte(sevenDaysAgo),
+        comment_count: db.command.gte(0)
+      }).field("picurls,title").orderBy("comment_count", "desc").limit(5).get().then(function (res) {
+        console.log(res);
+        _this.swiperList = res.result.data.map(function (item) {
+          return {
+            image: item.picurls.length > 0 ? item.picurls[0] : '../../static/images/5b08bfb0bd54d276.jpg',
+            title: item.title,
+            id: item._id
+          };
+        });
+        _this.swiperState = false; // 隐藏骨架屏
+      }).catch(function (err) {
+        _this.swiperState = false; // 隐藏骨架屏
+        console.error(err);
+      });
+    },
+    getData: function getData() {
+      var _this2 = this;
       var artTemp = db.collection("news_articles").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date").getTemp();
       var userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-      db.collection(artTemp, userTemp).orderBy("publish_date desc").get().then(function (res) {
+
+      // 根据当前页码和每页数据条数，计算需要跳过的数据条数
+      db.collection(artTemp, userTemp).orderBy("publish_date", "desc").skip((this.page - 1) * this.pageSize).limit(this.pageSize).get().then(function (res) {
         console.log(res);
-        _this.dataList = res.result.data;
+        // 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
+        if (res.result.data.length < _this2.pageSize) {
+          _this2.status = 'nomore';
+        } else {
+          // 否则,说明还有更多数据,将状态设置为 'loadmore'
+          _this2.status = 'loadmore';
+        }
+        // 将本次返回的数据追加到 dataList 中
+        _this2.dataList = _this2.dataList.concat(res.result.data);
+        // 隐藏骨架屏
+        _this2.loadState = false;
+      }).catch(function (err) {
+        // 隐藏骨架屏
+        _this2.loadState = false;
+        console.error(err);
       });
     }
   }
