@@ -2,11 +2,17 @@
 	<view>
 		<view class="comment-item">
 			<view class="avatar">
-				<u-avatar :src="giveAvatar(item)" size="26"></u-avatar>
+				<u-avatar :src="giveAvatar(item, '../../../static/images/user-default.jpg')" size="26"></u-avatar>
 			</view>
 
 			<view class="wrap">
-				<view class="username">{{giveName(item)}}</view>
+				<view class="username">
+					{{giveName(item)}}
+					<view class="operate">
+						{{item.like_count}}<text class="iconfont icon-dianzan" @tap="commentLike"></text>
+						<text class="iconfont icon-shanchu" @tap="delComment"></text>
+					</view>
+				</view>
 				<view class="comment-content">{{item.comment_content}}</view>
 				<view class="info">
 					<view class="reply-btn">3回复 </view>
@@ -22,10 +28,16 @@
 </template>
 
 <script>
+	const db = uniCloud.database();
+
+	import {
+		store
+	} from "../../uni_modules/uni-id-pages/common/store.js";
 	import {
 		giveName,
 		giveAvatar
 	} from "../../utils/tools.js"
+	import pageJson from "@/pages.json"
 
 	export default {
 		name: "indexComment-item",
@@ -46,6 +58,65 @@
 		methods: {
 			giveName,
 			giveAvatar,
+
+			// 删除评论
+			delComment() {
+				// 获取当前登录用户的id
+				let uid = uniCloud.getCurrentUserInfo().uid;
+				if (uid == this.item.user_id[0]._id || this.uniIDHasRole('admin') ||
+					this.uniIDHasRole('Home Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
+					uni.showModal({
+						title: "是否删除",
+						success: res => {
+							console.log(res);
+							if (res.confirm) {
+								this.removeComment();
+							}
+						}
+					})
+					return;
+				}
+
+				uni.showToast({
+					title: "权限不通过",
+					icon: "error"
+				})
+			},
+			removeComment() {
+				db.collection("news_comments").doc(this.item._id).remove()
+					.then(res => {
+						console.log(res);
+						uni.showToast({
+							title: "删除成功"
+						})
+						this.$emit("removeEnv", {
+							id: this.item._id
+						})
+						if (this.item.comment_count > 0) {
+							// 删除评论后，文章表的评论字段-1
+							utilsObj.operation("news_articles", "comment_count", this.item.article_id, -1);
+						}
+					})
+			},
+
+			// 点赞评论
+			commentLike() {
+				if (!store.hasLogin) {
+					uni.showModal({
+						title: "是否登录？",
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/" + pageJson.uniIdRouter.loginPage
+								})
+							}
+						}
+					})
+					return;
+				}
+
+
+			},
 		}
 	}
 </script>
@@ -63,6 +134,18 @@
 				font-size: 26rpx;
 				color: #666;
 				padding: 10rpx 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.operate {
+
+					.iconfont {
+						font-size: 30rpx;
+						padding: 10rpx;
+						color: #999;
+					}
+				}
 			}
 
 			.comment-content {

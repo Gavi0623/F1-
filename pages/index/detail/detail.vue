@@ -41,22 +41,32 @@
 
 			</view>
 
-			<view class="comment">
+			<view class="comment" v-if="!loadState">
 				<!-- 没有评论时显示暂无评论 -->
 				<view style="padding-bottom: 50rpx;" v-if="!commentList.length && noComment">
 					<u-empty mode="comment" icon="http://cdn.uviewui.com/uview/empty/comment.png"></u-empty>
 				</view>
 
+				<view class="comment-header">
+					<view class="comment-num">
+						<text>评论：</text> {{commentList.length}}
+					</view>
+					<view class="subsection">
+						<u-subsection :list="list" :current="current" @change="subsectionChange" activeColor="#f00"
+							bgColor="#fff"></u-subsection>
+					</view>
+				</view>
+
 				<!-- 评论内容 -->
 				<view class="content" v-if="commentList.length">
 					<view class="item" v-for="(item,index) in commentList" :key="index">
-						<indexComment-item :item="item"></indexComment-item>
+						<indexComment-item :item="item" @removeEnv="P_removeEnv"></indexComment-item>
 					</view>
 				</view>
 			</view>
 
 			<!-- 评论框 -->
-			<indexComment-frame :commentObj="commentObj"></indexComment-frame>
+			<indexComment-frame :commentObj="commentObj" @commentEnv="P_commentEnv"></indexComment-frame>
 
 		</view>
 	</view>
@@ -93,7 +103,9 @@
 					comment_type: 0
 				},
 				commentList: [],
-				noComment: false
+				noComment: false,
+				list: ['最新', '最热'],
+				current: 0
 			};
 		},
 
@@ -211,18 +223,48 @@
 				})
 			},
 
+			subsectionChange(index) {
+				this.current = index;
+				this.getComment();
+			},
+
 			// 获取评论
-			getComment() {
-				let commentTemp = db.collection("news_comments").where(`article_id == '${this.artid}'`).
-				orderBy("comment_date desc").limit(5).getTemp();
+			async getComment() {
+				let commentTemp = db.collection("news_comments").where(`article_id == '${this.artid}'`);
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
 
-				db.collection(commentTemp, userTemp).get().then(res => {
-					console.log(res);
+				if (this.current == 0) {
+					commentTemp = commentTemp.orderBy("comment_date desc").limit(5).getTemp();
+				} else if (this.current == 1) {
+					commentTemp = commentTemp.orderBy("like_count desc").limit(5).getTemp();
+				}
+
+				await db.collection(commentTemp, userTemp).get().then(res => {
+					// console.log(res);
+					this.commentList = [];
 					this.commentList = res.result.data;
 
 					if (res.result.data == 0) this.noComment = true;
 				})
+			},
+			// 评论成功后的回调
+			P_commentEnv(e) {
+				console.log(e);
+				this.commentList.unshift({
+					...this.commentObj,
+					...e,
+					user_id: [store.userInfo]
+
+				})
+			},
+
+			// 删除评论的回调
+			P_removeEnv(e) {
+				console.log(e);
+				let index = this.commentList.findIndex(item => {
+					return item._id == e.id;
+				})
+				this.commentList.splice(index, 1)
 			},
 		}
 	}
@@ -332,6 +374,21 @@
 			.comment {
 				padding: 30rpx;
 				padding-bottom: 120rpx;
+
+				.comment-header {
+					display: flex;
+					line-height: 60rpx;
+					border-bottom: 1px solid #ccc;
+					margin-bottom: 10rpx;
+
+					.comment-num {
+						flex: 1;
+					}
+
+					.subsection {
+						width: 40%;
+					}
+				}
 
 				.item {
 					padding: 10rpx 0;

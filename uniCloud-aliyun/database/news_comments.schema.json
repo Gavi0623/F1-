@@ -35,6 +35,10 @@
 			"title": "评论内容",
 			"trim": "right"
 		},
+		"like_count": {
+			"bsonType": "int",
+			"description": "评论喜欢数、点赞数"
+		},
 		"comment_type": {
 			"bsonType": "int",
 			"description": "回复类型： 0 针对文章的回复  1 针对评论的回复"
