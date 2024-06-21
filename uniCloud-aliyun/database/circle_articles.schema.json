@@ -7,8 +7,8 @@
 	"permission": {
 		"read": true,
 		"create": "auth.uid != null",
-		"update": "doc.user_id == auth.uid",
-		"delete": "doc.user_id == auth.uid"
+		"update": "doc.user_id == auth.uid || 'Circle Manager' in auth.role",
+		"delete": "doc.user_id == auth.uid || 'Circle Manager' in auth.role"
 	},
 	"properties": {
 		"_id": {
@@ -63,6 +63,12 @@
 			"description": "文章摘录",
 			"label": "摘要",
 			"trim": "both"
+		},
+		"delState": {
+			"bsonType": "bool",
+			"title": "是否已被删除",
+			"description": "true是被删除 false或空代表正常",
+			"defaultValue": false
 		},
 		"article_status": {
 			"bsonType": "int",

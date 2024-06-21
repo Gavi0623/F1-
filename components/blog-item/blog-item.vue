@@ -13,7 +13,7 @@
 			</view>
 
 			<view class="more">
-				<text class="iconfont icon-ellipsis"></text>
+				<text class="iconfont icon-ellipsis" @tap="clickMore"></text>
 			</view>
 		</view>
 
@@ -43,6 +43,8 @@
 				<text>{{item.like_count ? item.like_count : "点赞"}}</text>
 			</view>
 		</view>
+		<u-action-sheet :actions="list" cancelText="取消" :show="sheetShow" :closeOnClickOverlay="true"
+			:closeOnClickAction="true" @select="sheetSelect" @close="onClose"></u-action-sheet>
 	</view>
 </template>
 
@@ -74,7 +76,17 @@
 		},
 		data() {
 			return {
-				isLike: false
+				isLike: false,
+				sheetShow: false,
+				list: [{
+					name: "修改",
+					type: "edit"
+				}, {
+					name: "删除",
+					type: "del",
+					color: "#F56C6C",
+					disabled: true
+				}]
 			};
 		},
 
@@ -92,6 +104,50 @@
 		methods: {
 			giveName,
 			giveAvatar,
+
+			// 选择操作菜单
+			sheetSelect(e) {
+				this.sheetShow = false;
+				let type = e.type;
+				console.log(type);
+				if (type == 'del') {
+					this.delFun();
+				}
+			},
+			// 关闭操作菜单弹窗
+			onClose() {
+				this.sheetShow = false
+			},
+			// 点击更多操作
+			clickMore() {
+				// 获取当前登录用户的id
+				let uid = uniCloud.getCurrentUserInfo().uid;
+				if (uid == this.item.user_id[0]._id || this.uniIDHasRole('admin') || this.uniIDHasRole(
+						'Circle Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
+					this.list.forEach(item => {
+						item.disabled = false
+					})
+				}
+				this.sheetShow = true
+			},
+			// 删除文章方法
+			delFun() {
+				uni.showLoading({
+					title: "加载中"
+				})
+				db.collection("circle_articles").doc(this.item._id).update({
+					delState: true
+				}).then(res => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "删除成功",
+						icon: "none"
+					})
+					this.$emit("delEvent", true)
+				}).catch(err => {
+					uni.hideLoading()
+				})
+			},
 
 			// 查询当前用户是否点赞过某篇文章的方法
 			async checkLikeStatus() {

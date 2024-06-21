@@ -44,7 +44,7 @@
 	import pageJson from "@/pages.json"
 
 	export default {
-		name: "indexComment-item",
+		name: "circleComment-item",
 		props: {
 			item: {
 				type: Object,
@@ -78,7 +78,7 @@
 				// 将数据放入缓存
 				uni.setStorageSync("replyItem", this.item);
 				uni.navigateTo({
-					url: "/pages/index/reply/reply"
+					url: "/pages/circle/reply/reply"
 				})
 			},
 
@@ -89,7 +89,7 @@
 				// 获取当前登录用户的id
 				let uid = uniCloud.getCurrentUserInfo().uid;
 				if (uid == this.item.user_id[0]._id || this.uniIDHasRole('admin') ||
-					this.uniIDHasRole('Home Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
+					this.uniIDHasRole('Circle Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
 					uni.showModal({
 						title: "是否删除",
 						success: res => {
@@ -108,7 +108,7 @@
 				})
 			},
 			removeComment() {
-				db.collection("news_comments").doc(this.item._id).remove()
+				db.collection("circle_comments").doc(this.item._id).remove()
 					.then(res => {
 						console.log(res);
 						uni.showToast({
@@ -119,7 +119,7 @@
 						})
 
 						// 删除评论后，文章表的评论字段-1
-						utilsObj.operation("news_articles", "comment_count", this.item.article_id, -1);
+						utilsObj.operation("circle_articles", "comment_count", this.item.article_id, -1);
 
 					})
 			},

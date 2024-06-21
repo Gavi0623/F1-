@@ -43,7 +43,8 @@
 	import {
 		store,
 		mutations
-	} from '@/uni_modules/uni-id-pages/common/store.js'
+	} from '@/uni_modules/uni-id-pages/common/store.js';
+	import pageJson from "@/pages.json"
 
 	export default {
 		data() {
@@ -55,33 +56,43 @@
 				navlist: [{
 					name: "红牛",
 					type: "RedBull",
+					disabled: false
 				}, {
 					name: "法拉利",
 					type: "Ferrari",
+					disabled: false
 				}, {
 					name: "梅赛德斯",
 					type: "Mercedes",
+					disabled: false
 				}, {
 					name: "迈凯伦",
 					type: "McLaren",
+					disabled: false
 				}, {
 					name: "阿斯顿马丁",
 					type: "AstonMartin",
+					disabled: false
 				}, {
 					name: "小红牛",
 					type: "RB",
+					disabled: false
 				}, {
 					name: "哈斯",
 					type: "Haas",
+					disabled: false
 				}, {
 					name: "威廉姆斯",
 					type: "Williams",
+					disabled: false
 				}, {
 					name: "Alpine",
 					type: "Alpine",
+					disabled: false
 				}, {
 					name: "索伯",
 					type: "KickSauber",
+					disabled: false
 				}, ],
 				dataList: [],
 				navActive: 0,
@@ -109,41 +120,59 @@
 				this.getData();
 			},
 
-			clickNav(e) {
-				// 检查导航栏是否可点击
-				if (!this.clickable) {
-					// 如果用户在3秒内再次点击,弹出提示框
-					if (Date.now() - this.lastClickTime < 3000) {
-						uni.showToast({
-							title: '请稍后再试',
-							icon: 'none'
-						});
-						return;
-					}
+			async clickNav(e) {
+				// 检查是否有任何导航项被禁用
+				if (this.navlist.some(item => item.disabled)) {
+					// 如果有被禁用的导航项,显示提示信息
+					uni.showToast({
+						title: '请稍后再试',
+						icon: 'none'
+					});
+					return; // 直接返回,不执行后续操作
 				}
 
+				// 设置加载状态
 				this.loadState = true;
+				// 清空数据列表
 				this.dataList = [];
-				this.navActive = e.index;
-				this.getData();
+				// 更新当前激活的导航索引
+				this.navActive = await e.index;
+				// 获取新数据
+				let getData = await this.getData();
 
-				this.clickable = false; // 设置标记为不可点击
-				this.lastClickTime = Date.now(); // 更新上一次点击的时间
+				// 禁用所有导航项
+				this.navlist.forEach(item => item.disabled = true);
 
+				// 3秒后启用所有导航项
 				setTimeout(() => {
-					this.clickable = true; // 3秒后重新设置为可点击
+					this.navlist.forEach(item => item.disabled = false);
 				}, 3000);
 			},
 
 			// 跳转至圈子编辑页面
 			goEdit() {
+				if (!store.hasLogin) {
+					uni.showModal({
+						title: "是否登录",
+						icon: "none",
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/" + pageJson.uniIdRouter.loginPage
+								})
+							}
+						}
+					})
+					return;
+				}
+
 				uni.navigateTo({
 					url: `/pages/circle/edit/edit?navType=${this.navlist[this.navActive].type}`
 				})
 			},
 
 			async getData() {
-				let artTemp = db.collection("circle_articles").field(
+				let artTemp = db.collection("circle_articles").where(`delState != true`).field(
 						"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab")
 					.getTemp();
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
@@ -153,7 +182,7 @@
 					tab: this.navlist[this.navActive].type
 				});
 
-				await query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
+				query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
 					.limit(this.pageSize).get().then(async res => {
 						console.log(res);
 

@@ -166,10 +166,16 @@
 			}
 		},
 		{
-			"path" : "pages/index/reply/reply",
+			"path": "pages/index/reply/reply",
+			"style": {
+				"navigationBarTitleText": "首页回复页面"
+			}
+		},
+		{
+			"path" : "pages/circle/reply/reply",
 			"style" : 
 			{
-				"navigationBarTitleText" : "首页回复页面"
+				"navigationBarTitleText" : "圈子评论回复"
 			}
 		}
 	],
@@ -209,11 +215,11 @@
 	},
 	"uniIdRouter": {
 		"loginPage": "uni_modules/uni-id-pages/pages/login/login-withpwd", // 登陆页面路径
+		"loginSuccessPage": "pages/index/index", // 登录成功后自动跳转至首页
 		"needLogin": [ // 需要登录才可访问的页面列表，可以使用正则语法
 			"pages/index/edit/edit",
 			"pages/circle/edit/edit",
-			"uni_modules/uni-id-pages/pages/userinfo/userinfo",
-			"uni_modules/uni-feedback/pages/opendb-feedback/list"
+			"uni_modules/uni-id-pages/pages/userinfo/userinfo"
 		],
 		"resToLogin": true // 自动解析云对象及clientDB的错误码，如果是客户端token不正确或token过期则自动跳转配置的登录页面，配置为false则关闭此行为，默认true
 	}

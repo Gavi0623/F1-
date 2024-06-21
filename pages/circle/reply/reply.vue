@@ -1,19 +1,19 @@
 <template>
 	<view class="reply">
 		<view class="top">
-			<indexComment-item :closeBtn="true" :childState="true" :item="replyItem"></indexComment-item>
+			<circleComment-item :closeBtn="true" :childState="true" :item="replyItem"></circleComment-item>
 		</view>
 
 		<view class="list">
 			<view class="row" v-for="item in childReplyArr" :key="item._id">
-				<indexComment-item @commentEnv="P_commentEnv" :closeBtnLike="true" :closeBtn="true" :childState="true"
-					:item="item"></indexComment-item>
+				<circleComment-item @commentEnv="P_commentEnv" :closeBtnLike="true" :closeBtn="true" :childState="true"
+					:item="item"></circleComment-item>
 			</view>
 		</view>
 
 		<view>
-			<indexComment-frame :commentObj="commentObj" @commentEnv="P_commentEnv"
-				:placeholder="`回复：${giveName(this.replyItem)}`"></indexComment-frame>
+			<circleComment-frame @commentEnv="P_commentEnv" :commentObj="commentObj"
+				:placeholder="`回复：${giveName(this.replyItem)}`"></circleComment-frame>
 		</view>
 	</view>
 </template>
@@ -69,7 +69,7 @@
 			},
 			// 获取评论
 			getComment() {
-				let commentTemp = db.collection("news_comments")
+				let commentTemp = db.collection("circle_comments")
 					.where(
 						`article_id == '${this.replyItem.article_id}' && comment_type==1 && reply_comment_id == '${this.replyItem._id}'`
 					)

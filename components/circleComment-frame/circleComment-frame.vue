@@ -1,4 +1,3 @@
-<!-- indexComment-frame -->
 <template>
 	<view>
 		<view class="commentFrame">
@@ -23,7 +22,7 @@
 	});
 
 	export default {
-		name: "indexComment-frame",
+		name: "circleComment-frame",
 		props: {
 			commentObj: {
 				type: Object,
@@ -42,7 +41,6 @@
 			};
 		},
 		methods: {
-
 			async goComment() {
 				if (!store.hasLogin) return;
 
@@ -56,17 +54,14 @@
 					return;
 				}
 
-				db.collection("news_comments").add({
+				db.collection("circle_comments").add({
 					"comment_content": this.replyContent,
 					"province": province,
 					...this.commentObj
 				}).then(res => {
-					// console.log(res);
-					uni.showToast({
-						title: "评论成功",
-					})
+					console.log(res);
 					// 评论成功后，文章表的评论字段+1
-					utilsObj.operation("news_articles", "comment_count", this.commentObj.article_id, 1);
+					utilsObj.operation("circle_articles", "comment_count", this.commentObj.article_id, 1);
 
 					// 实现评论无感展示，当用户发布评论后直接显示在评论最上面
 					this.$emit("commentEnv", {

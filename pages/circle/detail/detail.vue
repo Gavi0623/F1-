@@ -41,6 +41,29 @@
 				<text>{{likeUserArr}} {{detailObj.like_count}}人赞过</text>
 			</view>
 
+			<view class="comment" v-if="!loadState">
+				<!-- 没有评论时显示暂无评论 -->
+				<view style="padding-bottom: 50rpx;" v-if="!commentList.length && noComment">
+					<u-empty mode="comment" icon="http://cdn.uviewui.com/uview/empty/comment.png"></u-empty>
+				</view>
+
+				<view class="comment-header" v-if="commentList.length">
+					<view class="comment-num">
+						<text>评论：</text> {{commentList.length}}
+					</view>
+				</view>
+
+				<!-- 评论内容 -->
+				<view class="content" v-if="commentList.length">
+					<view class="item" v-for="(item,index) in commentList" :key="index">
+						<circleComment-item :item="item" @removeEnv="P_removeEnv"></circleComment-item>
+					</view>
+				</view>
+			</view>
+
+			<!-- 评论框 -->
+			<circleComment-frame :commentObj="commentObj" @commentEnv="P_commentEnv"></circleComment-frame>
+
 		</view>
 	</view>
 </template>
@@ -68,7 +91,13 @@
 				showPopup: false,
 				loadState: true,
 				likeUserArr: [],
-				detailObj: null
+				detailObj: null,
+				commentObj: {
+					article_id: "",
+					comment_type: 0
+				},
+				commentList: [],
+				noComment: false,
 			};
 		},
 
@@ -79,9 +108,11 @@
 			}
 			this.artid = e.id;
 			// console.log(e);
+			this.commentObj.article_id = e.id; // 将文章id传给评论模块
 			this.getData();
 			this.readUpdate();
 			this.getLikeUser();
+			this.getComment();
 		},
 
 		methods: {
@@ -215,7 +246,65 @@
 					})
 					console.log(this.detailObj);
 				})
-			}
+			},
+
+			// 获取评论
+			async getComment() {
+				let commentTemp = db.collection("circle_comments").where(
+						`article_id == '${this.artid}' && comment_type==0`).orderBy("comment_date desc").limit(5)
+					.getTemp();
+				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+
+				let res = await db.collection(commentTemp, userTemp).get();
+				// console.log(res);
+
+				// 获取当前文章的一级评论id
+				let idArr = res.result.data.map(item => {
+					return item._id
+				})
+				// console.log(idArr);
+
+				// 统计当前文章一级评论的二级回复数量
+				let replyArr = await db.collection("circle_comments").where({
+					reply_comment_id: db.command.in(idArr)
+				}).groupBy('reply_comment_id').groupField('count(*) as totalReply').get()
+				// console.log(replyArr);
+
+				// 循环遍历评论列表，并将二级回复数量添加到每个评论对象中。
+				res.result.data.forEach(item => {
+					let index = replyArr.result.data.findIndex(find => {
+						return find.reply_comment_id == item._id
+					})
+					// console.log(index); // -1表示没有二级回复
+					if (index > -1) {
+						item.totalReply = replyArr.result.data[index].totalReply
+					}
+				})
+
+				if (res.result.data == 0) this.noComment = true;
+
+				this.commentList = [];
+				this.commentList = res.result.data;
+			},
+			// 评论成功后的回调
+			P_commentEnv(e) {
+				console.log(e);
+				this.commentList.unshift({
+					...this.commentObj,
+					...e,
+					user_id: [store.userInfo]
+
+				})
+			},
+
+			// 删除评论的回调
+			P_removeEnv(e) {
+				console.log(e);
+				let index = this.commentList.findIndex(item => {
+					return item._id == e.id;
+				})
+				this.commentList.splice(index, 1)
+			},
 		}
 	}
 </script>
@@ -292,6 +381,30 @@
 					color: #fa3534;
 				}
 			}
+
+			.comment {
+				padding-bottom: 120rpx;
+
+				.comment-header {
+					display: flex;
+					line-height: 60rpx;
+					border-bottom: 1px solid #ccc;
+					margin-bottom: 10rpx;
+
+					.comment-num {
+						flex: 1;
+					}
+
+					.subsection {
+						width: 40%;
+					}
+				}
+
+				.item {
+					padding: 10rpx 0;
+				}
+			}
+
 
 		}
 	}
