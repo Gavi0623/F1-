@@ -38,6 +38,7 @@
 		data() {
 			return {
 				replyContent: "",
+				isLike: false
 			};
 		},
 		methods: {

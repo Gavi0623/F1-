@@ -55,6 +55,21 @@ function getIp() {
 	})
 }
 
+import pageJson from "@/pages.json"
+// 跳转登录页面
+export function goLogin() {
+	uni.showModal({
+		title: "是否登录？",
+		success: (res) => {
+			if (res.confirm) {
+				uni.navigateTo({
+					url: "/" + pageJson.uniIdRouter.loginPage
+				})
+			}
+		}
+	})
+}
+
 
 // 获取昵称
 export function giveName(item) {
@@ -119,5 +134,50 @@ export async function likeCirFun(artid) {
 			article_id: artid
 		});
 		utilsObj.operation("circle_articles", "like_count", artid, 1);
+	}
+}
+
+// 圈子评论点赞操作数据库的方法
+export async function likeCirCmtFun(artid) {
+	// 查询当前用户是否点赞过该文章
+	let count = await db.collection("circle_comments_like").where(
+		`article_id=='${artid}' && user_id==$cloudEnv_uid `).count()
+
+	if (count.result.total) {
+		console.log(count);
+		// 如果当前用户已经点过赞
+		let isLike = true;
+		uni.showToast({
+			title: "你已经赞过",
+			icon: "none"
+		});
+	} else {
+		// 追加数据
+		db.collection("circle_comments_like").add({
+			article_id: artid
+		});
+		utilsObj.operation("circle_comments", "like_count", artid, 1);
+	}
+}
+
+export async function likeindexCmtFun(artid) {
+	// 查询当前用户是否点赞过该文章
+	let count = await db.collection("news_comments_like").where(
+		`article_id=='${artid}' && user_id==$cloudEnv_uid `).count()
+
+	if (count.result.total) {
+		console.log(count);
+		// 如果当前用户已经点过赞
+		let isLike = true;
+		uni.showToast({
+			title: "你已经赞过",
+			icon: "none"
+		});
+	} else {
+		// 追加数据
+		db.collection("news_comments_like").add({
+			article_id: artid
+		});
+		utilsObj.operation("news_comments", "like_count", artid, 1);
 	}
 }

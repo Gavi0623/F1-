@@ -110,12 +110,21 @@
 			}
 		},
 
+		// 下拉刷新
+		async onPullDownRefresh() {
+			this.page = 1;
+			this.dataList = [];
+			await this.getData();
+			uni.stopPullDownRefresh();
+		},
+
 		onLoad() {
 			this.getData();
 		},
 
 		methods: {
 			P_delevent() {
+				this.page = 1;
 				this.dataList = [];
 				this.getData();
 			},
@@ -134,11 +143,12 @@
 				// 设置加载状态
 				this.loadState = true;
 				// 清空数据列表
+				this.page = 1;
 				this.dataList = [];
 				// 更新当前激活的导航索引
 				this.navActive = await e.index;
 				// 获取新数据
-				let getData = await this.getData();
+				await this.getData();
 
 				// 禁用所有导航项
 				this.navlist.forEach(item => item.disabled = true);
@@ -172,35 +182,50 @@
 			},
 
 			async getData() {
-				let artTemp = db.collection("circle_articles").where(`delState != true`).field(
-						"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab")
-					.getTemp();
-				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-				let query = db.collection(artTemp, userTemp);
-				// 根据当前选择的导航栏选项来设置查询条件
-				query = query.where({
-					tab: this.navlist[this.navActive].type
-				});
+				// 返回一个新的 Promise 对象，这允许我们异步处理数据获取
+				return new Promise((resolve, reject) => {
+					// 创建一个临时的文章集合查询，设置查询条件和字段
+					let artTemp = db.collection("circle_articles").where(`delState != true`).field(
+						"title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab"
+					).getTemp();
 
-				query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
-					.limit(this.pageSize).get().then(async res => {
-						console.log(res);
+					// 创建一个临时的用户集合查询，设置所需字段
+					let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file")
+						.getTemp();
 
-						// 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
-						if (res.result.data.length < this.pageSize) {
-							this.status = 'nomore';
-						} else {
-							// 否则,说明还有更多数据,将状态设置为 'loadmore'
-							this.status = 'loadmore';
-						}
+					// 合并两个临时查询
+					let query = db.collection(artTemp, userTemp);
 
-						// 将本次返回的数据追加到 dataList 中
-						this.dataList = await this.dataList.concat(res.result.data);
-						// 隐藏骨架屏
-						this.loadState = false;
+					// 根据当前选中的导航类型设置查询条件
+					query = query.where({
+						tab: this.navlist[this.navActive].type
 					});
 
+					// 执行查询：按发布日期降序排序，跳过之前的页，限制返回数量
+					query.orderBy('publish_date', 'desc').skip((this.page - 1) * this.pageSize)
+						.limit(this.pageSize).get().then(async res => {
+							// 判断是否还有更多数据
+							if (res.result.data.length < this.pageSize) {
+								this.status = 'nomore'; // 没有更多数据
+							} else {
+								this.status = 'loadmore'; // 还有更多数据
+							}
+
+							// 将新数据添加到现有数据列表中
+							this.dataList = this.dataList.concat(res.result.data);
+
+							// 设置加载状态为false，表示加载完成
+							this.loadState = false;
+
+							// 成功获取数据，调用resolve并传递结果
+							resolve(res);
+						}).catch(err => {
+							// 如果发生错误，调用reject并传递错误信息
+							reject(err);
+						});
+				});
 			},
+
 		}
 	}
 </script>

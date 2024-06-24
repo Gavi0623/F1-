@@ -60,7 +60,8 @@
 				<!-- 评论内容 -->
 				<view class="content" v-if="commentList.length">
 					<view class="item" v-for="(item,index) in commentList" :key="index">
-						<indexComment-item :item="item" @removeEnv="P_removeEnv"></indexComment-item>
+						<indexComment-item :like_count.sync="item.like_count" :item="item"
+							@removeEnv="P_removeEnv"></indexComment-item>
 					</view>
 				</view>
 			</view>

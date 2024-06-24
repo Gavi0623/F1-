@@ -9,9 +9,12 @@
 				<view class="username">
 					{{giveName(item)}}
 					<view class="operate">
-						{{item.like_count}}
-						<text class="iconfont icon-dianzan" v-if="!closeBtnLike" @tap="commentLike"></text>
-						<text class="iconfont icon-shanchu" v-if="!closeBtn" @tap="delComment"></text>
+						<text :class="isLike ? 'active' : ' '">{{item.like_count ? item.like_count : ""}}</text>
+						<text class="iconfont icon-dianzan" :class="isLike ? 'active' : ''" v-if="!closeBtnLike"
+							@tap="commentLike"></text>
+						<text class="iconfont icon-shanchu"
+							v-if="uniIDHasRole('Circle Manager') || uniIDHasRole('admin') || isCurrentUser"
+							@tap="delComment"></text>
 					</view>
 				</view>
 				<view class="comment-content">{{item.comment_content}}</view>
@@ -39,7 +42,9 @@
 	} from "../../uni_modules/uni-id-pages/common/store.js";
 	import {
 		giveName,
-		giveAvatar
+		giveAvatar,
+		likeCirCmtFun,
+		goLogin
 	} from "../../utils/tools.js"
 	import pageJson from "@/pages.json"
 
@@ -52,6 +57,7 @@
 					return {}
 				}
 			},
+			like_count: Number,
 			childState: {
 				type: Boolean,
 				default: false
@@ -63,10 +69,26 @@
 			closeBtnLike: {
 				type: Boolean,
 				default: false
-			}
+			},
+
 		},
 		data() {
-			return {};
+			return {
+				isLike: false
+			};
+		},
+		computed: {
+			// 获取当前登录用户的id
+			isCurrentUser() {
+				if (!store.hasLogin) return;
+
+				const currentUserId = uniCloud.getCurrentUserInfo().uid;
+				return currentUserId === this.item.user_id[0]._id;
+			}
+		},
+
+		created() {
+			this.checkLikeStatus();
 		},
 
 		methods: {
@@ -86,9 +108,7 @@
 			delComment() {
 				if (!store.hasLogin) return;
 
-				// 获取当前登录用户的id
-				let uid = uniCloud.getCurrentUserInfo().uid;
-				if (uid == this.item.user_id[0]._id || this.uniIDHasRole('admin') ||
+				if (this.isCurrentUser || this.uniIDHasRole('admin') ||
 					this.uniIDHasRole('Circle Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
 					uni.showModal({
 						title: "是否删除",
@@ -124,23 +144,45 @@
 					})
 			},
 
+			// 查询当前用户是否点赞过某篇文章的方法
+			async checkLikeStatus() {
+				if (!store.hasLogin) return;
+
+				let count = await db.collection("circle_comments_like").where(
+					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
+
+				console.log(count);
+
+				if (count.result.total) this.isLike = true; // 如果点过赞，返回true
+			},
+
 			// 点赞评论
-			commentLike() {
+			async commentLike() {
 				if (!store.hasLogin) {
-					uni.showModal({
-						title: "是否登录？",
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: "/" + pageJson.uniIdRouter.loginPage
-								})
-							}
-						}
+					goLogin();
+					return;
+				}
+
+				let time = Date.now();
+				if (time - this.likeTime < 2000) {
+					uni.showToast({
+						title: "请勿频繁操作",
+						icon: "none"
 					})
 					return;
 				}
 
+				this.likeTime = time;
+				this.isLike = true;
 
+				let count = await db.collection("circle_comments_like").where(
+					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
+
+				let like_count = this.item.like_count;
+				if (!count.result.total) like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
+				this.$emit("update:like_count", like_count)
+
+				likeCirCmtFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
 			},
 		}
 	}
@@ -170,6 +212,11 @@
 						padding: 10rpx;
 						color: #999;
 					}
+
+					.active {
+						color: #fa3534;
+					}
+
 				}
 			}
 

@@ -56,7 +56,8 @@
 				<!-- 评论内容 -->
 				<view class="content" v-if="commentList.length">
 					<view class="item" v-for="(item,index) in commentList" :key="index">
-						<circleComment-item :item="item" @removeEnv="P_removeEnv"></circleComment-item>
+						<circleComment-item :item="item" :like_count.sync="item.like_count"
+							@removeEnv="P_removeEnv"></circleComment-item>
 					</view>
 				</view>
 			</view>

@@ -59,7 +59,8 @@
 	import {
 		giveName,
 		giveAvatar,
-		likeCirFun
+		likeCirFun,
+		goLogin
 	} from "../../utils/tools.js"
 	import pageJson from "@/pages.json"
 
@@ -165,16 +166,7 @@
 			// 点赞操作
 			async clickLike() {
 				if (!store.hasLogin) {
-					uni.showModal({
-						title: "是否登录？",
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: "/" + pageJson.uniIdRouter.loginPage
-								})
-							}
-						}
-					})
+					goLogin();
 					return;
 				}
 

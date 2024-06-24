@@ -199,7 +199,7 @@
 						console.log(res); // 在控制台输出操作结果
 						if (res.confirm) mutations.logout(); // 如果用户确认退出，则执行退出操作
 					}
-				})
+				});
 			},
 			// 检查用户是否已登录
 			goLoginPage() {
