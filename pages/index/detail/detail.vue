@@ -34,7 +34,11 @@
 						<text>{{detailObj.like_count}}</text>
 					</view>
 					<view class="users">
-						<image src="../../../static/images/user-default.jpg" mode="aspectFill"></image>
+						<template v-for="(item,index) in likeUserArr">
+							<image :key="index" v-if="item.user_id[0].avatar_file"
+								:src="giveAvatar(item, '../../../static/images/user-default.jpg')" mode="aspectFill">
+							</image>
+						</template>
 					</view>
 					<view class="text"><text class="num">{{detailObj.view_count}}</text>人看过</view>
 				</view>
@@ -49,7 +53,7 @@
 
 				<view class="comment-header" v-if="commentList.length">
 					<view class="comment-num">
-						<text>评论：</text> {{commentList.length}}
+						<text>评论：</text> {{totalCommentCount}}
 					</view>
 					<view class="subsection">
 						<u-subsection :list="list" :current="current" @change="subsectionChange" activeColor="#f00"
@@ -60,14 +64,16 @@
 				<!-- 评论内容 -->
 				<view class="content" v-if="commentList.length">
 					<view class="item" v-for="(item,index) in commentList" :key="index">
-						<indexComment-item :like_count.sync="item.like_count" :item="item"
+						<indexComment-item :item="item" :like_count.sync="item.like_count"
 							@removeEnv="P_removeEnv"></indexComment-item>
 					</view>
 				</view>
+
+				<uni-load-more :status="loadMoreStatus"></uni-load-more>
 			</view>
 
 			<!-- 评论框 -->
-			<indexComment-frame :commentObj="commentObj" @commentEnv="P_commentEnv"></indexComment-frame>
+			<indexComment-frame :commentObj="commentObj" @refreshComments="refreshPage"></indexComment-frame>
 
 		</view>
 	</view>
@@ -82,7 +88,8 @@
 	import {
 		giveName,
 		giveAvatar,
-		likeFun
+		likeFun,
+		goLogin
 	} from "../../../utils/tools.js"
 	import {
 		store
@@ -106,7 +113,12 @@
 				commentList: [],
 				noComment: false,
 				list: ['最新', '最热'],
-				current: 0
+				current: 0,
+				page: 1,
+				pageSize: 10,
+				loadMoreStatus: 'more',
+				totalCommentCount: 0,
+				likeUserArr: []
 			};
 		},
 
@@ -122,8 +134,15 @@
 			this.getLikeUser();
 			this.getComment();
 		},
-
+		onReachBottom() {
+			if (this.loadMoreStatus === 'more') {
+				this.getComment();
+			}
+		},
 		methods: {
+			giveName,
+			giveAvatar,
+
 			// 文章id为空处理
 			errFun() {
 				uni.showToast({
@@ -158,16 +177,7 @@
 			// 点赞操作
 			async clickLike() {
 				if (!store.hasLogin) {
-					uni.showModal({
-						title: "是否登录？",
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: "/" + pageJson.uniIdRouter.loginPage
-								})
-							}
-						}
-					})
+					goLogin();
 					return;
 				}
 
@@ -231,56 +241,88 @@
 
 			// 获取评论
 			async getComment() {
-				let commentTemp = db.collection("news_comments").where(
-					`article_id == '${this.artid}' && comment_type==0`);
-				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+				if (this.loadMoreStatus === 'noMore' || this.loadingComments) return;
 
-				if (this.current == 0) {
-					commentTemp = commentTemp.orderBy("comment_date desc").limit(5).getTemp();
-				} else if (this.current == 1) {
-					commentTemp = commentTemp.orderBy("like_count desc").limit(5).getTemp();
-				}
+				this.loadingComments = true;
+				this.loadMoreStatus = 'loading';
+				try {
+					const commentTemp = db.collection("news_comments")
+						.where({
+							article_id: this.artid,
+							comment_type: 0
+						})
+						.orderBy("comment_date", "desc")
+						.skip((this.page - 1) * this.pageSize)
+						.limit(this.pageSize)
+						.getTemp();
 
-				let res = await db.collection(commentTemp, userTemp).get();
-				// console.log(res);
+					const userTemp = db.collection("uni-id-users")
+						.field("_id,username,nickname,avatar_file")
+						.getTemp();
 
-				// 获取当前文章的一级评论id
-				let idArr = res.result.data.map(item => {
-					return item._id
-				})
-				// console.log(idArr);
+					const res = await db.collection(commentTemp, userTemp).get();
 
-				// 统计当前文章一级评论的二级回复数量
-				let replyArr = await db.collection("news_comments").where({
-					reply_comment_id: db.command.in(idArr)
-				}).groupBy('reply_comment_id').groupField('count(*) as totalReply').get()
-				// console.log(replyArr);
-
-				// 循环遍历评论列表，并将二级回复数量添加到每个评论对象中。
-				res.result.data.forEach(item => {
-					let index = replyArr.result.data.findIndex(find => {
-						return find.reply_comment_id == item._id
-					})
-					// console.log(index); // -1表示没有二级回复
-					if (index > -1) {
-						item.totalReply = replyArr.result.data[index].totalReply
+					if (!res.result || !res.result.data) {
+						throw new Error('无法获取评论');
 					}
-				})
 
-				if (res.result.data == 0) this.noComment = true;
+					const newComments = res.result.data;
 
-				this.commentList = [];
-				this.commentList = res.result.data;
+					// 处理二级回复数量
+					// 获取当前文章的一级评论id
+					let idArr = res.result.data.map(item => {
+						return item._id
+					})
+					// console.log(idArr);
+
+					// 统计当前文章一级评论的二级回复数量
+					let replyArr = await db.collection("news_comments").where({
+						reply_comment_id: db.command.in(idArr)
+					}).groupBy('reply_comment_id').groupField('count(*) as totalReply').get()
+					// console.log(replyArr);
+
+					// 循环遍历评论列表，并将二级回复数量添加到每个评论对象中。
+					res.result.data.forEach(item => {
+						let index = replyArr.result.data.findIndex(find => {
+							return find.reply_comment_id == item._id
+						})
+						// console.log(index); // -1表示没有二级回复
+						if (index > -1) {
+							item.totalReply = replyArr.result.data[index].totalReply
+						}
+					})
+
+					this.commentList = [...this.commentList, ...newComments];
+					this.loadMoreStatus = newComments.length === this.pageSize ? 'more' : 'noMore';
+					this.noComment = this.commentList.length === 0;
+					this.page++;
+
+					// 获取当前文章评论数量
+					const countResult = await db.collection("news_comments")
+						.where({
+							article_id: this.artid,
+							comment_type: 0
+						})
+						.count();
+					// console.log(countResult);
+					this.totalCommentCount = countResult.result.total;
+				} catch (error) {
+					console.error('获取评论失败', error);
+					uni.showToast({
+						title: '获取评论失败，请稍后重试',
+						icon: 'none'
+					});
+					this.loadMoreStatus = 'more'; // 出错时重置状态，允许重试
+				} finally {
+					this.loadingComments = false;
+				}
 			},
 			// 评论成功后的回调
-			P_commentEnv(e) {
-				console.log(e);
-				this.commentList.unshift({
-					...this.commentObj,
-					...e,
-					user_id: [store.userInfo]
-
-				})
+			refreshPage() {
+				this.page = 1;
+				this.loadMoreStatus = 'more';
+				this.commentList = [];
+				this.getComment();
 			},
 
 			// 删除评论的回调

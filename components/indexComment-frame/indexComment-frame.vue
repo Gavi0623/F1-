@@ -39,10 +39,10 @@
 		data() {
 			return {
 				replyContent: "",
+				isLike: false
 			};
 		},
 		methods: {
-
 			async goComment() {
 				if (!store.hasLogin) return;
 
@@ -56,30 +56,33 @@
 					return;
 				}
 
-				db.collection("news_comments").add({
-					"comment_content": this.replyContent,
-					"province": province,
-					...this.commentObj
-				}).then(res => {
-					// console.log(res);
+				try {
+					const res = await db.collection("news_comments").add({
+						"comment_content": this.replyContent,
+						"province": province,
+						...this.commentObj
+					});
+
+					console.log(res);
+					// 评论成功后，文章表的评论字段+1
+					await utilsObj.operation("news_articles", "comment_count", this.commentObj.article_id, 1);
+
+					// 触发刷新事件
+					this.$emit("refreshComments");
+
+					this.replyContent = "";
+
 					uni.showToast({
 						title: "评论成功",
-					})
-					// 评论成功后，文章表的评论字段+1
-					utilsObj.operation("news_articles", "comment_count", this.commentObj.article_id, 1);
-
-					// 实现评论无感展示，当用户发布评论后直接显示在评论最上面
-					this.$emit("commentEnv", {
-						_id: res.result.id,
-						comment_content: this.replyContent,
-						"province": province,
-						comment_date: Date.now()
-					})
-
-					this.replyContent = ""
-				}).catch(err => {
+						icon: "success"
+					});
+				} catch (err) {
 					console.error(err);
-				})
+					uni.showToast({
+						title: "评论失败，请稍后重试",
+						icon: "none"
+					});
+				}
 			}
 		}
 	}

@@ -102,19 +102,19 @@ var components
 try {
   components = {
     uTabbar: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar/u-tabbar.vue */ 465))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar/u-tabbar.vue */ 473))
     },
     uTabbarItem: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item.vue */ 473))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item.vue */ 481))
     },
     gameItem: function () {
-      return __webpack_require__.e(/*! import() | components/game-item/game-item */ "components/game-item/game-item").then(__webpack_require__.bind(null, /*! @/components/game-item/game-item.vue */ 481))
+      return __webpack_require__.e(/*! import() | components/game-item/game-item */ "components/game-item/game-item").then(__webpack_require__.bind(null, /*! @/components/game-item/game-item.vue */ 489))
     },
     driverItem: function () {
-      return __webpack_require__.e(/*! import() | components/driver-item/driver-item */ "components/driver-item/driver-item").then(__webpack_require__.bind(null, /*! @/components/driver-item/driver-item.vue */ 488))
+      return __webpack_require__.e(/*! import() | components/driver-item/driver-item */ "components/driver-item/driver-item").then(__webpack_require__.bind(null, /*! @/components/driver-item/driver-item.vue */ 496))
     },
     teamItem: function () {
-      return __webpack_require__.e(/*! import() | components/team-item/team-item */ "components/team-item/team-item").then(__webpack_require__.bind(null, /*! @/components/team-item/team-item.vue */ 495))
+      return __webpack_require__.e(/*! import() | components/team-item/team-item */ "components/team-item/team-item").then(__webpack_require__.bind(null, /*! @/components/team-item/team-item.vue */ 503))
     },
   }
 } catch (e) {

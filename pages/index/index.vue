@@ -116,7 +116,13 @@
 						console.log(res);
 						this.swiperList = res.result.data.map(item => ({
 							image: item.picurls.length > 0 ? item.picurls[0] :
-								'../../static/images/5b08bfb0bd54d276.jpg',
+								// #ifdef H5
+								'../../static/images/5b08bfb0bd54d276.jpg'
+							// #endif
+							// #ifdef MP-WEIXIN
+							'/static/images/5b08bfb0bd54d276.jpg'
+							// #endif
+							, // 注意这里的逗号
 							title: item.title,
 							id: item._id
 						}));

@@ -5,6 +5,10 @@
     "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat",
     "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",
     "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
-    "u--text": "/uni_modules/uview-ui/components/u--text/u--text"
+    "u--text": "/uni_modules/uview-ui/components/u--text/u--text",
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "circle-comment-item": "/components/circleComment-item/circleComment-item",
+    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
+    "circle-comment-frame": "/components/circleComment-frame/circleComment-frame"
   }
 }

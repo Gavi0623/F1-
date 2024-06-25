@@ -7,8 +7,8 @@
 
 		<view class="list">
 			<view class="row" v-for="item in childReplyArr" :key="item._id">
-				<circleComment-item :closeBtnLike="true" :closeBtn="true" :childState="true"
-					:item="item"></circleComment-item>
+				<circleComment-item :closeBtnLike="true" :closeBtn="true" :childState="true" :item="item"
+					@removeEnv="P_removeEnv"></circleComment-item>
 			</view>
 		</view>
 
@@ -136,6 +136,15 @@
 					this.loadMoreStatus = 'more';
 				}
 			},
+
+			// 删除回复的回调
+			P_removeEnv(e) {
+				console.log(e);
+				let index = this.childReplyArr.findIndex(item => {
+					return item._id == e.id;
+				})
+				this.childReplyArr.splice(index, 1)
+			}
 		}
 	}
 </script>

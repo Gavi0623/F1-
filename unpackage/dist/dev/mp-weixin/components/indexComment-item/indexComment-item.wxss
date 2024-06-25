@@ -46,6 +46,9 @@
   padding: 10rpx;
   color: #999;
 }
+.comment-item .wrap .username .operate .active.data-v-11b63828 {
+  color: #fa3534;
+}
 .comment-item .wrap .comment-content.data-v-11b63828 {
   font-size: 34rpx;
   color: #111;

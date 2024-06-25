@@ -102,25 +102,28 @@ var components
 try {
   components = {
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 420))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 428))
     },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 436))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 444))
     },
     uParse: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-parse/u-parse.vue */ 622))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-parse/u-parse.vue */ 630))
     },
     uEmpty: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 631))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 639))
     },
     uSubsection: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-subsection/u-subsection */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-subsection/u-subsection")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-subsection/u-subsection.vue */ 639))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-subsection/u-subsection */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-subsection/u-subsection")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-subsection/u-subsection.vue */ 647))
     },
     indexCommentItem: function () {
-      return Promise.all(/*! import() | components/indexComment-item/indexComment-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/indexComment-item/indexComment-item")]).then(__webpack_require__.bind(null, /*! @/components/indexComment-item/indexComment-item.vue */ 647))
+      return __webpack_require__.e(/*! import() | components/indexComment-item/indexComment-item */ "components/indexComment-item/indexComment-item").then(__webpack_require__.bind(null, /*! @/components/indexComment-item/indexComment-item.vue */ 655))
+    },
+    uniLoadMore: function () {
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 662))
     },
     indexCommentFrame: function () {
-      return __webpack_require__.e(/*! import() | components/indexComment-frame/indexComment-frame */ "components/indexComment-frame/indexComment-frame").then(__webpack_require__.bind(null, /*! @/components/indexComment-frame/indexComment-frame.vue */ 654))
+      return __webpack_require__.e(/*! import() | components/indexComment-frame/indexComment-frame */ "components/indexComment-frame/indexComment-frame").then(__webpack_require__.bind(null, /*! @/components/indexComment-frame/indexComment-frame.vue */ 673))
     },
   }
 } catch (e) {
@@ -144,18 +147,29 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = !_vm.loadState
+    ? _vm.__map(_vm.likeUserArr, function (item, index) {
+        var $orig = _vm.__get_orig(item)
+        var m0 = item.user_id[0].avatar_file
+          ? _vm.giveAvatar(item, "../../../static/images/user-default.jpg")
+          : null
+        return {
+          $orig: $orig,
+          m0: m0,
+        }
+      })
+    : null
   var g0 = !_vm.loadState ? !_vm.commentList.length && _vm.noComment : null
   var g1 = !_vm.loadState ? _vm.commentList.length : null
-  var g2 = !_vm.loadState && g1 ? _vm.commentList.length : null
-  var g3 = !_vm.loadState ? _vm.commentList.length : null
+  var g2 = !_vm.loadState ? _vm.commentList.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
+        l0: l0,
         g0: g0,
         g1: g1,
         g2: g2,
-        g3: g3,
       },
     }
   )
@@ -200,13 +214,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 340);
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -303,7 +322,12 @@ var _default = {
       commentList: [],
       noComment: false,
       list: ['最新', '最热'],
-      current: 0
+      current: 0,
+      page: 1,
+      pageSize: 10,
+      loadMoreStatus: 'more',
+      totalCommentCount: 0,
+      likeUserArr: []
     };
   },
   onLoad: function onLoad(e) {
@@ -318,7 +342,14 @@ var _default = {
     this.getLikeUser();
     this.getComment();
   },
+  onReachBottom: function onReachBottom() {
+    if (this.loadMoreStatus === 'more') {
+      this.getComment();
+    }
+  },
   methods: {
+    giveName: _tools.giveName,
+    giveAvatar: _tools.giveAvatar,
     // 文章id为空处理
     errFun: function errFun() {
       uni.showToast({
@@ -361,16 +392,7 @@ var _default = {
                   _context.next = 3;
                   break;
                 }
-                uni.showModal({
-                  title: "是否登录？",
-                  success: function success(res) {
-                    if (res.confirm) {
-                      uni.navigateTo({
-                        url: "/" + _pages.default.uniIdRouter.loginPage
-                      });
-                    }
-                  }
-                });
+                (0, _tools.goLogin)();
                 return _context.abrupt("return");
               case 3:
                 time = Date.now();
@@ -436,33 +458,46 @@ var _default = {
     getComment: function getComment() {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var commentTemp, userTemp, res, idArr, replyArr;
+        var commentTemp, userTemp, res, newComments, idArr, replyArr, countResult;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commentTemp = db.collection("news_comments").where("article_id == '".concat(_this4.artid, "' && comment_type==0"));
-                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-                if (_this4.current == 0) {
-                  commentTemp = commentTemp.orderBy("comment_date desc").limit(5).getTemp();
-                } else if (_this4.current == 1) {
-                  commentTemp = commentTemp.orderBy("like_count desc").limit(5).getTemp();
+                if (!(_this4.loadMoreStatus === 'noMore' || _this4.loadingComments)) {
+                  _context2.next = 2;
+                  break;
                 }
-                _context2.next = 5;
+                return _context2.abrupt("return");
+              case 2:
+                _this4.loadingComments = true;
+                _this4.loadMoreStatus = 'loading';
+                _context2.prev = 4;
+                commentTemp = db.collection("news_comments").where({
+                  article_id: _this4.artid,
+                  comment_type: 0
+                }).orderBy("comment_date", "desc").skip((_this4.page - 1) * _this4.pageSize).limit(_this4.pageSize).getTemp();
+                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+                _context2.next = 9;
                 return db.collection(commentTemp, userTemp).get();
-              case 5:
+              case 9:
                 res = _context2.sent;
-                // console.log(res);
+                if (!(!res.result || !res.result.data)) {
+                  _context2.next = 12;
+                  break;
+                }
+                throw new Error('无法获取评论');
+              case 12:
+                newComments = res.result.data; // 处理二级回复数量
                 // 获取当前文章的一级评论id
                 idArr = res.result.data.map(function (item) {
                   return item._id;
                 }); // console.log(idArr);
                 // 统计当前文章一级评论的二级回复数量
-                _context2.next = 9;
+                _context2.next = 16;
                 return db.collection("news_comments").where({
                   reply_comment_id: db.command.in(idArr)
                 }).groupBy('reply_comment_id').groupField('count(*) as totalReply').get();
-              case 9:
+              case 16:
                 replyArr = _context2.sent;
                 // console.log(replyArr);
 
@@ -476,23 +511,50 @@ var _default = {
                     item.totalReply = replyArr.result.data[index].totalReply;
                   }
                 });
-                if (res.result.data == 0) _this4.noComment = true;
-                _this4.commentList = [];
-                _this4.commentList = res.result.data;
-              case 14:
+                _this4.commentList = [].concat((0, _toConsumableArray2.default)(_this4.commentList), (0, _toConsumableArray2.default)(newComments));
+                _this4.loadMoreStatus = newComments.length === _this4.pageSize ? 'more' : 'noMore';
+                _this4.noComment = _this4.commentList.length === 0;
+                _this4.page++;
+
+                // 获取当前文章评论数量
+                _context2.next = 24;
+                return db.collection("news_comments").where({
+                  article_id: _this4.artid,
+                  comment_type: 0
+                }).count();
+              case 24:
+                countResult = _context2.sent;
+                // console.log(countResult);
+                _this4.totalCommentCount = countResult.result.total;
+                _context2.next = 33;
+                break;
+              case 28:
+                _context2.prev = 28;
+                _context2.t0 = _context2["catch"](4);
+                console.error('获取评论失败', _context2.t0);
+                uni.showToast({
+                  title: '获取评论失败，请稍后重试',
+                  icon: 'none'
+                });
+                _this4.loadMoreStatus = 'more'; // 出错时重置状态，允许重试
+              case 33:
+                _context2.prev = 33;
+                _this4.loadingComments = false;
+                return _context2.finish(33);
+              case 36:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[4, 28, 33, 36]]);
       }))();
     },
     // 评论成功后的回调
-    P_commentEnv: function P_commentEnv(e) {
-      console.log(e);
-      this.commentList.unshift(_objectSpread(_objectSpread(_objectSpread({}, this.commentObj), e), {}, {
-        user_id: [_store.store.userInfo]
-      }));
+    refreshPage: function refreshPage() {
+      this.page = 1;
+      this.loadMoreStatus = 'more';
+      this.commentList = [];
+      this.getComment();
     },
     // 删除评论的回调
     P_removeEnv: function P_removeEnv(e) {

@@ -102,10 +102,13 @@ var components
 try {
   components = {
     indexCommentItem: function () {
-      return Promise.all(/*! import() | components/indexComment-item/indexComment-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/indexComment-item/indexComment-item")]).then(__webpack_require__.bind(null, /*! @/components/indexComment-item/indexComment-item.vue */ 647))
+      return __webpack_require__.e(/*! import() | components/indexComment-item/indexComment-item */ "components/indexComment-item/indexComment-item").then(__webpack_require__.bind(null, /*! @/components/indexComment-item/indexComment-item.vue */ 655))
+    },
+    uniLoadMore: function () {
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 662))
     },
     indexCommentFrame: function () {
-      return __webpack_require__.e(/*! import() | components/indexComment-frame/indexComment-frame */ "components/indexComment-frame/indexComment-frame").then(__webpack_require__.bind(null, /*! @/components/indexComment-frame/indexComment-frame.vue */ 654))
+      return __webpack_require__.e(/*! import() | components/indexComment-frame/indexComment-frame */ "components/indexComment-frame/indexComment-frame").then(__webpack_require__.bind(null, /*! @/components/indexComment-frame/indexComment-frame.vue */ 673))
     },
   }
 } catch (e) {
@@ -173,11 +176,20 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uniCloud, uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 340);
+var _store = __webpack_require__(/*! ../../../uni_modules/uni-id-pages/common/store.js */ 182);
+//
+//
+//
+//
 //
 //
 //
@@ -209,7 +221,10 @@ var _default = {
         reply_user_id: "",
         reply_comment_id: ""
       },
-      childReplyArr: []
+      childReplyArr: [],
+      page: 1,
+      pageSize: 10,
+      loadMoreStatus: 'more'
     };
   },
   onLoad: function onLoad(e) {
@@ -222,6 +237,11 @@ var _default = {
     this.commentObj.reply_comment_id = this.replyItem._id;
     this.getComment();
   },
+  onReachBottom: function onReachBottom() {
+    if (this.loadMoreStatus === 'more') {
+      this.getComment();
+    }
+  },
   onUnload: function onUnload() {
     // 退出页面销毁缓存数据
     uni.removeStorageSync("replyItem");
@@ -230,20 +250,83 @@ var _default = {
     giveAvatar: _tools.giveAvatar,
     giveName: _tools.giveName,
     // 用户评论完成后刷新页面
-    P_commentEnv: function P_commentEnv() {
+    refreshPage: function refreshPage() {
+      this.page = 1;
       this.childReplyArr = [];
+      this.loadMoreStatus = 'more';
       this.getComment();
     },
     // 获取评论
     getComment: function getComment() {
       var _this = this;
-      var commentTemp = db.collection("news_comments").where("article_id == '".concat(this.replyItem.article_id, "' && comment_type==1 && reply_comment_id == '").concat(this.replyItem._id, "'")).orderBy("comment_date desc").limit(10).getTemp();
-      var userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-      db.collection(commentTemp, userTemp).get().then(function (res) {
-        console.log(res);
-        if (res.result.data == 0) _this.noComment = true;
-        _this.childReplyArr = res.result.data;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var commentTemp, userTemp, res;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.loadMoreStatus !== 'more')) {
+                  _context.next = 2;
+                  break;
+                }
+                return _context.abrupt("return");
+              case 2:
+                // 将加载状态设置为'loading'
+                _this.loadMoreStatus = 'loading';
+                _context.prev = 3;
+                // 创建一个临时的查询对象，用于获取评论数据
+                commentTemp = db.collection("news_comments").where("article_id == '".concat(_this.replyItem.article_id, "' && comment_type==1 && reply_comment_id == '").concat(_this.replyItem._id, "'")).orderBy("comment_date", "desc").skip((_this.page - 1) * _this.pageSize) // 跳过之前已加载的数据
+                .limit(_this.pageSize) // 限制每次加载的数据量
+                .getTemp(); // 创建一个临时的查询对象，用于获取用户数据
+                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp(); // 联合查询评论和用户数据
+                _context.next = 8;
+                return db.collection(commentTemp, userTemp).get();
+              case 8:
+                res = _context.sent;
+                // 如果是第一页，直接赋值；否则，将新数据追加到现有数据后面
+                if (_this.page === 1) {
+                  _this.childReplyArr = res.result.data;
+                } else {
+                  _this.childReplyArr = [].concat((0, _toConsumableArray2.default)(_this.childReplyArr), (0, _toConsumableArray2.default)(res.result.data));
+                }
+
+                // 判断是否还有更多数据
+                if (res.result.data.length < _this.pageSize) {
+                  // 如果返回的数据量小于pageSize，说明没有更多数据了
+                  _this.loadMoreStatus = 'noMore';
+                } else {
+                  // 否则，还有更多数据，将状态设置为'more'，并增加页码
+                  _this.loadMoreStatus = 'more';
+                  _this.page++;
+                }
+                _context.next = 18;
+                break;
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](3);
+                // 如果发生错误，打印错误信息并显示提示
+                console.error('获取评论失败', _context.t0);
+                uni.showToast({
+                  title: '获取评论失败，请稍后重试',
+                  icon: 'none'
+                });
+                // 将加载状态重置为'more'，允许用户重试
+                _this.loadMoreStatus = 'more';
+              case 18:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 13]]);
+      }))();
+    },
+    // 删除回复的回调
+    P_removeEnv: function P_removeEnv(e) {
+      console.log(e);
+      var index = this.childReplyArr.findIndex(function (item) {
+        return item._id == e.id;
       });
+      this.childReplyArr.splice(index, 1);
     }
   }
 };

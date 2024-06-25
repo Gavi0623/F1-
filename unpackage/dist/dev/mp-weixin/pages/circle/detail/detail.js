@@ -102,19 +102,31 @@ var components
 try {
   components = {
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 420))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 428))
     },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 436))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 444))
     },
     uPopup: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 728))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 736))
     },
     uButton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-button/u-button */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-button/u-button")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-button/u-button.vue */ 682))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-button/u-button */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-button/u-button")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-button/u-button.vue */ 701))
     },
     "u-Text": function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--text/u--text.vue */ 736))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--text/u--text.vue */ 744))
+    },
+    uEmpty: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 639))
+    },
+    circleCommentItem: function () {
+      return __webpack_require__.e(/*! import() | components/circleComment-item/circleComment-item */ "components/circleComment-item/circleComment-item").then(__webpack_require__.bind(null, /*! @/components/circleComment-item/circleComment-item.vue */ 750))
+    },
+    uniLoadMore: function () {
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 662))
+    },
+    circleCommentFrame: function () {
+      return __webpack_require__.e(/*! import() | components/circleComment-frame/circleComment-frame */ "components/circleComment-frame/circleComment-frame").then(__webpack_require__.bind(null, /*! @/components/circleComment-frame/circleComment-frame.vue */ 757))
     },
   }
 } catch (e) {
@@ -152,6 +164,12 @@ var render = function () {
         }
       })
     : null
+  var g1 =
+    _vm.detailObj && !_vm.loadState
+      ? !_vm.commentList.length && _vm.noComment
+      : null
+  var g2 = _vm.detailObj && !_vm.loadState ? _vm.commentList.length : null
+  var g3 = _vm.detailObj && !_vm.loadState ? _vm.commentList.length : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showPopup = true
@@ -167,6 +185,9 @@ var render = function () {
         m0: m0,
         m1: m1,
         l0: l0,
+        g1: g1,
+        g2: g2,
+        g3: g3,
       },
     }
   )
@@ -211,10 +232,37 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 340);
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -275,7 +323,17 @@ var _default = {
       showPopup: false,
       loadState: true,
       likeUserArr: [],
-      detailObj: null
+      detailObj: null,
+      commentObj: {
+        article_id: "",
+        comment_type: 0
+      },
+      commentList: [],
+      noComment: false,
+      page: 1,
+      pageSize: 10,
+      loadMoreStatus: 'more',
+      totalCommentCount: 0
     };
   },
   onLoad: function onLoad(e) {
@@ -285,9 +343,16 @@ var _default = {
     }
     this.artid = e.id;
     // console.log(e);
+    this.commentObj.article_id = e.id; // 将文章id传给评论模块
     this.getData();
     this.readUpdate();
     this.getLikeUser();
+    this.getComment();
+  },
+  onReachBottom: function onReachBottom() {
+    if (this.loadMoreStatus === 'more') {
+      this.getComment();
+    }
   },
   methods: {
     giveName: _tools.giveName,
@@ -325,16 +390,7 @@ var _default = {
                   _context.next = 3;
                   break;
                 }
-                uni.showModal({
-                  title: "是否登录？",
-                  success: function success(res) {
-                    if (res.confirm) {
-                      uni.navigateTo({
-                        url: "/" + _pages.default.uniIdRouter.loginPage
-                      });
-                    }
-                  }
-                });
+                (0, _tools.goLogin)();
                 return _context.abrupt("return");
               case 3:
                 time = Date.now();
@@ -381,7 +437,7 @@ var _default = {
                 _context2.next = 4;
                 return db.collection(likeTemp, userTemp).orderBy("publish_date desc").get().then(function (res) {
                   console.log(res);
-                  res.result.data = res.result.data.reverse(); // 数据反转
+                  // res.result.data = res.result.data.reverse(); // 数据反转
 
                   // 初始化点赞用户字符串
                   _this2.likeUserArr = "";
@@ -443,6 +499,116 @@ var _default = {
         });
         console.log(_this3.detailObj);
       });
+    },
+    // 获取评论
+    getComment: function getComment() {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        var commentTemp, userTemp, res, newComments, idArr, replyArr, countResult;
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(_this4.loadMoreStatus === 'noMore' || _this4.loadingComments)) {
+                  _context3.next = 2;
+                  break;
+                }
+                return _context3.abrupt("return");
+              case 2:
+                _this4.loadingComments = true;
+                _this4.loadMoreStatus = 'loading';
+                _context3.prev = 4;
+                commentTemp = db.collection("circle_comments").where({
+                  article_id: _this4.artid,
+                  comment_type: 0
+                }).orderBy("comment_date", "desc").skip((_this4.page - 1) * _this4.pageSize).limit(_this4.pageSize).getTemp();
+                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+                _context3.next = 9;
+                return db.collection(commentTemp, userTemp).get();
+              case 9:
+                res = _context3.sent;
+                if (!(!res.result || !res.result.data)) {
+                  _context3.next = 12;
+                  break;
+                }
+                throw new Error('无法获取评论');
+              case 12:
+                newComments = res.result.data; // 处理二级回复数量
+                // 获取当前文章的一级评论id
+                idArr = res.result.data.map(function (item) {
+                  return item._id;
+                }); // console.log(idArr);
+                // 统计当前文章一级评论的二级回复数量
+                _context3.next = 16;
+                return db.collection("circle_comments").where({
+                  reply_comment_id: db.command.in(idArr)
+                }).groupBy('reply_comment_id').groupField('count(*) as totalReply').get();
+              case 16:
+                replyArr = _context3.sent;
+                // console.log(replyArr);
+
+                // 循环遍历评论列表，并将二级回复数量添加到每个评论对象中。
+                res.result.data.forEach(function (item) {
+                  var index = replyArr.result.data.findIndex(function (find) {
+                    return find.reply_comment_id == item._id;
+                  });
+                  // console.log(index); // -1表示没有二级回复
+                  if (index > -1) {
+                    item.totalReply = replyArr.result.data[index].totalReply;
+                  }
+                });
+                _this4.commentList = [].concat((0, _toConsumableArray2.default)(_this4.commentList), (0, _toConsumableArray2.default)(newComments));
+                _this4.loadMoreStatus = newComments.length === _this4.pageSize ? 'more' : 'noMore';
+                _this4.noComment = _this4.commentList.length === 0;
+                _this4.page++;
+
+                // 获取当前文章评论数量
+                _context3.next = 24;
+                return db.collection("circle_comments").where({
+                  article_id: _this4.artid,
+                  comment_type: 0
+                }).count();
+              case 24:
+                countResult = _context3.sent;
+                // console.log(countResult);
+                _this4.totalCommentCount = countResult.result.total;
+                _context3.next = 33;
+                break;
+              case 28:
+                _context3.prev = 28;
+                _context3.t0 = _context3["catch"](4);
+                console.error('获取评论失败', _context3.t0);
+                uni.showToast({
+                  title: '获取评论失败，请稍后重试',
+                  icon: 'none'
+                });
+                _this4.loadMoreStatus = 'more'; // 出错时重置状态，允许重试
+              case 33:
+                _context3.prev = 33;
+                _this4.loadingComments = false;
+                return _context3.finish(33);
+              case 36:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[4, 28, 33, 36]]);
+      }))();
+    },
+    // 评论成功后的回调
+    refreshPage: function refreshPage() {
+      this.page = 1;
+      this.loadMoreStatus = 'more';
+      this.commentList = [];
+      this.getComment();
+    },
+    // 删除评论的回调
+    P_removeEnv: function P_removeEnv(e) {
+      console.log(e);
+      var index = this.commentList.findIndex(function (item) {
+        return item._id == e.id;
+      });
+      this.commentList.splice(index, 1);
     }
   }
 };

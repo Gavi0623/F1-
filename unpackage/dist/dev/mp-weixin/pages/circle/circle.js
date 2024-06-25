@@ -102,16 +102,16 @@ var components
 try {
   components = {
     uTabs: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 450))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 458))
     },
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 420))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 428))
     },
     blogItem: function () {
-      return Promise.all(/*! import() | components/blog-item/blog-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/blog-item/blog-item")]).then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 458))
+      return Promise.all(/*! import() | components/blog-item/blog-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/blog-item/blog-item")]).then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 466))
     },
     uLoadmore: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 442))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 450))
     },
   }
 } catch (e) {
@@ -178,6 +178,7 @@ exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
 //
 //
 //
@@ -230,34 +231,44 @@ var _default = {
       noMore: false,
       navlist: [{
         name: "红牛",
-        type: "RedBull"
+        type: "RedBull",
+        disabled: false
       }, {
         name: "法拉利",
-        type: "Ferrari"
+        type: "Ferrari",
+        disabled: false
       }, {
         name: "梅赛德斯",
-        type: "Mercedes"
+        type: "Mercedes",
+        disabled: false
       }, {
         name: "迈凯伦",
-        type: "McLaren"
+        type: "McLaren",
+        disabled: false
       }, {
         name: "阿斯顿马丁",
-        type: "AstonMartin"
+        type: "AstonMartin",
+        disabled: false
       }, {
         name: "小红牛",
-        type: "RB"
+        type: "RB",
+        disabled: false
       }, {
         name: "哈斯",
-        type: "Haas"
+        type: "Haas",
+        disabled: false
       }, {
         name: "威廉姆斯",
-        type: "Williams"
+        type: "Williams",
+        disabled: false
       }, {
         name: "Alpine",
-        type: "Alpine"
+        type: "Alpine",
+        disabled: false
       }, {
         name: "索伯",
-        type: "KickSauber"
+        type: "KickSauber",
+        disabled: false
       }],
       dataList: [],
       navActive: 0,
@@ -275,99 +286,174 @@ var _default = {
       this.getData();
     }
   },
+  // 下拉刷新
+  onPullDownRefresh: function onPullDownRefresh() {
+    var _this = this;
+    return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+      return _regenerator.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.page = 1;
+              _this.dataList = [];
+              _context.next = 4;
+              return _this.getData();
+            case 4:
+              uni.stopPullDownRefresh();
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
   onLoad: function onLoad() {
     this.getData();
   },
   methods: {
     P_delevent: function P_delevent() {
+      this.page = 1;
       this.dataList = [];
       this.getData();
     },
     clickNav: function clickNav(e) {
-      var _this = this;
-      // 检查导航栏是否可点击
-      if (!this.clickable) {
-        // 如果用户在3秒内再次点击,弹出提示框
-        if (Date.now() - this.lastClickTime < 3000) {
-          uni.showToast({
-            title: '请稍后再试',
-            icon: 'none'
-          });
-          return;
-        }
-      }
-      this.loadState = true;
-      this.dataList = [];
-      this.navActive = e.index;
-      this.getData();
-      this.clickable = false; // 设置标记为不可点击
-      this.lastClickTime = Date.now(); // 更新上一次点击的时间
-
-      setTimeout(function () {
-        _this.clickable = true; // 3秒后重新设置为可点击
-      }, 3000);
-    },
-    // 跳转至圈子编辑页面
-    goEdit: function goEdit() {
-      uni.navigateTo({
-        url: "/pages/circle/edit/edit?navType=".concat(this.navlist[this.navActive].type)
-      });
-    },
-    getData: function getData() {
       var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var artTemp, userTemp, query;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                artTemp = db.collection("circle_articles").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab").getTemp();
-                userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
-                query = db.collection(artTemp, userTemp); // 根据当前选择的导航栏选项来设置查询条件
-                query = query.where({
-                  tab: _this2.navlist[_this2.navActive].type
+                if (!_this2.navlist.some(function (item) {
+                  return item.disabled;
+                })) {
+                  _context2.next = 3;
+                  break;
+                }
+                // 如果有被禁用的导航项,显示提示信息
+                uni.showToast({
+                  title: '请稍后再试',
+                  icon: 'none'
                 });
-                _context2.next = 6;
-                return query.orderBy('publish_date', 'desc').skip((_this2.page - 1) * _this2.pageSize).limit(_this2.pageSize).get().then( /*#__PURE__*/function () {
-                  var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {
-                    return _regenerator.default.wrap(function _callee$(_context) {
-                      while (1) {
-                        switch (_context.prev = _context.next) {
-                          case 0:
-                            console.log(res);
+                return _context2.abrupt("return");
+              case 3:
+                // 设置加载状态
+                _this2.loadState = true;
+                // 清空数据列表
+                _this2.page = 1;
+                _this2.dataList = [];
+                // 更新当前激活的导航索引
+                _context2.next = 8;
+                return e.index;
+              case 8:
+                _this2.navActive = _context2.sent;
+                _context2.next = 11;
+                return _this2.getData();
+              case 11:
+                // 禁用所有导航项
+                _this2.navlist.forEach(function (item) {
+                  return item.disabled = true;
+                });
 
-                            // 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
-                            if (res.result.data.length < _this2.pageSize) {
-                              _this2.status = 'nomore';
-                            } else {
-                              // 否则,说明还有更多数据,将状态设置为 'loadmore'
-                              _this2.status = 'loadmore';
-                            }
-
-                            // 将本次返回的数据追加到 dataList 中
-                            _context.next = 4;
-                            return _this2.dataList.concat(res.result.data);
-                          case 4:
-                            _this2.dataList = _context.sent;
-                            // 隐藏骨架屏
-                            _this2.loadState = false;
-                          case 6:
-                          case "end":
-                            return _context.stop();
-                        }
-                      }
-                    }, _callee);
-                  }));
-                  return function (_x) {
-                    return _ref.apply(this, arguments);
-                  };
-                }());
-              case 6:
+                // 3秒后启用所有导航项
+                setTimeout(function () {
+                  _this2.navlist.forEach(function (item) {
+                    return item.disabled = false;
+                  });
+                }, 3000);
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    // 跳转至圈子编辑页面
+    goEdit: function goEdit() {
+      if (!_store.store.hasLogin) {
+        uni.showModal({
+          title: "是否登录",
+          icon: "none",
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: "/" + _pages.default.uniIdRouter.loginPage
+              });
+            }
+          }
+        });
+        return;
+      }
+      uni.navigateTo({
+        url: "/pages/circle/edit/edit?navType=".concat(this.navlist[this.navActive].type)
+      });
+    },
+    getData: function getData() {
+      var _this3 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                return _context4.abrupt("return", new Promise(function (resolve, reject) {
+                  // 创建一个临时的文章集合查询，设置查询条件和字段
+                  var artTemp = db.collection("circle_articles").where("delState != true").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date,tab").getTemp();
+
+                  // 创建一个临时的用户集合查询，设置所需字段
+                  var userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
+
+                  // 合并两个临时查询
+                  var query = db.collection(artTemp, userTemp);
+
+                  // 根据当前选中的导航类型设置查询条件
+                  query = query.where({
+                    tab: _this3.navlist[_this3.navActive].type
+                  });
+
+                  // 执行查询：按发布日期降序排序，跳过之前的页，限制返回数量
+                  query.orderBy('publish_date', 'desc').skip((_this3.page - 1) * _this3.pageSize).limit(_this3.pageSize).get().then( /*#__PURE__*/function () {
+                    var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(res) {
+                      return _regenerator.default.wrap(function _callee3$(_context3) {
+                        while (1) {
+                          switch (_context3.prev = _context3.next) {
+                            case 0:
+                              // 判断是否还有更多数据
+                              if (res.result.data.length < _this3.pageSize) {
+                                _this3.status = 'nomore'; // 没有更多数据
+                              } else {
+                                _this3.status = 'loadmore'; // 还有更多数据
+                              }
+
+                              // 将新数据添加到现有数据列表中
+                              _this3.dataList = _this3.dataList.concat(res.result.data);
+
+                              // 设置加载状态为false，表示加载完成
+                              _this3.loadState = false;
+
+                              // 成功获取数据，调用resolve并传递结果
+                              resolve(res);
+                            case 4:
+                            case "end":
+                              return _context3.stop();
+                          }
+                        }
+                      }, _callee3);
+                    }));
+                    return function (_x) {
+                      return _ref.apply(this, arguments);
+                    };
+                  }()).catch(function (err) {
+                    // 如果发生错误，调用reject并传递错误信息
+                    reject(err);
+                  });
+                }));
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   }

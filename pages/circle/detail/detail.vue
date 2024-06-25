@@ -80,7 +80,8 @@
 	import {
 		giveName,
 		giveAvatar,
-		likeCirFun
+		likeCirFun,
+		goLogin
 	} from "../../../utils/tools.js"
 	import {
 		store
@@ -157,16 +158,7 @@
 			// 点赞操作
 			async clickLike() {
 				if (!store.hasLogin) {
-					uni.showModal({
-						title: "是否登录？",
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: "/" + pageJson.uniIdRouter.loginPage
-								})
-							}
-						}
-					})
+					goLogin();
 					return;
 				}
 
@@ -183,7 +175,10 @@
 
 				// 调用点赞方法
 				likeCirFun(this.artid);
+
+
 			},
+
 
 			// 单击图片预览
 			clickPic(index) {
@@ -200,7 +195,7 @@
 
 				await db.collection(likeTemp, userTemp).orderBy("publish_date desc").get().then(res => {
 					console.log(res);
-					res.result.data = res.result.data.reverse(); // 数据反转
+					// res.result.data = res.result.data.reverse(); // 数据反转
 
 					// 初始化点赞用户字符串
 					this.likeUserArr = "";

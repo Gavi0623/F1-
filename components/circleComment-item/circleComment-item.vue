@@ -33,6 +33,7 @@
 
 <script>
 	const db = uniCloud.database();
+	const dbCmd = db.command;
 	const utilsObj = uniCloud.importObject("utilsObj", {
 		customUI: true // 取消自动展示的交互界面
 	});
@@ -128,20 +129,59 @@
 				})
 			},
 			removeComment() {
-				db.collection("circle_comments").doc(this.item._id).remove()
-					.then(res => {
+				if (this.item.comment_type === 0) {
+					// 如果是针对文章的评论，需要删除该评论及其所有回复
+					db.collection("circle_comments").where({
+						$or: [{
+								_id: this.item._id
+							},
+							{
+								reply_comment_id: this.item._id
+							}
+						]
+					}).remove().then(res => {
 						console.log(res);
+						const deletedCount = res.result.deleted || 1;
+						console.log(deletedCount);
 						uni.showToast({
 							title: "删除成功"
-						})
+						});
 						this.$emit("removeEnv", {
 							id: this.item._id
-						})
+						});
 
-						// 删除评论后，文章表的评论字段-1
-						utilsObj.operation("circle_articles", "comment_count", this.item.article_id, -1);
+						// 更新文章的评论数
+						utilsObj.operation("circle_articles", "comment_count", this.item.article_id, -
+							deletedCount);
+					}).catch(err => {
+						console.error("删除评论失败", err);
+						uni.showToast({
+							title: "删除失败",
+							icon: "none"
+						});
+					});
+				} else {
+					// 如果是回复评论，只删除该条评论
+					db.collection("circle_comments").doc(this.item._id).remove()
+						.then(res => {
+							console.log(res);
+							uni.showToast({
+								title: "删除成功"
+							});
+							this.$emit("removeEnv", {
+								id: this.item._id
+							});
 
-					})
+							// 更新文章的评论数
+							utilsObj.operation("circle_articles", "comment_count", this.item.article_id, -1);
+						}).catch(err => {
+							console.error("删除评论失败", err);
+							uni.showToast({
+								title: "删除失败",
+								icon: "none"
+							});
+						});
+				}
 			},
 
 			// 查询当前用户是否点赞过某评论的方法
@@ -157,7 +197,6 @@
 			},
 
 			// 点赞评论
-
 			async commentLike() {
 				if (!store.hasLogin) {
 					goLogin();

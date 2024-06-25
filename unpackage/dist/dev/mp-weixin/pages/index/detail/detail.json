@@ -7,6 +7,7 @@
     "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
     "u-subsection": "/uni_modules/uview-ui/components/u-subsection/u-subsection",
     "index-comment-item": "/components/indexComment-item/indexComment-item",
+    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
     "index-comment-frame": "/components/indexComment-frame/indexComment-frame"
   }
 }

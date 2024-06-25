@@ -9,7 +9,7 @@
 				<view class="username">
 					{{giveName(item)}}
 					<view class="operate">
-						{{item.like_count}}
+						<text :class="isLike ? 'active' : ' '">{{item.like_count ? item.like_count : ""}}</text>
 						<text class="iconfont icon-dianzan" :class="isLike ? 'active' : ''" v-if="!closeBtnLike"
 							@tap="commentLike"></text>
 						<text class="iconfont icon-shanchu"
@@ -19,7 +19,7 @@
 				</view>
 				<view class="comment-content">{{item.comment_content}}</view>
 				<view class="info">
-					<view class="reply-btn" v-if="!childState" @tap="goReply">{{item.totalReply}}回复</view>
+					<view class="reply-btn" v-if="!childState" @tap="goReply">{{item.totalReply || 0}}回复</view>
 					<view>
 						<uni-dateformat :date="item.comment_date" :threshold="[60000,3600000*24*30]">
 						</uni-dateformat>
@@ -33,6 +33,7 @@
 
 <script>
 	const db = uniCloud.database();
+	const dbCmd = db.command;
 	const utilsObj = uniCloud.importObject("utilsObj", {
 		customUI: true // 取消自动展示的交互界面
 	});
@@ -108,9 +109,7 @@
 			delComment() {
 				if (!store.hasLogin) return;
 
-				// 获取当前登录用户的id
-				let uid = uniCloud.getCurrentUserInfo().uid;
-				if (uid == this.item.user_id[0]._id || this.uniIDHasRole('admin') ||
+				if (this.isCurrentUser || this.uniIDHasRole('admin') ||
 					this.uniIDHasRole('Home Manager')) { // 如果当前登录用户的id等于发布者的id或当前账号为管理员
 					uni.showModal({
 						title: "是否删除",
@@ -130,20 +129,59 @@
 				})
 			},
 			removeComment() {
-				db.collection("news_comments").doc(this.item._id).remove()
-					.then(res => {
+				if (this.item.comment_type === 0) {
+					// 如果是针对文章的评论，需要删除该评论及其所有回复
+					db.collection("news_comments").where({
+						$or: [{
+								_id: this.item._id
+							},
+							{
+								reply_comment_id: this.item._id
+							}
+						]
+					}).remove().then(res => {
 						console.log(res);
+						const deletedCount = res.result.deleted || 1;
+						console.log(deletedCount);
 						uni.showToast({
 							title: "删除成功"
-						})
+						});
 						this.$emit("removeEnv", {
 							id: this.item._id
-						})
+						});
 
-						// 删除评论后，文章表的评论字段-1
-						utilsObj.operation("news_articles", "comment_count", this.item.article_id, -1);
+						// 更新文章的评论数
+						utilsObj.operation("news_articles", "comment_count", this.item.article_id, -
+							deletedCount);
+					}).catch(err => {
+						console.error("删除评论失败", err);
+						uni.showToast({
+							title: "删除失败",
+							icon: "none"
+						});
+					});
+				} else {
+					// 如果是回复评论，只删除该条评论
+					db.collection("news_comments").doc(this.item._id).remove()
+						.then(res => {
+							console.log(res);
+							uni.showToast({
+								title: "删除成功"
+							});
+							this.$emit("removeEnv", {
+								id: this.item._id
+							});
 
-					})
+							// 更新文章的评论数
+							utilsObj.operation("news_articles", "comment_count", this.item.article_id, -1);
+						}).catch(err => {
+							console.error("删除评论失败", err);
+							uni.showToast({
+								title: "删除失败",
+								icon: "none"
+							});
+						});
+				}
 			},
 
 			// 查询当前用户是否点赞过某篇文章的方法
@@ -174,16 +212,34 @@
 				}
 
 				this.likeTime = time;
+
+				// 如果已经点赞，直接返回
+				if (this.isLike) {
+					uni.showToast({
+						title: "你已经赞过",
+						icon: "none"
+					});
+					return;
+				}
+
+				// 立即更新前端状态，实现无感点赞
 				this.isLike = true;
+				let like_count = (this.item.like_count || 0) + 1;
+				this.$emit("update:like_count", like_count);
 
-				let count = await db.collection("news_comments_like").where(
-					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
-
-				let like_count = this.item.like_count;
-				if (!count.result.total) like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
-				this.$emit("update:like_count", like_count)
-
-				likeindexCmtFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
+				// 异步处理后端逻辑
+				try {
+					await likeindexCmtFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
+				} catch (error) {
+					console.error("点赞操作失败", error);
+					// 发生错误时回滚前端状态
+					this.isLike = false;
+					this.$emit("update:like_count", like_count - 1);
+					uni.showToast({
+						title: "操作失败，请稍后重试",
+						icon: "none"
+					});
+				}
 			},
 		}
 	}
