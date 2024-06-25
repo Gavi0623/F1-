@@ -51,7 +51,7 @@
 		"reply_comment_id": {
 			"bsonType": "string",
 			"description": "被回复的评论ID，comment_type为1时有效",
-			"foreignKey": "opendb-news-comments._id"
+			"parentKey": "_id"
 		},
 		"comment_date": {
 			"bsonType": "timestamp",

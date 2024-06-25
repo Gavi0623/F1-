@@ -144,13 +144,7 @@ export async function likeCirCmtFun(artid) {
 		`article_id=='${artid}' && user_id==$cloudEnv_uid `).count()
 
 	if (count.result.total) {
-		console.log(count);
-		// 如果当前用户已经点过赞
-		let isLike = true;
-		uni.showToast({
-			title: "你已经赞过",
-			icon: "none"
-		});
+		return;
 	} else {
 		// 追加数据
 		db.collection("circle_comments_like").add({

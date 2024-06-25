@@ -55,27 +55,33 @@
 					return;
 				}
 
-				db.collection("circle_comments").add({
-					"comment_content": this.replyContent,
-					"province": province,
-					...this.commentObj
-				}).then(res => {
+				try {
+					const res = await db.collection("circle_comments").add({
+						"comment_content": this.replyContent,
+						"province": province,
+						...this.commentObj
+					});
+
 					console.log(res);
 					// 评论成功后，文章表的评论字段+1
-					utilsObj.operation("circle_articles", "comment_count", this.commentObj.article_id, 1);
+					await utilsObj.operation("circle_articles", "comment_count", this.commentObj.article_id, 1);
 
-					// 实现评论无感展示，当用户发布评论后直接显示在评论最上面
-					this.$emit("commentEnv", {
-						_id: res.result.id,
-						comment_content: this.replyContent,
-						"province": province,
-						comment_date: Date.now()
-					})
+					// 触发刷新事件
+					this.$emit("refreshComments");
 
-					this.replyContent = ""
-				}).catch(err => {
+					this.replyContent = "";
+
+					uni.showToast({
+						title: "评论成功",
+						icon: "success"
+					});
+				} catch (err) {
 					console.error(err);
-				})
+					uni.showToast({
+						title: "评论失败，请稍后重试",
+						icon: "none"
+					});
+				}
 			}
 		}
 	}

@@ -144,7 +144,7 @@
 					})
 			},
 
-			// 查询当前用户是否点赞过某篇文章的方法
+			// 查询当前用户是否点赞过某评论的方法
 			async checkLikeStatus() {
 				if (!store.hasLogin) return;
 
@@ -157,6 +157,7 @@
 			},
 
 			// 点赞评论
+
 			async commentLike() {
 				if (!store.hasLogin) {
 					goLogin();
@@ -173,16 +174,34 @@
 				}
 
 				this.likeTime = time;
+
+				// 如果已经点赞，直接返回
+				if (this.isLike) {
+					uni.showToast({
+						title: "你已经赞过",
+						icon: "none"
+					});
+					return;
+				}
+
+				// 立即更新前端状态，实现无感点赞
 				this.isLike = true;
+				let like_count = (this.item.like_count || 0) + 1;
+				this.$emit("update:like_count", like_count);
 
-				let count = await db.collection("circle_comments_like").where(
-					`article_id == '${this.item._id}' && user_id == $cloudEnv_uid `).count();
-
-				let like_count = this.item.like_count;
-				if (!count.result.total) like_count++; // 如果当前登录用户之前没有点赞，实现前端无感点赞交互
-				this.$emit("update:like_count", like_count)
-
-				likeCirCmtFun(this.item._id); // 调用 likeCirFun 函数并获取返回值
+				// 异步处理后端逻辑
+				try {
+					await likeCirCmtFun(this.item._id);
+				} catch (error) {
+					console.error("点赞操作失败", error);
+					// 发生错误时回滚前端状态
+					this.isLike = false;
+					this.$emit("update:like_count", like_count - 1);
+					uni.showToast({
+						title: "操作失败，请稍后重试",
+						icon: "none"
+					});
+				}
 			},
 		}
 	}
