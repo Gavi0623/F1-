@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "圈子",
   "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
   "usingComponents": {
     "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
     "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",

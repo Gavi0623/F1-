@@ -3,26 +3,32 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/circle/circle",
 			"style": {
 				"navigationBarTitleText": "圈子",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/race/race",
 			"style": {
-				"navigationBarTitleText": "比赛"
+				"navigationBarTitleText": "比赛",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
@@ -180,7 +186,7 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#fa3534",
 		"backgroundColor": "#F8F8F8"
@@ -193,9 +199,9 @@
 		"selectedColor": "#fa3534",
 		"list": [{
 			"pagePath": "pages/index/index",
-			"text": "首页",
-			"iconPath": "static/icon/首页.png",
-			"selectedIconPath": "static/icon/首页-fill.png"
+			"text": "资讯",
+			"iconPath": "static/icon/资讯.png",
+			"selectedIconPath": "static/icon/资讯-fill.png"
 		}, {
 			"pagePath": "pages/circle/circle",
 			"text": "圈子",

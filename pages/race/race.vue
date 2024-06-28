@@ -1,5 +1,7 @@
 <template>
 	<view class="race">
+		<!-- 状态栏占位 -->
+		<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
 		<view class="navbar">
 			<!-- 导航栏内容 -->
 			<u-tabbar :value="value1" @change="change1" :fixed="false" :placeholder="false"
@@ -34,6 +36,10 @@
 	export default {
 		data() {
 			return {
+				// 状态栏高度
+				statusBarHeight: 0,
+				// 导航栏高度
+				navBarHeight: 82 + 11,
 				value1: 0,
 				scheduleList: [],
 				team: null
@@ -43,6 +49,10 @@
 		onLoad() {
 			this.getSchedule();
 			this.getteamData();
+		},
+		created() {
+			//获取手机状态栏高度
+			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 
 		methods: {
@@ -75,5 +85,15 @@
 </script>
 
 <style lang="scss">
-	.race {}
+	.race {
+		// #ifdef MP-WEIXIN
+		padding-top: var(--status-bar-height);
+		// #endif
+
+		.statusBar {
+			// #ifdef MP-WEIXIN
+			padding-bottom: 20rpx;
+			// #endif
+		}
+	}
 </style>

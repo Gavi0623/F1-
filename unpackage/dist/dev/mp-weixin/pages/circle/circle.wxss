@@ -25,6 +25,21 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.circle .navBarBox .navBar.data-v-90593874 {
+  padding: 3rpx 50rpx;
+  padding-bottom: 8rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.circle .navBarBox .navBar .logo.data-v-90593874 {
+  width: 82rpx;
+  height: 82rpx;
+  margin-right: 10rpx;
+  -webkit-filter: invert(1);
+          filter: invert(1);
+}
 .circle .topnav.data-v-90593874 {
   margin-bottom: 30rpx;
 }

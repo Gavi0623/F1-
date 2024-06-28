@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
   "usingComponents": {
     "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
     "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",

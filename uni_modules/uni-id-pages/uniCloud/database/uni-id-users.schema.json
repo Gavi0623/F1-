@@ -301,7 +301,7 @@
 				"$env": "now"
 			},
 			"permission": {
-				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
+				"read": true,
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},

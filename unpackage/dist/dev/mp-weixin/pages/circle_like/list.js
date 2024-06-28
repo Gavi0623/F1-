@@ -201,7 +201,7 @@ var db = uniCloud.database();
 var _default = {
   data: function data() {
     return {
-      collectionList: "circle_like",
+      collectionList: [db.collection("circle_like").where("user_id==$cloudEnv_uid").getTemp(), db.collection("circle_articles").field("_id, title").getTemp()],
       loadMore: {
         contentdown: '',
         contentrefresh: '',
@@ -222,7 +222,7 @@ var _default = {
   methods: {
     handleItemClick: function handleItemClick(id) {
       uni.navigateTo({
-        url: './detail?id=' + id
+        url: "/pages/circle/detail/detail?id=" + id
       });
     },
     fabClick: function fabClick() {

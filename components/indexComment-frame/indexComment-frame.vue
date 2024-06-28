@@ -2,8 +2,8 @@
 <template>
 	<view>
 		<view class="commentFrame">
-			<uni-easyinput ref="uipt" @confirm="goComment" suffixIcon="paperplane" v-model="replyContent"
-				:placeholder="placeholder" @iconClick="goComment">
+			<uni-easyinput ref="uipt" @confirm="goComment" @focus="onfocus" suffixIcon="paperplane"
+				v-model="replyContent" :placeholder="placeholder" @iconClick="goComment">
 			</uni-easyinput>
 		</view>
 	</view>
@@ -14,7 +14,8 @@
 		store
 	} from '../../uni_modules/uni-id-pages/common/store.js';
 	import {
-		getProvince
+		getProvince,
+		goLogin
 	} from '../../utils/tools.js';
 
 	const db = uniCloud.database();
@@ -43,6 +44,12 @@
 			};
 		},
 		methods: {
+			onfocus() {
+				if (!store.hasLogin) {
+					goLogin();
+					return;
+				}
+			},
 			async goComment() {
 				if (!store.hasLogin) return;
 

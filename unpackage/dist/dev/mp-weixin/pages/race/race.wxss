@@ -25,4 +25,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.race {
+  padding-top: 25px;
+}
+.race .statusBar {
+  padding-bottom: 20rpx;
+}
 

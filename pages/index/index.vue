@@ -1,5 +1,16 @@
 <template>
 	<view class="index">
+		<!-- 自定义导航栏 -->
+		<view class="navBarBox">
+			<!-- 状态栏占位 -->
+			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
+			<!-- 真正的导航栏内容 -->
+			<view class="navBar">
+				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
+				<view>F1 App</view>
+			</view>
+		</view>
+
 		<view class="content">
 			<view class="swiper">
 				<!-- Skeleton骨架屏 -->
@@ -30,8 +41,8 @@
 				<!-- 右半部分的图片 -->
 				<view class="pic">
 					<!-- 当图片上传成功后要动态请求数据库中的图片路径 -->
-					<image v-if="item.picurls && item.picurls.length" :src="item.picurls[0]" mode="scaleToFill"></image>
-					<image v-else src="../../static/images/5b08bfb0bd54d276.jpg" mode="scaleToFill"></image>
+					<image v-if="item.picurls && item.picurls.length" :src="item.picurls[0]" mode="aspectFit"></image>
+					<image v-else src="../../static/images/no-image.jpg" mode="aspectFit"></image>
 				</view>
 			</view>
 
@@ -54,19 +65,34 @@
 	export default {
 		data() {
 			return {
+				// 状态栏高度
+				statusBarHeight: 0,
+				// 导航栏高度
+				navBarHeight: 82 + 11,
 				swiperState: true,
 				loadState: true,
 				status: 'loadmore',
 				page: 1, // 当前页码
-				pageSize: 6, // 每页显示的数据条数
+				pageSize: 15, // 每页显示的数据条数
 				title: 'Hello',
 				dataList: [],
-				swiperList: []
+				swiperList: [],
+				needRefresh: false, // 添加一个标志来表示是否需要刷新数据
 			}
 		},
 		onLoad() {
 			this.getData();
 			this.getSwiperList();
+		},
+		onShow() {
+			// 如果不是第一次加载，才执行刷新操作
+			if (!this.needRefresh) {
+				this.needRefresh = false; // 重置刷新标志
+			}
+		},
+		created() {
+			//获取手机状态栏高度
+			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 		onReachBottom() {
 			// 当用户滚动到底部时
@@ -76,15 +102,31 @@
 				this.getData();
 			}
 		},
+		async onPullDownRefresh() {
+			this.page = 1;
+			this.dataList = [];
+			await this.getData();
+			uni.stopPullDownRefresh();
+		},
 		methods: {
+			refreshData() {
+				this.page = 1;
+				this.dataList = [];
+				this.swiperList = [];
+				this.getData();
+				this.getSwiperList();
+			},
+
 			// 点击跳转到详情页
 			goDetail(id) {
+				this.needRefresh = true; // 设置刷新标志
 				uni.navigateTo({
 					url: "/pages/index/detail/detail?id=" + id
 				});
 			},
 			// 点击轮播图跳转详情页
 			SgoDetail(index) {
+				this.needRefresh = true; // 设置刷新标志
 				let id = this.swiperList[index].id;
 				uni.navigateTo({
 					url: "/pages/index/detail/detail?id=" + id
@@ -116,13 +158,7 @@
 						console.log(res);
 						this.swiperList = res.result.data.map(item => ({
 							image: item.picurls.length > 0 ? item.picurls[0] :
-								// #ifdef H5
-								'../../static/images/5b08bfb0bd54d276.jpg'
-							// #endif
-							// #ifdef MP-WEIXIN
-							'/static/images/5b08bfb0bd54d276.jpg'
-							// #endif
-							, // 注意这里的逗号
+								'/static/images/no-image.jpg',
 							title: item.title,
 							id: item._id
 						}));
@@ -172,6 +208,26 @@
 
 <style lang="scss" scoped>
 	.index {
+		.navBarBox {
+			.statusBar {}
+
+			.navBar {
+				padding: 3rpx 50rpx;
+				padding-bottom: 8rpx;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+				.logo {
+					width: 82rpx;
+					height: 82rpx;
+					margin-right: 10rpx;
+					filter: invert(1);
+				}
+			}
+		}
+
 		.content {
 			padding: 30rpx;
 

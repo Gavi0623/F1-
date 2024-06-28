@@ -166,7 +166,7 @@ exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _store = __webpack_require__(/*! ../../uni_modules/uni-id-pages/common/store.js */ 182);
-var _tools = __webpack_require__(/*! ../../utils/tools.js */ 340);
+var _tools = __webpack_require__(/*! ../../utils/tools.js */ 184);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
 //
 //

@@ -1557,7 +1557,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8923,7 +8923,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8944,14 +8944,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9047,7 +9047,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9955,9 +9955,9 @@ var S = "development" === "development",
     "address": [
         "127.0.0.1",
         "192.168.137.1",
-        "10.127.134.80",
         "169.254.198.246",
-        "169.254.23.21"
+        "169.254.23.21",
+        "192.168.43.5"
     ],
     "debugPort": 9001,
     "initialLaunchType": "local",
@@ -17847,23 +17847,29 @@ var _default = {
   "pages": [{
     "path": "pages/index/index",
     "style": {
-      "navigationBarTitleText": "首页"
+      "navigationBarTitleText": "首页",
+      "enablePullDownRefresh": true,
+      "navigationStyle": "custom"
     }
   }, {
     "path": "pages/circle/circle",
     "style": {
       "navigationBarTitleText": "圈子",
-      "enablePullDownRefresh": true
+      "enablePullDownRefresh": true,
+      "navigationStyle": "custom"
     }
   }, {
     "path": "pages/race/race",
     "style": {
-      "navigationBarTitleText": "比赛"
+      "navigationBarTitleText": "比赛",
+      "navigationStyle": "custom"
     }
   }, {
     "path": "pages/my/my",
     "style": {
-      "navigationBarTitleText": "我的"
+      "navigationBarTitleText": "我的",
+      "enablePullDownRefresh": true,
+      "navigationStyle": "custom"
     }
   }, {
     "path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
@@ -18012,7 +18018,7 @@ var _default = {
     }
   }],
   "globalStyle": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#fa3534",
     "backgroundColor": "#F8F8F8"
@@ -18025,9 +18031,9 @@ var _default = {
     "selectedColor": "#fa3534",
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "首页",
-      "iconPath": "static/icon/首页.png",
-      "selectedIconPath": "static/icon/首页-fill.png"
+      "text": "资讯",
+      "iconPath": "static/icon/资讯.png",
+      "selectedIconPath": "static/icon/资讯-fill.png"
     }, {
       "pagePath": "pages/circle/circle",
       "text": "圈子",
@@ -27788,510 +27794,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */
-/*!*************************************************************************************!*\
-  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/login-page.mixin.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
-var _config = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/config.js */ 183));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var mixin = {
-  data: function data() {
-    return {
-      config: _config.default,
-      uniIdRedirectUrl: '',
-      isMounted: false
-    };
-  },
-  onUnload: function onUnload() {},
-  mounted: function mounted() {
-    this.isMounted = true;
-  },
-  onLoad: function onLoad(e) {
-    var _this = this;
-    if (e.is_weixin_redirect) {
-      uni.showLoading({
-        mask: true
-      });
-      if (window.location.href.includes('#')) {
-        // 将url通过 ? 分割获取后面的参数字符串 再通过 & 将每一个参数单独分割出来
-        var paramsArr = window.location.href.split('?')[1].split('&');
-        paramsArr.forEach(function (item) {
-          var arr = item.split('=');
-          if (arr[0] == 'code') {
-            e.code = arr[1];
-          }
-        });
-      }
-      this.$nextTick(function (n) {
-        // console.log(this.$refs.uniFabLogin);
-        _this.$refs.uniFabLogin.login({
-          code: e.code
-        }, 'weixin');
-      });
-    }
-    if (e.uniIdRedirectUrl) {
-      this.uniIdRedirectUrl = decodeURIComponent(e.uniIdRedirectUrl);
-    }
-    if (getCurrentPages().length === 1) {
-      uni.hideHomeButton();
-      console.log('已隐藏：返回首页按钮');
-    }
-  },
-  computed: {
-    needAgreements: function needAgreements() {
-      if (this.isMounted) {
-        if (this.$refs.agreements) {
-          return this.$refs.agreements.needAgreements;
-        } else {
-          return false;
-        }
-      }
-    },
-    agree: {
-      get: function get() {
-        if (this.isMounted) {
-          if (this.$refs.agreements) {
-            return this.$refs.agreements.isAgree;
-          } else {
-            return true;
-          }
-        }
-      },
-      set: function set(agree) {
-        if (this.$refs.agreements) {
-          this.$refs.agreements.isAgree = agree;
-        } else {
-          console.log('不存在 隐私政策协议组件');
-        }
-      }
-    }
-  },
-  methods: {
-    loginSuccess: function loginSuccess(e) {
-      _store.mutations.loginSuccess(_objectSpread(_objectSpread({}, e), {}, {
-        uniIdRedirectUrl: this.uniIdRedirectUrl
-      }));
-    }
-  }
-};
-var _default = mixin;
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */
-/*!**************************************************************************************!*\
-  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/pages/register/validator.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _password = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/common/password.js */ 266));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var _default = _objectSpread({
-  "username": {
-    "rules": [{
-      required: true,
-      errorMessage: '请输入用户名'
-    }, {
-      minLength: 3,
-      maxLength: 32,
-      errorMessage: '用户名长度在 {minLength} 到 {maxLength} 个字符'
-    }, {
-      validateFunction: function validateFunction(rule, value, data, callback) {
-        // console.log(value);
-        if (/^1\d{10}$/.test(value) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(value)) {
-          callback('用户名不能是：手机号或邮箱');
-        }
-        ;
-        if (/^\d+$/.test(value)) {
-          callback('用户名不能为纯数字');
-        }
-        ;
-        if (/[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(value)) {
-          callback('用户名不能包含中文');
-        }
-        return true;
-      }
-    }],
-    "label": "用户名"
-  },
-  "nickname": {
-    "rules": [{
-      minLength: 3,
-      maxLength: 32,
-      errorMessage: '昵称长度在 {minLength} 到 {maxLength} 个字符'
-    }, {
-      validateFunction: function validateFunction(rule, value, data, callback) {
-        // console.log(value);
-        if (/^1\d{10}$/.test(value) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(value)) {
-          callback('昵称不能是：手机号或邮箱');
-        }
-        ;
-        if (/^\d+$/.test(value)) {
-          callback('昵称不能为纯数字');
-        }
-        ;
-        if (/[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(value)) {
-          callback('昵称不能包含中文');
-        }
-        return true;
-      }
-    }],
-    "label": "昵称"
-  }
-}, _password.default.getPwdRules());
-exports.default = _default;
-
-/***/ }),
-/* 266 */
-/*!*****************************************************************************!*\
-  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/password.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/config.js */ 183));
-// 导入配置
-
-var passwordStrength = _config.default.passwordStrength;
-
-// 密码强度表达式
-var passwordRules = {
-  // 密码必须包含大小写字母、数字和特殊符号
-  super: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
-  // 密码必须包含字母、数字和特殊符号
-  strong: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
-  // 密码必须为字母、数字和特殊符号任意两种的组合
-  medium: /^(?![0-9]+$)(?![a-zA-Z]+$)(?![~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]+$)[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
-  // 密码必须包含字母和数字
-  weak: /^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{6,16}$/
-};
-var ERROR = {
-  normal: {
-    noPwd: '请输入密码',
-    noRePwd: '再次输入密码',
-    rePwdErr: '两次输入密码不一致'
-  },
-  passwordStrengthError: {
-    super: '密码必须包含大小写字母、数字和特殊符号，密码长度必须在8-16位之间',
-    strong: '密码必须包含字母、数字和特殊符号，密码长度必须在8-16位之间',
-    medium: '密码必须为字母、数字和特殊符号任意两种的组合，密码长度必须在8-16位之间',
-    weak: '密码必须包含字母，密码长度必须在6-16位之间'
-  }
-};
-function validPwd(password) {
-  //强度校验
-  if (passwordStrength && passwordRules[passwordStrength]) {
-    if (!new RegExp(passwordRules[passwordStrength]).test(password)) {
-      return ERROR.passwordStrengthError[passwordStrength];
-    }
-  }
-  return true;
-}
-function getPwdRules() {
-  var pwdName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'password';
-  var rePwdName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'password2';
-  var rules = {};
-  rules[pwdName] = {
-    rules: [{
-      required: true,
-      errorMessage: ERROR.normal.noPwd
-    }, {
-      validateFunction: function validateFunction(rule, value, data, callback) {
-        var checkRes = validPwd(value);
-        if (checkRes !== true) {
-          callback(checkRes);
-        }
-        return true;
-      }
-    }]
-  };
-  if (rePwdName) {
-    rules[rePwdName] = {
-      rules: [{
-        required: true,
-        errorMessage: ERROR.normal.noRePwd
-      }, {
-        validateFunction: function validateFunction(rule, value, data, callback) {
-          if (value != data[pwdName]) {
-            callback(ERROR.normal.rePwdErr);
-          }
-          return true;
-        }
-      }]
-    };
-  }
-  return rules;
-}
-var _default = {
-  ERROR: ERROR,
-  validPwd: validPwd,
-  getPwdRules: getPwdRules
-};
-exports.default = _default;
-
-/***/ }),
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */
-/*!************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var objectWithoutPropertiesLoose = __webpack_require__(/*! ./objectWithoutPropertiesLoose.js */ 330);
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = objectWithoutPropertiesLoose(source, excluded);
-  var key, i;
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-module.exports = _objectWithoutProperties, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 330 */
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
-}
-module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 331 */
-/*!**********************************************************************************!*\
-  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/check-id-card.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-function checkIdCard(idCardNumber) {
-  if (!idCardNumber || typeof idCardNumber !== 'string' || idCardNumber.length !== 18) return false;
-  var coefficient = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-  var checkCode = [1, 0, 'x', 9, 8, 7, 6, 5, 4, 3, 2];
-  var code = idCardNumber.substring(17);
-  var sum = 0;
-  for (var i = 0; i < 17; i++) {
-    sum += Number(idCardNumber.charAt(i)) * coefficient[i];
-  }
-  return checkCode[sum % 11].toString() === code.toLowerCase();
-}
-var _default = checkIdCard;
-exports.default = _default;
-
-/***/ }),
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */
+/* 184 */
 /*!************************************************!*\
   !*** F:/毕设/Formula 1 Community/utils/tools.js ***!
   \************************************************/
@@ -28555,6 +28058,509 @@ function _likeindexCmtFun() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"]))
 
 /***/ }),
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */
+/*!*************************************************************************************!*\
+  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/login-page.mixin.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
+var _config = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/config.js */ 183));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var mixin = {
+  data: function data() {
+    return {
+      config: _config.default,
+      uniIdRedirectUrl: '',
+      isMounted: false
+    };
+  },
+  onUnload: function onUnload() {},
+  mounted: function mounted() {
+    this.isMounted = true;
+  },
+  onLoad: function onLoad(e) {
+    var _this = this;
+    if (e.is_weixin_redirect) {
+      uni.showLoading({
+        mask: true
+      });
+      if (window.location.href.includes('#')) {
+        // 将url通过 ? 分割获取后面的参数字符串 再通过 & 将每一个参数单独分割出来
+        var paramsArr = window.location.href.split('?')[1].split('&');
+        paramsArr.forEach(function (item) {
+          var arr = item.split('=');
+          if (arr[0] == 'code') {
+            e.code = arr[1];
+          }
+        });
+      }
+      this.$nextTick(function (n) {
+        // console.log(this.$refs.uniFabLogin);
+        _this.$refs.uniFabLogin.login({
+          code: e.code
+        }, 'weixin');
+      });
+    }
+    if (e.uniIdRedirectUrl) {
+      this.uniIdRedirectUrl = decodeURIComponent(e.uniIdRedirectUrl);
+    }
+    if (getCurrentPages().length === 1) {
+      uni.hideHomeButton();
+      console.log('已隐藏：返回首页按钮');
+    }
+  },
+  computed: {
+    needAgreements: function needAgreements() {
+      if (this.isMounted) {
+        if (this.$refs.agreements) {
+          return this.$refs.agreements.needAgreements;
+        } else {
+          return false;
+        }
+      }
+    },
+    agree: {
+      get: function get() {
+        if (this.isMounted) {
+          if (this.$refs.agreements) {
+            return this.$refs.agreements.isAgree;
+          } else {
+            return true;
+          }
+        }
+      },
+      set: function set(agree) {
+        if (this.$refs.agreements) {
+          this.$refs.agreements.isAgree = agree;
+        } else {
+          console.log('不存在 隐私政策协议组件');
+        }
+      }
+    }
+  },
+  methods: {
+    loginSuccess: function loginSuccess(e) {
+      _store.mutations.loginSuccess(_objectSpread(_objectSpread({}, e), {}, {
+        uniIdRedirectUrl: this.uniIdRedirectUrl
+      }));
+    }
+  }
+};
+var _default = mixin;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */
+/*!**************************************************************************************!*\
+  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/pages/register/validator.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _password = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/common/password.js */ 267));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var _default = _objectSpread({
+  "username": {
+    "rules": [{
+      required: true,
+      errorMessage: '请输入用户名'
+    }, {
+      minLength: 3,
+      maxLength: 32,
+      errorMessage: '用户名长度在 {minLength} 到 {maxLength} 个字符'
+    }, {
+      validateFunction: function validateFunction(rule, value, data, callback) {
+        // console.log(value);
+        if (/^1\d{10}$/.test(value) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(value)) {
+          callback('用户名不能是：手机号或邮箱');
+        }
+        ;
+        if (/^\d+$/.test(value)) {
+          callback('用户名不能为纯数字');
+        }
+        ;
+        if (/[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(value)) {
+          callback('用户名不能包含中文');
+        }
+        return true;
+      }
+    }],
+    "label": "用户名"
+  },
+  "nickname": {
+    "rules": [{
+      minLength: 3,
+      maxLength: 32,
+      errorMessage: '昵称长度在 {minLength} 到 {maxLength} 个字符'
+    }, {
+      validateFunction: function validateFunction(rule, value, data, callback) {
+        // console.log(value);
+        if (/^1\d{10}$/.test(value) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(value)) {
+          callback('昵称不能是：手机号或邮箱');
+        }
+        ;
+        if (/^\d+$/.test(value)) {
+          callback('昵称不能为纯数字');
+        }
+        ;
+        if (/[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(value)) {
+          callback('昵称不能包含中文');
+        }
+        return true;
+      }
+    }],
+    "label": "昵称"
+  }
+}, _password.default.getPwdRules());
+exports.default = _default;
+
+/***/ }),
+/* 267 */
+/*!*****************************************************************************!*\
+  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/password.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _config = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uni-id-pages/config.js */ 183));
+// 导入配置
+
+var passwordStrength = _config.default.passwordStrength;
+
+// 密码强度表达式
+var passwordRules = {
+  // 密码必须包含大小写字母、数字和特殊符号
+  super: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
+  // 密码必须包含字母、数字和特殊符号
+  strong: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
+  // 密码必须为字母、数字和特殊符号任意两种的组合
+  medium: /^(?![0-9]+$)(?![a-zA-Z]+$)(?![~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]+$)[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{8,16}$/,
+  // 密码必须包含字母和数字
+  weak: /^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z~!@#$%^&*_\-+=`|\\(){}[\]:;"'<>,.?/]{6,16}$/
+};
+var ERROR = {
+  normal: {
+    noPwd: '请输入密码',
+    noRePwd: '再次输入密码',
+    rePwdErr: '两次输入密码不一致'
+  },
+  passwordStrengthError: {
+    super: '密码必须包含大小写字母、数字和特殊符号，密码长度必须在8-16位之间',
+    strong: '密码必须包含字母、数字和特殊符号，密码长度必须在8-16位之间',
+    medium: '密码必须为字母、数字和特殊符号任意两种的组合，密码长度必须在8-16位之间',
+    weak: '密码必须包含字母，密码长度必须在6-16位之间'
+  }
+};
+function validPwd(password) {
+  //强度校验
+  if (passwordStrength && passwordRules[passwordStrength]) {
+    if (!new RegExp(passwordRules[passwordStrength]).test(password)) {
+      return ERROR.passwordStrengthError[passwordStrength];
+    }
+  }
+  return true;
+}
+function getPwdRules() {
+  var pwdName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'password';
+  var rePwdName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'password2';
+  var rules = {};
+  rules[pwdName] = {
+    rules: [{
+      required: true,
+      errorMessage: ERROR.normal.noPwd
+    }, {
+      validateFunction: function validateFunction(rule, value, data, callback) {
+        var checkRes = validPwd(value);
+        if (checkRes !== true) {
+          callback(checkRes);
+        }
+        return true;
+      }
+    }]
+  };
+  if (rePwdName) {
+    rules[rePwdName] = {
+      rules: [{
+        required: true,
+        errorMessage: ERROR.normal.noRePwd
+      }, {
+        validateFunction: function validateFunction(rule, value, data, callback) {
+          if (value != data[pwdName]) {
+            callback(ERROR.normal.rePwdErr);
+          }
+          return true;
+        }
+      }]
+    };
+  }
+  return rules;
+}
+var _default = {
+  ERROR: ERROR,
+  validPwd: validPwd,
+  getPwdRules: getPwdRules
+};
+exports.default = _default;
+
+/***/ }),
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */
+/*!************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var objectWithoutPropertiesLoose = __webpack_require__(/*! ./objectWithoutPropertiesLoose.js */ 331);
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = objectWithoutPropertiesLoose(source, excluded);
+  var key, i;
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+module.exports = _objectWithoutProperties, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 331 */
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 332 */
+/*!**********************************************************************************!*\
+  !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/common/check-id-card.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+function checkIdCard(idCardNumber) {
+  if (!idCardNumber || typeof idCardNumber !== 'string' || idCardNumber.length !== 18) return false;
+  var coefficient = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  var checkCode = [1, 0, 'x', 9, 8, 7, 6, 5, 4, 3, 2];
+  var code = idCardNumber.substring(17);
+  var sum = 0;
+  for (var i = 0; i < 17; i++) {
+    sum += Number(idCardNumber.charAt(i)) * coefficient[i];
+  }
+  return checkCode[sum % 11].toString() === code.toLowerCase();
+}
+var _default = checkIdCard;
+exports.default = _default;
+
+/***/ }),
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
 /* 341 */,
 /* 342 */,
 /* 343 */,

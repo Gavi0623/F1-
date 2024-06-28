@@ -190,10 +190,24 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uniCloud, uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -249,21 +263,36 @@ var db = uniCloud.database();
 var _default = {
   data: function data() {
     return {
+      // 状态栏高度
+      statusBarHeight: 0,
+      // 导航栏高度
+      navBarHeight: 82 + 11,
       swiperState: true,
       loadState: true,
       status: 'loadmore',
       page: 1,
       // 当前页码
-      pageSize: 6,
+      pageSize: 15,
       // 每页显示的数据条数
       title: 'Hello',
       dataList: [],
-      swiperList: []
+      swiperList: [],
+      needRefresh: false // 添加一个标志来表示是否需要刷新数据
     };
   },
   onLoad: function onLoad() {
     this.getData();
     this.getSwiperList();
+  },
+  onShow: function onShow() {
+    // 如果不是第一次加载，才执行刷新操作
+    if (!this.needRefresh) {
+      this.needRefresh = false; // 重置刷新标志
+    }
+  },
+  created: function created() {
+    //获取手机状态栏高度
+    this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
   },
   onReachBottom: function onReachBottom() {
     // 当用户滚动到底部时
@@ -273,15 +302,45 @@ var _default = {
       this.getData();
     }
   },
+  onPullDownRefresh: function onPullDownRefresh() {
+    var _this = this;
+    return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+      return _regenerator.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.page = 1;
+              _this.dataList = [];
+              _context.next = 4;
+              return _this.getData();
+            case 4:
+              uni.stopPullDownRefresh();
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
   methods: {
+    refreshData: function refreshData() {
+      this.page = 1;
+      this.dataList = [];
+      this.swiperList = [];
+      this.getData();
+      this.getSwiperList();
+    },
     // 点击跳转到详情页
     goDetail: function goDetail(id) {
+      this.needRefresh = true; // 设置刷新标志
       uni.navigateTo({
         url: "/pages/index/detail/detail?id=" + id
       });
     },
     // 点击轮播图跳转详情页
     SgoDetail: function SgoDetail(index) {
+      this.needRefresh = true; // 设置刷新标志
       var id = this.swiperList[index].id;
       uni.navigateTo({
         url: "/pages/index/detail/detail?id=" + id
@@ -295,7 +354,7 @@ var _default = {
     },
     // 获取轮播内容，筛选近7日观看量最高的5条文章
     getSwiperList: function getSwiperList() {
-      var _this = this;
+      var _this2 = this;
       var now = new Date().getTime();
       var sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
       db.collection("news_articles").where({
@@ -303,22 +362,21 @@ var _default = {
         comment_count: db.command.gte(0)
       }).field("picurls,title").orderBy("comment_count", "desc").limit(5).get().then(function (res) {
         console.log(res);
-        _this.swiperList = res.result.data.map(function (item) {
+        _this2.swiperList = res.result.data.map(function (item) {
           return {
-            image: item.picurls.length > 0 ? item.picurls[0] : '/static/images/5b08bfb0bd54d276.jpg',
-            // 注意这里的逗号
+            image: item.picurls.length > 0 ? item.picurls[0] : '/static/images/no-image.jpg',
             title: item.title,
             id: item._id
           };
         });
-        _this.swiperState = false; // 隐藏骨架屏
+        _this2.swiperState = false; // 隐藏骨架屏
       }).catch(function (err) {
-        _this.swiperState = false; // 隐藏骨架屏
+        _this2.swiperState = false; // 隐藏骨架屏
         console.error(err);
       });
     },
     getData: function getData() {
-      var _this2 = this;
+      var _this3 = this;
       var artTemp = db.collection("news_articles").field("title,user_id,description,picurls,comment_count,like_count,view_count,publish_date").getTemp();
       var userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
 
@@ -326,19 +384,19 @@ var _default = {
       db.collection(artTemp, userTemp).orderBy("publish_date", "desc").skip((this.page - 1) * this.pageSize).limit(this.pageSize).get().then(function (res) {
         console.log(res);
         // 如果本次返回的数据条数小于每页数据条数,说明已经没有更多数据了
-        if (res.result.data.length < _this2.pageSize) {
-          _this2.status = 'nomore';
+        if (res.result.data.length < _this3.pageSize) {
+          _this3.status = 'nomore';
         } else {
           // 否则,说明还有更多数据,将状态设置为 'loadmore'
-          _this2.status = 'loadmore';
+          _this3.status = 'loadmore';
         }
         // 将本次返回的数据追加到 dataList 中
-        _this2.dataList = _this2.dataList.concat(res.result.data);
+        _this3.dataList = _this3.dataList.concat(res.result.data);
         // 隐藏骨架屏
-        _this2.loadState = false;
+        _this3.loadState = false;
       }).catch(function (err) {
         // 隐藏骨架屏
-        _this2.loadState = false;
+        _this3.loadState = false;
         console.error(err);
       });
     }

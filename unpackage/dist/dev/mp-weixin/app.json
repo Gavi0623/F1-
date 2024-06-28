@@ -35,7 +35,7 @@
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#fa3534",
     "backgroundColor": "#F8F8F8"
@@ -46,9 +46,9 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "static/icon/首页.png",
-        "selectedIconPath": "static/icon/首页-fill.png"
+        "text": "资讯",
+        "iconPath": "static/icon/资讯.png",
+        "selectedIconPath": "static/icon/资讯-fill.png"
       },
       {
         "pagePath": "pages/circle/circle",

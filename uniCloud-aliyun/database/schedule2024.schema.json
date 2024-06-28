@@ -4,9 +4,9 @@
 	"required": [],
 	"permission": {
 		"read": true,
-		"create": true,
-		"update": true,
-		"delete": true
+		"create": "'Manager' in auth.role",
+		"update": "'Manager' in auth.role",
+		"delete": "'Manager' in auth.role"
 	},
 	"properties": {
 		"_id": {
@@ -59,6 +59,12 @@
 			"title": "冲刺赛时间",
 			"description": "冲刺赛时间",
 			"label": "冲刺赛时间"
+		},
+		"color": {
+			"bsonType": "string",
+			"description": "赛道色调",
+			"label": "赛道色调",
+			"defaultValue": "#14f8f1"
 		}
 	}
 }

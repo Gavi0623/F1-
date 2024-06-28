@@ -1,5 +1,16 @@
 <template>
 	<view class="circle">
+		<!-- 自定义导航栏 -->
+		<view class="navBarBox">
+			<!-- 状态栏占位 -->
+			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
+			<!-- 真正的导航栏内容 -->
+			<view class="navBar">
+				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
+				<view>F1 App</view>
+			</view>
+		</view>
+
 		<!-- 导航栏 -->
 		<view class="topnav">
 			<u-tabs :list="navlist" :activeStyle="{
@@ -45,10 +56,17 @@
 		mutations
 	} from '@/uni_modules/uni-id-pages/common/store.js';
 	import pageJson from "@/pages.json"
+	import {
+		goLogin
+	} from '../../utils/tools';
 
 	export default {
 		data() {
 			return {
+				// 状态栏高度
+				statusBarHeight: 0,
+				// 导航栏高度
+				navBarHeight: 82 + 11,
 				status: 'loadmore',
 				page: 1, // 当前页码
 				pageSize: 6, // 每页显示的数据条数
@@ -121,6 +139,15 @@
 		onLoad() {
 			this.getData();
 		},
+		async onShow() {
+			this.page = 1;
+			this.dataList = [];
+			await this.getData();
+		},
+		created() {
+			//获取手机状态栏高度
+			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
+		},
 
 		methods: {
 			P_delevent() {
@@ -162,17 +189,7 @@
 			// 跳转至圈子编辑页面
 			goEdit() {
 				if (!store.hasLogin) {
-					uni.showModal({
-						title: "是否登录",
-						icon: "none",
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: "/" + pageJson.uniIdRouter.loginPage
-								})
-							}
-						}
-					})
+					goLogin();
 					return;
 				}
 
@@ -232,6 +249,27 @@
 
 <style lang="scss" scoped>
 	.circle {
+		.navBarBox {
+			.statusBar {}
+
+			.navBar {
+				padding: 3rpx 50rpx;
+				padding-bottom: 8rpx;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+
+				.logo {
+					width: 82rpx;
+					height: 82rpx;
+					margin-right: 10rpx;
+					filter: invert(1);
+				}
+			}
+		}
+
 		.topnav {
 			margin-bottom: 30rpx;
 		}

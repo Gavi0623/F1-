@@ -1,5 +1,16 @@
 <template>
 	<view class="user">
+		<!-- 自定义导航栏 -->
+		<view class="navBarBox">
+			<!-- 状态栏占位 -->
+			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
+			<!-- 真正的导航栏内容 -->
+			<view class="navBar">
+				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
+				<view>F1 App</view>
+			</view>
+		</view>
+
 		<view class="top">
 			<view class="group" @tap="toUserInfo">
 				<view class="userinfo">
@@ -113,6 +124,10 @@
 	export default {
 		data() {
 			return {
+				// 状态栏高度
+				statusBarHeight: 0,
+				// 导航栏高度
+				navBarHeight: 82 + 11,
 				totalObj: {
 					artNum: 0,
 					likeNum: 0
@@ -123,6 +138,19 @@
 		onLoad() {
 			this.getTotal();
 			this.getData();
+		},
+		onShow() {
+			this.getTotal();
+			this.getData();
+		},
+		onPullDownRefresh() {
+			this.getTotal();
+			this.getData();
+			uni.stopPullDownRefresh();
+		},
+		created() {
+			//获取手机状态栏高度
+			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 		computed: {
 			userInfo() {
@@ -135,10 +163,11 @@
 		methods: {
 			getData() {
 				if (!this.hasLogin) return;
-				db.collection("uni-id-users").where("_id == $cloudEnv_uid").field("_id,register_date").get().then(res => {
-					console.log(res);
-					this.date = res.result.data[0].register_date; // 获取当前用户注册时间
-				})
+				db.collection("uni-id-users").where("_id == $cloudEnv_uid").field("_id,register_date").get().then(
+					async res => {
+						console.log(res);
+						this.date = await res.result.data[0].register_date; // 获取当前用户注册时间
+					})
 			},
 
 			// 编辑个人资料
@@ -221,6 +250,25 @@
 
 <style lang="scss">
 	.user {
+		.navBarBox {
+			.statusBar {}
+
+			.navBar {
+				padding: 3rpx 50rpx;
+				padding-bottom: 8rpx;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+				.logo {
+					width: 82rpx;
+					height: 82rpx;
+					margin-right: 10rpx;
+					filter: invert(1);
+				}
+			}
+		}
 
 		.top {
 			height: 300rpx;

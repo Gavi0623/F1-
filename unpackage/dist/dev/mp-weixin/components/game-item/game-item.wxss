@@ -30,14 +30,13 @@
   color: #fff;
 }
 .gameItem .f1-schedule .race-item.data-v-1769ac3c {
-  background-color: #14f8f1;
   padding: 18rpx;
   border-radius: 10rpx;
   box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18rpx;
+  margin-bottom: 10rpx;
 }
 .gameItem .f1-schedule .race-item .race-info .race-name.data-v-1769ac3c {
   font-size: 32rpx;
@@ -51,7 +50,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 28rpx;
-  color: #ccc;
+  color: #232120;
 }
 .gameItem .f1-schedule .race-item .race-info .race-schedule .schedule-item .schedule-title.data-v-1769ac3c {
   margin-right: 20rpx;

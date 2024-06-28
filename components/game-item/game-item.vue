@@ -1,7 +1,7 @@
 <template>
 	<view class="gameItem">
 		<view class="f1-schedule">
-			<view class="race-item">
+			<view class="race-item" :style="{ 'background-color': schedule.color }">
 				<view class="race-info">
 					<view class="race-name">{{ schedule.racename }}</view>
 					<view class="race-schedule">
@@ -11,16 +11,29 @@
 								<uni-dateformat :date="schedule.practice1" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
 							</view>
 						</view>
-						<view class="schedule-item">
+						<view class="schedule-item" v-if="schedule.practice2">
 							<view class="schedule-title">二练</view>
 							<view class="schedule-time">
 								<uni-dateformat :date="schedule.practice2" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
 							</view>
 						</view>
-						<view class="schedule-item">
+						<view class="schedule-item" v-if="schedule.practice3">
 							<view class="schedule-title">三练</view>
 							<view class="schedule-time">
 								<uni-dateformat :date="schedule.practice3" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
+						</view>
+						<view class="schedule-item" v-if="schedule.sprintQualifying">
+							<view class="schedule-title">冲刺排位赛</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.sprintQualifying"
+									format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
+							</view>
+						</view>
+						<view class="schedule-item" v-if="schedule.sprint">
+							<view class="schedule-title">冲刺赛</view>
+							<view class="schedule-time">
+								<uni-dateformat :date="schedule.sprint" format="yyyy年MM月dd日 hh:mm"></uni-dateformat>
 							</view>
 						</view>
 						<view class="schedule-item">
@@ -95,14 +108,14 @@
 			color: #fff;
 
 			.race-item {
-				background-color: #14f8f1;
+				// background-color: #14f8f1;
 				padding: 18rpx;
 				border-radius: 10rpx;
 				box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 18rpx;
+				margin-bottom: 10rpx;
 
 				.race-info {
 					.race-name {
@@ -118,7 +131,7 @@
 							justify-content: space-between;
 							align-items: center;
 							font-size: 28rpx;
-							color: #ccc;
+							color: #232120;
 
 							.schedule-title {
 								margin-right: 20rpx;

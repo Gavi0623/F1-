@@ -6,12 +6,12 @@
 			<view v-else-if="data">
 				<uni-list>
 					<uni-list-item v-for="(item, index) in data" :key="index" showArrow :clickable="true"
-						@click="handleItemClick(item._id)">
+						@click="handleItemClick(item.article_id[0]._id)">
 						<template v-slot:body>
 							<text>
 								<!-- 此处默认显示为_id，请根据需要自行修改为其他字段 -->
 								<!-- 如果使用了联表查询，请参考生成的 admin 项目中 list.vue 页面 -->
-								{{item._id}}
+								{{item.article_id[0].title}}
 							</text>
 						</template>
 					</uni-list-item>
@@ -27,7 +27,10 @@
 	export default {
 		data() {
 			return {
-				collectionList: "circle_like",
+				collectionList: [
+					db.collection("circle_like").where(`user_id==$cloudEnv_uid`).getTemp(),
+					db.collection("circle_articles").field("_id, title").getTemp()
+				],
 				loadMore: {
 					contentdown: '',
 					contentrefresh: '',
@@ -48,7 +51,7 @@
 		methods: {
 			handleItemClick(id) {
 				uni.navigateTo({
-					url: './detail?id=' + id
+					url: "/pages/circle/detail/detail?id=" + id
 				})
 			},
 			fabClick() {
