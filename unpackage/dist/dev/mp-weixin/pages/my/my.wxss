@@ -25,6 +25,13 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.user .navBarBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
 .user .navBarBox .navBar {
   padding: 3rpx 50rpx;
   padding-bottom: 8rpx;

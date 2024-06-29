@@ -102,16 +102,16 @@ var components
 try {
   components = {
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 432))
     },
     uSwiper: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 436))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 440))
     },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 444))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 448))
     },
     uLoadmore: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 450))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 454))
     },
   }
 } catch (e) {
@@ -277,17 +277,19 @@ var _default = {
       title: 'Hello',
       dataList: [],
       swiperList: [],
-      needRefresh: false // 添加一个标志来表示是否需要刷新数据
+      fromDetailPage: false // 新增
     };
   },
   onLoad: function onLoad() {
-    this.getData();
-    this.getSwiperList();
+    if (!this.fromDetailPage) {
+      this.getData();
+      this.getSwiperList();
+    }
   },
   onShow: function onShow() {
-    // 如果不是第一次加载，才执行刷新操作
-    if (!this.needRefresh) {
-      this.needRefresh = false; // 重置刷新标志
+    if (this.fromDetailPage) {
+      this.refreshData();
+      this.fromDetailPage = false; // 重置标志
     }
   },
   created: function created() {
@@ -333,14 +335,14 @@ var _default = {
     },
     // 点击跳转到详情页
     goDetail: function goDetail(id) {
-      this.needRefresh = true; // 设置刷新标志
+      this.fromDetailPage = true; // 设置标志
       uni.navigateTo({
         url: "/pages/index/detail/detail?id=" + id
       });
     },
     // 点击轮播图跳转详情页
     SgoDetail: function SgoDetail(index) {
-      this.needRefresh = true; // 设置刷新标志
+      this.fromDetailPage = true; // 设置标志
       var id = this.swiperList[index].id;
       uni.navigateTo({
         url: "/pages/index/detail/detail?id=" + id

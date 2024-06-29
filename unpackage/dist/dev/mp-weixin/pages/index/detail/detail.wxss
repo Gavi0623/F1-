@@ -29,6 +29,21 @@
   background: #f8f8f8;
   min-height: calc(100vh - 0px);
 }
+.detail .navBarBox .navBar.data-v-ce12fd2e {
+  padding: 3rpx 50rpx;
+  padding-bottom: 8rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.detail .navBarBox .navBar .logo.data-v-ce12fd2e {
+  width: 82rpx;
+  height: 82rpx;
+  margin-right: 10rpx;
+  -webkit-filter: invert(1);
+          filter: invert(1);
+}
 .detail .container.data-v-ce12fd2e {
   padding: 30rpx;
   background: #fff;

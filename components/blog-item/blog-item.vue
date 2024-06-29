@@ -194,6 +194,7 @@
 
 			// 点击跳转到详情页
 			goDetail() {
+				this.$emit("setFromDetailPage");
 				uni.navigateTo({
 					url: "/pages/circle/detail/detail?id=" + this.item._id
 				})

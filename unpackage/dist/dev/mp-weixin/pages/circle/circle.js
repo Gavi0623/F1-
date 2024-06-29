@@ -102,16 +102,16 @@ var components
 try {
   components = {
     uTabs: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 458))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 462))
     },
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 432))
     },
     blogItem: function () {
-      return __webpack_require__.e(/*! import() | components/blog-item/blog-item */ "components/blog-item/blog-item").then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 466))
+      return __webpack_require__.e(/*! import() | components/blog-item/blog-item */ "components/blog-item/blog-item").then(__webpack_require__.bind(null, /*! @/components/blog-item/blog-item.vue */ 470))
     },
     uLoadmore: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 450))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-loadmore/u-loadmore.vue */ 454))
     },
   }
 } catch (e) {
@@ -229,6 +229,7 @@ var _tools = __webpack_require__(/*! ../../utils/tools */ 184);
 //
 //
 //
+//
 
 var db = uniCloud.database();
 var dbCmd = db.command;
@@ -242,7 +243,7 @@ var _default = {
       status: 'loadmore',
       page: 1,
       // 当前页码
-      pageSize: 6,
+      pageSize: 10,
       // 每页显示的数据条数
       noMore: false,
       navlist: [{
@@ -291,7 +292,9 @@ var _default = {
       loadState: true,
       clickable: true,
       // 标记是否可点击
-      lastClickTime: 0 // 上一次点击的时间
+      lastClickTime: 0,
+      // 上一次点击的时间
+      fromDetailPage: false // 添加
     };
   },
   onReachBottom: function onReachBottom() {
@@ -325,7 +328,9 @@ var _default = {
     }))();
   },
   onLoad: function onLoad() {
-    this.getData();
+    if (!this.fromDetailPage) {
+      this.getData();
+    }
   },
   onShow: function onShow() {
     var _this2 = this;
@@ -334,10 +339,14 @@ var _default = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this2.page = 1;
-              _this2.dataList = [];
-              _context2.next = 4;
-              return _this2.getData();
+              if (!_this2.fromDetailPage) {
+                _context2.next = 4;
+                break;
+              }
+              _context2.next = 3;
+              return _this2.refreshData();
+            case 3:
+              _this2.fromDetailPage = false; // 重置标志
             case 4:
             case "end":
               return _context2.stop();
@@ -351,6 +360,14 @@ var _default = {
     this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
   },
   methods: {
+    refreshData: function refreshData() {
+      this.page = 1;
+      this.dataList = [];
+      this.getData();
+    },
+    setFromDetailPage: function setFromDetailPage() {
+      this.fromDetailPage = true;
+    },
     P_delevent: function P_delevent() {
       this.page = 1;
       this.dataList = [];

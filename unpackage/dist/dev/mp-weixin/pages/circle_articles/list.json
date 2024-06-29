@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "发布圈子列表",
+  "navigationStyle": "custom",
   "usingComponents": {
     "list-unicloud-db-default": "/pages/circle_articles/list-unicloud-db-default",
     "unicloud-db": "/node-modules/@dcloudio/uni-cli-shared/components/unicloud-db",

@@ -1,5 +1,16 @@
 <template>
 	<view class="uni-container">
+		<!-- 自定义导航栏 -->
+		<view class="navBarBox">
+			<!-- 状态栏占位 -->
+			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
+			<!-- 真正的导航栏内容 -->
+			<view class="navBar">
+				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
+				<view>留言反馈</view>
+			</view>
+		</view>
+
 		<uni-forms ref="form" :value="formData" validate-trigger="submit" err-show-type="toast">
 			<uni-forms-item name="content" label="反馈内容/留言内容" required>
 				<textarea @input="binddata('content', $event.detail.value)" class="uni-textarea-border"
@@ -52,6 +63,10 @@
 				"mobile": ""
 			}
 			return {
+				// 状态栏高度
+				statusBarHeight: 0,
+				// 导航栏高度
+				navBarHeight: 82 + 11,
 				formData,
 				formOptions: {},
 				rules: {
@@ -64,6 +79,10 @@
 		},
 		onReady() {
 			this.$refs.form.setRules(this.rules)
+		},
+		created() {
+			//获取手机状态栏高度
+			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 		methods: {
 			/**
@@ -108,9 +127,29 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.uni-container {
 		padding: 15px;
+
+		.navBarBox {
+			.statusBar {}
+
+			.navBar {
+				padding: 3rpx 50rpx;
+				padding-bottom: 8rpx;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+				.logo {
+					width: 82rpx;
+					height: 82rpx;
+					margin-right: 10rpx;
+					filter: invert(1);
+				}
+			}
+		}
 	}
 
 	.uni-input-border,

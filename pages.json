@@ -119,7 +119,8 @@
 		{
 			"path": "pages/index/detail/detail",
 			"style": {
-				"navigationBarTitleText": "首页详情"
+				"navigationBarTitleText": "首页详情",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -137,7 +138,8 @@
 		{
 			"path": "uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback",
 			"style": {
-				"navigationBarTitleText": "反馈新增"
+				"navigationBarTitleText": "反馈新增",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "uni_modules/uni-feedback/pages/opendb-feedback/edit",
@@ -159,17 +161,20 @@
 		{
 			"path": "pages/circle/detail/detail",
 			"style": {
-				"navigationBarTitleText": "圈子详情页"
+				"navigationBarTitleText": "圈子详情页",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/circle_articles/list",
 			"style": {
-				"navigationBarTitleText": "发布圈子列表"
+				"navigationBarTitleText": "发布圈子列表",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/circle_like/list",
 			"style": {
-				"navigationBarTitleText": "点赞列表"
+				"navigationBarTitleText": "点赞列表",
+				"navigationStyle": "custom"
 			}
 		},
 		{

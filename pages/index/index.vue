@@ -77,17 +77,19 @@
 				title: 'Hello',
 				dataList: [],
 				swiperList: [],
-				needRefresh: false, // 添加一个标志来表示是否需要刷新数据
+				fromDetailPage: false, // 新增
 			}
 		},
 		onLoad() {
-			this.getData();
-			this.getSwiperList();
+			if (!this.fromDetailPage) {
+				this.getData();
+				this.getSwiperList();
+			}
 		},
 		onShow() {
-			// 如果不是第一次加载，才执行刷新操作
-			if (!this.needRefresh) {
-				this.needRefresh = false; // 重置刷新标志
+			if (this.fromDetailPage) {
+				this.refreshData();
+				this.fromDetailPage = false; // 重置标志
 			}
 		},
 		created() {
@@ -119,14 +121,14 @@
 
 			// 点击跳转到详情页
 			goDetail(id) {
-				this.needRefresh = true; // 设置刷新标志
+				this.fromDetailPage = true; // 设置标志
 				uni.navigateTo({
 					url: "/pages/index/detail/detail?id=" + id
 				});
 			},
 			// 点击轮播图跳转详情页
 			SgoDetail(index) {
-				this.needRefresh = true; // 设置刷新标志
+				this.fromDetailPage = true; // 设置标志
 				let id = this.swiperList[index].id;
 				uni.navigateTo({
 					url: "/pages/index/detail/detail?id=" + id
@@ -209,6 +211,7 @@
 <style lang="scss" scoped>
 	.index {
 		.navBarBox {
+
 			.statusBar {}
 
 			.navBar {

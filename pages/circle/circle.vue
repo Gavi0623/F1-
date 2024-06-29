@@ -31,7 +31,8 @@
 		<view class="content">
 			<view class="item" v-for="(item,index) in dataList" :key="index">
 				<!-- 引入组件 -->
-				<blog-item @delEvent="P_delevent" :item="item" :like_count.sync="item.like_count"></blog-item>
+				<blog-item @setFromDetailPage="setFromDetailPage" @delEvent="P_delevent" :item="item"
+					:like_count.sync="item.like_count"></blog-item>
 			</view>
 		</view>
 
@@ -69,7 +70,7 @@
 				navBarHeight: 82 + 11,
 				status: 'loadmore',
 				page: 1, // 当前页码
-				pageSize: 6, // 每页显示的数据条数
+				pageSize: 10, // 每页显示的数据条数
 				noMore: false,
 				navlist: [{
 					name: "红牛",
@@ -116,7 +117,8 @@
 				navActive: 0,
 				loadState: true,
 				clickable: true, // 标记是否可点击
-				lastClickTime: 0 // 上一次点击的时间
+				lastClickTime: 0, // 上一次点击的时间
+				fromDetailPage: false, // 添加
 			};
 		},
 		onReachBottom() {
@@ -137,12 +139,15 @@
 		},
 
 		onLoad() {
-			this.getData();
+			if (!this.fromDetailPage) {
+				this.getData();
+			}
 		},
 		async onShow() {
-			this.page = 1;
-			this.dataList = [];
-			await this.getData();
+			if (this.fromDetailPage) {
+				await this.refreshData();
+				this.fromDetailPage = false; // 重置标志
+			}
 		},
 		created() {
 			//获取手机状态栏高度
@@ -150,6 +155,15 @@
 		},
 
 		methods: {
+			refreshData() {
+				this.page = 1;
+				this.dataList = [];
+				this.getData();
+			},
+			setFromDetailPage() {
+				this.fromDetailPage = true;
+			},
+
 			P_delevent() {
 				this.page = 1;
 				this.dataList = [];

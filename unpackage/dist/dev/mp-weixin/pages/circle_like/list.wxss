@@ -25,10 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.uni-container.data-v-9142919c {
-  padding: 15px;
-}
-.uni-container .navBarBox .navBar.data-v-9142919c {
+.navBarBox .navBar.data-v-41d05c60 {
   padding: 3rpx 50rpx;
   padding-bottom: 8rpx;
   display: flex;
@@ -36,42 +33,11 @@
   justify-content: center;
   align-items: center;
 }
-.uni-container .navBarBox .navBar .logo.data-v-9142919c {
+.navBarBox .navBar .logo.data-v-41d05c60 {
   width: 82rpx;
   height: 82rpx;
   margin-right: 10rpx;
   -webkit-filter: invert(1);
           filter: invert(1);
-}
-.uni-input-border.data-v-9142919c,
-.uni-textarea-border.data-v-9142919c {
-  width: 100%;
-  font-size: 14px;
-  color: #666;
-  border: 1px #e5e5e5 solid;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-.uni-input-border.data-v-9142919c {
-  padding: 0 10px;
-  height: 35px;
-}
-.uni-textarea-border.data-v-9142919c {
-  padding: 10px;
-  height: 80px;
-}
-.uni-button-group.data-v-9142919c {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-}
-.uni-button.data-v-9142919c {
-  width: 184px;
-  padding: 12px 20px;
-  font-size: 14px;
-  border-radius: 4px;
-  line-height: 1;
-  margin: 0;
-  background-color: #fa3534;
 }
 
