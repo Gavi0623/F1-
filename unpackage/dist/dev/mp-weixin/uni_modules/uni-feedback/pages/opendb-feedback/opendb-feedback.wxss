@@ -28,21 +28,6 @@
 .uni-container.data-v-9142919c {
   padding: 15px;
 }
-.uni-container .navBarBox .navBar.data-v-9142919c {
-  padding: 3rpx 50rpx;
-  padding-bottom: 8rpx;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.uni-container .navBarBox .navBar .logo.data-v-9142919c {
-  width: 82rpx;
-  height: 82rpx;
-  margin-right: 10rpx;
-  -webkit-filter: invert(1);
-          filter: invert(1);
-}
 .uni-input-border.data-v-9142919c,
 .uni-textarea-border.data-v-9142919c {
   width: 100%;

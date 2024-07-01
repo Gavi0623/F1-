@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "圈子修改页面",
+  "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
     "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",
     "uni-file-picker": "/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker",

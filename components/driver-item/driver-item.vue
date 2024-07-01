@@ -1,6 +1,7 @@
 <!-- driver-item -->
 <template>
 	<view class="container">
+
 		<view class="nav">
 			<view class="nav-item" :class="{ 'active': displayType === '0' }" @click="changeDisplayType('0')">
 				积分榜
@@ -9,6 +10,7 @@
 				分站冠军
 			</view>
 		</view>
+
 
 		<view class="data-section">
 			<view class="data-header" v-if="displayType === '0'">
@@ -23,6 +25,7 @@
 				<view class="data-header-item data-header-runner">亚</view>
 				<view class="data-header-item data-header-third">季</view>
 			</view>
+
 			<view class="driver-item" v-for="(driver,index) in driverData" :key="driver.name">
 				<view class="driver-rank">{{ index + 1 }}</view>
 				<view class="item-color" :style="{ 'background-color': driver.teamColor }"></view>
@@ -99,11 +102,13 @@
 			position: relative;
 
 			.data-header {
-				top: 0;
 				display: flex;
 				background-color: #f2f2f2;
 				padding: 20rpx 0;
 				z-index: 1;
+				// position: fixed;
+				// top: 50px;
+				// width: 80%;
 
 				.data-header-rank {
 					width: 80rpx;

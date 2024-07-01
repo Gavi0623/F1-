@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
     "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
     "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat",

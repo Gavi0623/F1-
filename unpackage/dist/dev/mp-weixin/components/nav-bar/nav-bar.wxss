@@ -25,19 +25,32 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.navBarBox .navBar.data-v-9503a90c {
-  padding: 3rpx 50rpx;
-  padding-bottom: 8rpx;
+.box .navBarBox.data-v-010c2ed8 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: #fff;
+}
+.box .navBarBox .statusBar.data-v-010c2ed8 {
+  width: 100%;
+}
+.box .navBarBox .navBar.data-v-010c2ed8 {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 0 50rpx;
 }
-.navBarBox .navBar .logo.data-v-9503a90c {
+.box .navBarBox .navBar .logo.data-v-010c2ed8 {
   width: 82rpx;
   height: 82rpx;
   margin-right: 10rpx;
   -webkit-filter: invert(1);
           filter: invert(1);
+}
+.box .placeholder.data-v-010c2ed8 {
+  width: 100%;
 }
 

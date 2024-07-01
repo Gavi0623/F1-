@@ -2,15 +2,7 @@
 <template>
 	<view class="detail">
 		<!-- 自定义导航栏 -->
-		<view class="navBarBox">
-			<!-- 状态栏占位 -->
-			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-			<!-- 真正的导航栏内容 -->
-			<view class="navBar">
-				<!-- <image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image> -->
-				<view v-if="detailObj">{{detailObj.title}}</view>
-			</view>
-		</view>
+		<nav-bar :title="pageTitle" :showImg="showImg"></nav-bar>
 
 		<view class="container" v-if="detailObj">
 			<view v-if="loadState">
@@ -102,10 +94,8 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
-				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
+				pageTitle: "",
+				showImg: false,
 				artid: "", // 存放当前文章的id
 				showPopup: false,
 				loadState: true,
@@ -136,10 +126,6 @@
 			this.readUpdate();
 			this.getLikeUser();
 			this.getComment();
-		},
-		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 
 		onReachBottom() {
@@ -192,10 +178,38 @@
 
 				this.showPopup = false;
 
-				// 调用点赞方法
-				likeCirFun(this.artid);
+				try {
+					// 调用点赞方法
+					await likeCirFun(this.artid);
 
+					if (!true) {
+						// 点赞成功后刷新页面
+						this.refreshPage();
+						return;
+						uni.showToast({
+							title: '操作成功',
+							icon: 'success'
+						});
+					}
+				} catch (error) {
+					console.error('点赞操作失败', error);
 
+					uni.showToast({
+						title: '操作失败，请稍后重试',
+						icon: 'none'
+					});
+				}
+
+				// 更新点赞时间戳
+				this.likeTime = Date.now();
+			},
+
+			// 刷新页面方法
+			refreshPage() {
+				// 重新获取数据
+				this.getData();
+				// 重新获取点赞用户
+				this.getLikeUser();
 			},
 
 
@@ -267,11 +281,9 @@
 					if (store.hasLogin) isLike = res.result.data._id.circle_like.length ? true : false;
 					res.result.data.isLike = isLike;
 					this.detailObj = res.result.data;
-					uni.setNavigationBarTitle({
-						// 动态设置当前页面的标题。
-						title: this.detailObj.title
-					})
-					console.log(this.detailObj);
+
+					this.pageTitle = this.detailObj.title;
+					// console.log(this.detailObj);
 				})
 			},
 

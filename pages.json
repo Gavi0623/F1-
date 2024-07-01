@@ -126,13 +126,15 @@
 		{
 			"path": "pages/circle/edit/edit",
 			"style": {
-				"navigationBarTitleText": "圈子修改页面"
+				"navigationBarTitleText": "圈子修改页面",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/index/edit/edit",
 			"style": {
-				"navigationBarTitleText": "首页修改页面"
+				"navigationBarTitleText": "首页修改页面",
+				"navigationStyle": "custom"
 			}
 		},
 		{

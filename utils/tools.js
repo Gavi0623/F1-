@@ -1,5 +1,5 @@
 // 获取富文本内的图片url地址
-export function getImgSrc(richtext, num = 3) {
+export function getImgSrc(richtext, num = 9) {
 	let imgList = [];
 	richtext.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, (match, capture) => {
 		imgList.push(capture);
@@ -128,12 +128,14 @@ export async function likeCirFun(artid) {
 			title: "你已经赞过",
 			icon: "none"
 		});
+		return false;
 	} else {
 		// 追加数据
 		db.collection("circle_like").add({
 			article_id: artid
 		});
 		utilsObj.operation("circle_articles", "like_count", artid, 1);
+		return true;
 	}
 }
 

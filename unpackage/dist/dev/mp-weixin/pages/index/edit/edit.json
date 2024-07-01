@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "首页修改页面",
+  "navigationStyle": "custom",
   "usingComponents": {
     "u-button": "/uni_modules/uview-ui/components/u-button/u-button"
   }

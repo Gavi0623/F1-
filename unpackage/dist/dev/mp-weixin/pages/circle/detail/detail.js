@@ -101,32 +101,35 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    navBar: function () {
+      return __webpack_require__.e(/*! import() | components/nav-bar/nav-bar */ "components/nav-bar/nav-bar").then(__webpack_require__.bind(null, /*! @/components/nav-bar/nav-bar.vue */ 428))
+    },
     uSkeleton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 432))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 435))
     },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 448))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 451))
     },
     uPopup: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 740))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 743))
     },
     uButton: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-button/u-button */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-button/u-button")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-button/u-button.vue */ 705))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-button/u-button */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-button/u-button")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-button/u-button.vue */ 708))
     },
     "u-Text": function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--text/u--text.vue */ 748))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--text/u--text.vue */ 751))
     },
     uEmpty: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 643))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 646))
     },
     circleCommentItem: function () {
-      return __webpack_require__.e(/*! import() | components/circleComment-item/circleComment-item */ "components/circleComment-item/circleComment-item").then(__webpack_require__.bind(null, /*! @/components/circleComment-item/circleComment-item.vue */ 754))
+      return __webpack_require__.e(/*! import() | components/circleComment-item/circleComment-item */ "components/circleComment-item/circleComment-item").then(__webpack_require__.bind(null, /*! @/components/circleComment-item/circleComment-item.vue */ 757))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 666))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 669))
     },
     circleCommentFrame: function () {
-      return __webpack_require__.e(/*! import() | components/circleComment-frame/circleComment-frame */ "components/circleComment-frame/circleComment-frame").then(__webpack_require__.bind(null, /*! @/components/circleComment-frame/circleComment-frame.vue */ 761))
+      return __webpack_require__.e(/*! import() | components/circleComment-frame/circleComment-frame */ "components/circleComment-frame/circleComment-frame").then(__webpack_require__.bind(null, /*! @/components/circleComment-frame/circleComment-frame.vue */ 764))
     },
   }
 } catch (e) {
@@ -232,19 +235,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 184);
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
-//
-//
-//
-//
-//
-//
-//
-//
+var _methods;
 //
 //
 //
@@ -329,10 +326,8 @@ var utilsObj = uniCloud.importObject("utilsObj", {
 var _default = {
   data: function data() {
     return {
-      // 状态栏高度
-      statusBarHeight: 0,
-      // 导航栏高度
-      navBarHeight: 82 + 11,
+      pageTitle: "",
+      showImg: false,
       artid: "",
       // 存放当前文章的id
       showPopup: false,
@@ -364,16 +359,12 @@ var _default = {
     this.getLikeUser();
     this.getComment();
   },
-  created: function created() {
-    //获取手机状态栏高度
-    this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
-  },
   onReachBottom: function onReachBottom() {
     if (this.loadMoreStatus === 'more') {
       this.getComment();
     }
   },
-  methods: {
+  methods: (_methods = {
     giveName: _tools.giveName,
     giveAvatar: _tools.giveAvatar,
     // 文章id为空处理
@@ -424,16 +415,45 @@ var _default = {
                 return _context.abrupt("return");
               case 7:
                 _this.showPopup = false;
-
-                // 调用点赞方法
-                (0, _tools.likeCirFun)(_this.artid);
-              case 9:
+                _context.prev = 8;
+                _context.next = 11;
+                return (0, _tools.likeCirFun)(_this.artid);
+              case 11:
+                if (true) {
+                  _context.next = 15;
+                  break;
+                }
+                // 点赞成功后刷新页面
+                _this.refreshPage();
+                return _context.abrupt("return");
+              case 15:
+                _context.next = 21;
+                break;
+              case 17:
+                _context.prev = 17;
+                _context.t0 = _context["catch"](8);
+                console.error('点赞操作失败', _context.t0);
+                uni.showToast({
+                  title: '操作失败，请稍后重试',
+                  icon: 'none'
+                });
+              case 21:
+                // 更新点赞时间戳
+                _this.likeTime = Date.now();
+              case 22:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[8, 17]]);
       }))();
+    },
+    // 刷新页面方法
+    refreshPage: function refreshPage() {
+      // 重新获取数据
+      this.getData();
+      // 重新获取点赞用户
+      this.getLikeUser();
     },
     // 单击图片预览
     clickPic: function clickPic(index) {
@@ -512,11 +532,8 @@ var _default = {
         if (_store.store.hasLogin) isLike = res.result.data._id.circle_like.length ? true : false;
         res.result.data.isLike = isLike;
         _this3.detailObj = res.result.data;
-        uni.setNavigationBarTitle({
-          // 动态设置当前页面的标题。
-          title: _this3.detailObj.title
-        });
-        console.log(_this3.detailObj);
+        _this3.pageTitle = _this3.detailObj.title;
+        // console.log(this.detailObj);
       });
     },
     // 获取评论
@@ -613,23 +630,19 @@ var _default = {
           }
         }, _callee3, null, [[4, 28, 33, 36]]);
       }))();
-    },
-    // 评论成功后的回调
-    refreshPage: function refreshPage() {
-      this.page = 1;
-      this.loadMoreStatus = 'more';
-      this.commentList = [];
-      this.getComment();
-    },
-    // 删除评论的回调
-    P_removeEnv: function P_removeEnv(e) {
-      console.log(e);
-      var index = this.commentList.findIndex(function (item) {
-        return item._id == e.id;
-      });
-      this.commentList.splice(index, 1);
     }
-  }
+  }, (0, _defineProperty2.default)(_methods, "refreshPage", function refreshPage() {
+    this.page = 1;
+    this.loadMoreStatus = 'more';
+    this.commentList = [];
+    this.getComment();
+  }), (0, _defineProperty2.default)(_methods, "P_removeEnv", function P_removeEnv(e) {
+    console.log(e);
+    var index = this.commentList.findIndex(function (item) {
+      return item._id == e.id;
+    });
+    this.commentList.splice(index, 1);
+  }), _methods)
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))

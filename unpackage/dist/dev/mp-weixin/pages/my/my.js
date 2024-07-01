@@ -101,8 +101,11 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    navBar: function () {
+      return __webpack_require__.e(/*! import() | components/nav-bar/nav-bar */ "components/nav-bar/nav-bar").then(__webpack_require__.bind(null, /*! @/components/nav-bar/nav-bar.vue */ 428))
+    },
     uniDateformat: function () {
-      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 448))
+      return Promise.all(/*! import() | uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.vue */ 451))
     },
   }
 } catch (e) {
@@ -276,23 +279,11 @@ var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js 
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 var db = uniCloud.database();
 var _default = {
   data: function data() {
     return {
-      // 状态栏高度
-      statusBarHeight: 0,
-      // 导航栏高度
-      navBarHeight: 82 + 11,
       totalObj: {
         artNum: 0,
         likeNum: 0
@@ -312,10 +303,6 @@ var _default = {
     this.getTotal();
     this.getData();
     uni.stopPullDownRefresh();
-  },
-  created: function created() {
-    //获取手机状态栏高度
-    this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
   },
   computed: {
     userInfo: function userInfo() {

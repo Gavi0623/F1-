@@ -1,15 +1,6 @@
 <template>
 	<view class="index">
-		<!-- 自定义导航栏 -->
-		<view class="navBarBox">
-			<!-- 状态栏占位 -->
-			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-			<!-- 真正的导航栏内容 -->
-			<view class="navBar">
-				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
-				<view>F1 App</view>
-			</view>
-		</view>
+		<nav-bar></nav-bar>
 
 		<view class="content">
 			<view class="swiper">
@@ -19,7 +10,7 @@
 				</view>
 				<!-- $event 就是当前被点击的轮播图的索引。 -->
 				<u-swiper :list="swiperList" keyName="image" showTitle autoplay circular @click="SgoDetail($event)"
-					v-if="swiperList.length > 0"></u-swiper>
+					v-if="swiperList.length > 0" height="260rpx"></u-swiper>
 			</view>
 
 			<!-- Skeleton骨架屏 -->
@@ -65,10 +56,6 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
-				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
 				swiperState: true,
 				loadState: true,
 				status: 'loadmore',
@@ -92,10 +79,7 @@
 				this.fromDetailPage = false; // 重置标志
 			}
 		},
-		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
-		},
+
 		onReachBottom() {
 			// 当用户滚动到底部时
 			// 如果当前状态是 'loadmore'，则加载更多数据
@@ -210,26 +194,7 @@
 
 <style lang="scss" scoped>
 	.index {
-		.navBarBox {
 
-			.statusBar {}
-
-			.navBar {
-				padding: 3rpx 50rpx;
-				padding-bottom: 8rpx;
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				align-items: center;
-
-				.logo {
-					width: 82rpx;
-					height: 82rpx;
-					margin-right: 10rpx;
-					filter: invert(1);
-				}
-			}
-		}
 
 		.content {
 			padding: 30rpx;

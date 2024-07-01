@@ -1,5 +1,6 @@
 <template>
 	<view class="edit">
+		<nav-bar></nav-bar>
 
 		<!-- 标题 -->
 		<view class="title">

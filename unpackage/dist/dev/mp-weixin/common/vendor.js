@@ -1557,7 +1557,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8923,7 +8923,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8944,14 +8944,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9047,7 +9047,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9959,9 +9959,9 @@ var S = "development" === "development",
         "169.254.23.21",
         "192.168.43.5"
     ],
-    "debugPort": 9002,
+    "debugPort": 9001,
     "initialLaunchType": "local",
-    "servePort": 7002,
+    "servePort": 7001,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.6.3.20220917/HBuilderX/plugins/unicloud/**/*.js"
@@ -17965,12 +17965,14 @@ var _default = {
   }, {
     "path": "pages/circle/edit/edit",
     "style": {
-      "navigationBarTitleText": "圈子修改页面"
+      "navigationBarTitleText": "圈子修改页面",
+      "navigationStyle": "custom"
     }
   }, {
     "path": "pages/index/edit/edit",
     "style": {
-      "navigationBarTitleText": "首页修改页面"
+      "navigationBarTitleText": "首页修改页面",
+      "navigationStyle": "custom"
     }
   }, {
     "path": "uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback",
@@ -27827,7 +27829,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
 // 获取富文本内的图片url地址
 function getImgSrc(richtext) {
-  var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
+  var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 9;
   var imgList = [];
   richtext.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, function (match, capture) {
     imgList.push(capture);
@@ -27968,22 +27970,26 @@ function _likeCirFun() {
             return db.collection("circle_like").where("article_id=='".concat(artid, "' && user_id==$cloudEnv_uid ")).count();
           case 2:
             count = _context2.sent;
-            if (count.result.total) {
-              console.log(count);
-              // 如果当前用户已经点过赞
-              isLike = true;
-              uni.showToast({
-                title: "你已经赞过",
-                icon: "none"
-              });
-            } else {
-              // 追加数据
-              db.collection("circle_like").add({
-                article_id: artid
-              });
-              utilsObj.operation("circle_articles", "like_count", artid, 1);
+            if (!count.result.total) {
+              _context2.next = 10;
+              break;
             }
-          case 4:
+            console.log(count);
+            // 如果当前用户已经点过赞
+            isLike = true;
+            uni.showToast({
+              title: "你已经赞过",
+              icon: "none"
+            });
+            return _context2.abrupt("return", false);
+          case 10:
+            // 追加数据
+            db.collection("circle_like").add({
+              article_id: artid
+            });
+            utilsObj.operation("circle_articles", "like_count", artid, 1);
+            return _context2.abrupt("return", true);
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -28782,7 +28788,10 @@ function filterToWhere(filter, command) {
 /* 434 */,
 /* 435 */,
 /* 436 */,
-/* 437 */
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */
 /*!*************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-skeleton/props.js ***!
   \*************************************************************************************/
@@ -28859,14 +28868,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 438 */,
-/* 439 */,
-/* 440 */,
 /* 441 */,
 /* 442 */,
 /* 443 */,
 /* 444 */,
-/* 445 */
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */
 /*!***********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-swiper/props.js ***!
   \***********************************************************************************/
@@ -29009,14 +29018,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 446 */,
-/* 447 */,
-/* 448 */,
 /* 449 */,
 /* 450 */,
 /* 451 */,
 /* 452 */,
-/* 453 */
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */
 /*!*****************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-dateformat/components/uni-dateformat/date-format.js ***!
   \*****************************************************************************************************/
@@ -29233,12 +29242,12 @@ function friendlyDate(time, _ref) {
 }
 
 /***/ }),
-/* 454 */,
-/* 455 */,
-/* 456 */,
 /* 457 */,
 /* 458 */,
-/* 459 */
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */
 /*!*************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-loadmore/props.js ***!
   \*************************************************************************************/
@@ -29350,14 +29359,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 460 */,
-/* 461 */,
-/* 462 */,
 /* 463 */,
 /* 464 */,
 /* 465 */,
 /* 466 */,
-/* 467 */
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-tabs/props.js ***!
   \*********************************************************************************/
@@ -29439,9 +29448,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 468 */,
-/* 469 */,
-/* 470 */,
 /* 471 */,
 /* 472 */,
 /* 473 */,
@@ -29453,7 +29459,10 @@ exports.default = _default;
 /* 479 */,
 /* 480 */,
 /* 481 */,
-/* 482 */
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */
 /*!***********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-tabbar/props.js ***!
   \***********************************************************************************/
@@ -29515,14 +29524,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 483 */,
-/* 484 */,
-/* 485 */,
 /* 486 */,
 /* 487 */,
 /* 488 */,
 /* 489 */,
-/* 490 */
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */
 /*!****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-tabbar-item/props.js ***!
   \****************************************************************************************/
@@ -29574,9 +29583,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 491 */,
-/* 492 */,
-/* 493 */,
 /* 494 */,
 /* 495 */,
 /* 496 */,
@@ -29630,7 +29636,10 @@ exports.default = _default;
 /* 544 */,
 /* 545 */,
 /* 546 */,
-/* 547 */
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */
 /*!*************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-popup/components/uni-popup/popup.js ***!
   \*************************************************************************************/
@@ -29671,7 +29680,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 548 */
+/* 551 */
 /*!******************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-popup/components/uni-popup/i18n/index.js ***!
   \******************************************************************************************/
@@ -29686,9 +29695,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 549));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 550));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 551));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 552));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 553));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 554));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -29697,7 +29706,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 549 */
+/* 552 */
 /*!*****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-popup/components/uni-popup/i18n/en.json ***!
   \*****************************************************************************************/
@@ -29707,7 +29716,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-popup.cancel\":\"cancel\",\"uni-popup.ok\":\"ok\",\"uni-popup.placeholder\":\"pleace enter\",\"uni-popup.title\":\"Hint\",\"uni-popup.shareTitle\":\"Share to\"}");
 
 /***/ }),
-/* 550 */
+/* 553 */
 /*!**********************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-popup/components/uni-popup/i18n/zh-Hans.json ***!
   \**********************************************************************************************/
@@ -29717,7 +29726,7 @@ module.exports = JSON.parse("{\"uni-popup.cancel\":\"cancel\",\"uni-popup.ok\":\
 module.exports = JSON.parse("{\"uni-popup.cancel\":\"取消\",\"uni-popup.ok\":\"确定\",\"uni-popup.placeholder\":\"请输入\",\"uni-popup.title\":\"提示\",\"uni-popup.shareTitle\":\"分享到\"}");
 
 /***/ }),
-/* 551 */
+/* 554 */
 /*!**********************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-popup/components/uni-popup/i18n/zh-Hant.json ***!
   \**********************************************************************************************/
@@ -29727,9 +29736,6 @@ module.exports = JSON.parse("{\"uni-popup.cancel\":\"取消\",\"uni-popup.ok\":\
 module.exports = JSON.parse("{\"uni-popup.cancel\":\"取消\",\"uni-popup.ok\":\"確定\",\"uni-popup.placeholder\":\"請輸入\",\"uni-popup.title\":\"提示\",\"uni-popup.shareTitle\":\"分享到\"}");
 
 /***/ }),
-/* 552 */,
-/* 553 */,
-/* 554 */,
 /* 555 */,
 /* 556 */,
 /* 557 */,
@@ -29762,7 +29768,10 @@ module.exports = JSON.parse("{\"uni-popup.cancel\":\"取消\",\"uni-popup.ok\":\
 /* 584 */,
 /* 585 */,
 /* 586 */,
-/* 587 */
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */
 /*!********************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-id-pages/pages/userinfo/cropImage/limeClipper/utils.js ***!
   \********************************************************************************************************/
@@ -30017,9 +30026,6 @@ function imageTouchMoveOfCalcOffset(data, clientXForLeft, clientYForLeft) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 588 */,
-/* 589 */,
-/* 590 */,
 /* 591 */,
 /* 592 */,
 /* 593 */,
@@ -30038,7 +30044,10 @@ function imageTouchMoveOfCalcOffset(data, clientXForLeft, clientYForLeft) {
 /* 606 */,
 /* 607 */,
 /* 608 */,
-/* 609 */
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */
 /*!****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-forms/components/uni-forms/validate.js ***!
   \****************************************************************************************/
@@ -30729,7 +30738,7 @@ var _default = SchemaValidator;
 exports.default = _default;
 
 /***/ }),
-/* 610 */
+/* 613 */
 /*!*************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-forms/components/uni-forms/utils.js ***!
   \*************************************************************************************/
@@ -31064,9 +31073,6 @@ var isEqual = function isEqual(a, b) {
 exports.isEqual = isEqual;
 
 /***/ }),
-/* 611 */,
-/* 612 */,
-/* 613 */,
 /* 614 */,
 /* 615 */,
 /* 616 */,
@@ -31092,7 +31098,10 @@ exports.isEqual = isEqual;
 /* 636 */,
 /* 637 */,
 /* 638 */,
-/* 639 */
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */
 /*!**********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-parse/props.js ***!
   \**********************************************************************************/
@@ -31152,7 +31161,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 640 */
+/* 643 */
 /*!***********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-parse/parser.js ***!
   \***********************************************************************************/
@@ -32083,14 +32092,14 @@ module.exports = parser;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 641 */,
-/* 642 */,
-/* 643 */,
 /* 644 */,
 /* 645 */,
 /* 646 */,
 /* 647 */,
-/* 648 */
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */
 /*!**********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-empty/props.js ***!
   \**********************************************************************************/
@@ -32167,14 +32176,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 649 */,
-/* 650 */,
-/* 651 */,
 /* 652 */,
 /* 653 */,
 /* 654 */,
 /* 655 */,
-/* 656 */
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */
 /*!***************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-subsection/props.js ***!
   \***************************************************************************************/
@@ -32241,9 +32250,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 657 */,
-/* 658 */,
-/* 659 */,
 /* 660 */,
 /* 661 */,
 /* 662 */,
@@ -32255,7 +32261,10 @@ exports.default = _default;
 /* 668 */,
 /* 669 */,
 /* 670 */,
-/* 671 */
+/* 671 */,
+/* 672 */,
+/* 673 */,
+/* 674 */
 /*!**************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
   \**************************************************************************************************/
@@ -32270,9 +32279,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 672));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 673));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 674));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 675));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 676));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 677));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -32281,7 +32290,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 672 */
+/* 675 */
 /*!*************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
   \*************************************************************************************************/
@@ -32291,7 +32300,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show more\",\"uni-load-more.contentrefresh\":\"loading...\",\"uni-load-more.contentnomore\":\"No more data\"}");
 
 /***/ }),
-/* 673 */
+/* 676 */
 /*!******************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
   \******************************************************************************************************/
@@ -32301,7 +32310,7 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show mo
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多\",\"uni-load-more.contentrefresh\":\"正在加载...\",\"uni-load-more.contentnomore\":\"没有更多数据了\"}");
 
 /***/ }),
-/* 674 */
+/* 677 */
 /*!******************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
   \******************************************************************************************************/
@@ -32311,9 +32320,6 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多\",\"uni-load-more.contentrefresh\":\"正在加載...\",\"uni-load-more.contentnomore\":\"沒有更多數據了\"}");
 
 /***/ }),
-/* 675 */,
-/* 676 */,
-/* 677 */,
 /* 678 */,
 /* 679 */,
 /* 680 */,
@@ -32325,7 +32331,10 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多
 /* 686 */,
 /* 687 */,
 /* 688 */,
-/* 689 */
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */
 /*!**********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-input/props.js ***!
   \**********************************************************************************/
@@ -32530,12 +32539,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 690 */,
-/* 691 */,
-/* 692 */,
 /* 693 */,
 /* 694 */,
-/* 695 */
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */
 /*!*************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-textarea/props.js ***!
   \*************************************************************************************/
@@ -32672,12 +32681,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 696 */,
-/* 697 */,
-/* 698 */,
 /* 699 */,
 /* 700 */,
-/* 701 */
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */
 /*!******************************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js ***!
   \******************************************************************************************************************/
@@ -32900,7 +32909,7 @@ function chooseAndUploadFile() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"]))
 
 /***/ }),
-/* 702 */
+/* 705 */
 /*!*************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-file-picker/components/uni-file-picker/utils.js ***!
   \*************************************************************************************************/
@@ -33064,14 +33073,14 @@ exports.get_file_data = get_file_data;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 703 */,
-/* 704 */,
-/* 705 */,
 /* 706 */,
 /* 707 */,
 /* 708 */,
 /* 709 */,
-/* 710 */
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */
 /*!***************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/libs/mixin/button.js ***!
   \***************************************************************************/
@@ -33101,7 +33110,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 711 */
+/* 714 */
 /*!*****************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/libs/mixin/openType.js ***!
   \*****************************************************************************/
@@ -33143,7 +33152,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 712 */
+/* 715 */
 /*!***********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-button/props.js ***!
   \***********************************************************************************/
@@ -33322,9 +33331,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 713 */,
-/* 714 */,
-/* 715 */,
 /* 716 */,
 /* 717 */,
 /* 718 */,
@@ -33336,7 +33342,10 @@ exports.default = _default;
 /* 724 */,
 /* 725 */,
 /* 726 */,
-/* 727 */
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */
 /*!************************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/index.js ***!
   \************************************************************************/
@@ -33345,16 +33354,16 @@ exports.default = _default;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _en_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./en.json */ 728);
-var _en_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./en.json */ 728, 1);
-/* harmony import */ var _es_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./es.json */ 729);
-var _es_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./es.json */ 729, 1);
-/* harmony import */ var _fr_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fr.json */ 730);
-var _fr_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./fr.json */ 730, 1);
-/* harmony import */ var _zh_Hans_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./zh-Hans.json */ 731);
-var _zh_Hans_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./zh-Hans.json */ 731, 1);
-/* harmony import */ var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./zh-Hant.json */ 732);
-var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./zh-Hant.json */ 732, 1);
+/* harmony import */ var _en_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./en.json */ 731);
+var _en_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./en.json */ 731, 1);
+/* harmony import */ var _es_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./es.json */ 732);
+var _es_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./es.json */ 732, 1);
+/* harmony import */ var _fr_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fr.json */ 733);
+var _fr_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./fr.json */ 733, 1);
+/* harmony import */ var _zh_Hans_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./zh-Hans.json */ 734);
+var _zh_Hans_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./zh-Hans.json */ 734, 1);
+/* harmony import */ var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./zh-Hant.json */ 735);
+var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./zh-Hant.json */ 735, 1);
 
 
 
@@ -33370,7 +33379,7 @@ var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpac
 
 
 /***/ }),
-/* 728 */
+/* 731 */
 /*!***********************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/en.json ***!
   \***********************************************************************/
@@ -33380,7 +33389,7 @@ var _zh_Hant_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpac
 module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"Success\",\"uniCloud.component.update.success\":\"Success\",\"uniCloud.component.update.showModal.title\":\"Tips\",\"uniCloud.component.update.showModal.content\":\"是否更新该数据\",\"uniCloud.component.remove.showModal.title\":\"Tips\",\"uniCloud.component.remove.showModal.content\":\"是否删除该数据\"}");
 
 /***/ }),
-/* 729 */
+/* 732 */
 /*!***********************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/es.json ***!
   \***********************************************************************/
@@ -33390,7 +33399,7 @@ module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"Success\",\"u
 module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\",\"uniCloud.component.update.success\":\"修改成功\",\"uniCloud.component.update.showModal.title\":\"提示\",\"uniCloud.component.update.showModal.content\":\"是否更新该数据\",\"uniCloud.component.remove.showModal.title\":\"提示\",\"uniCloud.component.remove.showModal.content\":\"是否删除该数据\"}");
 
 /***/ }),
-/* 730 */
+/* 733 */
 /*!***********************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/fr.json ***!
   \***********************************************************************/
@@ -33400,7 +33409,7 @@ module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\
 module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\",\"uniCloud.component.update.success\":\"修改成功\",\"uniCloud.component.update.showModal.title\":\"提示\",\"uniCloud.component.update.showModal.content\":\"是否更新该数据\",\"uniCloud.component.remove.showModal.title\":\"提示\",\"uniCloud.component.remove.showModal.content\":\"是否删除该数据\"}");
 
 /***/ }),
-/* 731 */
+/* 734 */
 /*!****************************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/zh-Hans.json ***!
   \****************************************************************************/
@@ -33410,7 +33419,7 @@ module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\
 module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\",\"uniCloud.component.update.success\":\"修改成功\",\"uniCloud.component.update.showModal.title\":\"提示\",\"uniCloud.component.update.showModal.content\":\"是否更新该数据\",\"uniCloud.component.remove.showModal.title\":\"提示\",\"uniCloud.component.remove.showModal.content\":\"是否删除该数据\"}");
 
 /***/ }),
-/* 732 */
+/* 735 */
 /*!****************************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-cli-shared/components/i18n/zh-Hant.json ***!
   \****************************************************************************/
@@ -33420,9 +33429,6 @@ module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\
 module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\",\"uniCloud.component.update.success\":\"修改成功\",\"uniCloud.component.update.showModal.title\":\"提示\",\"uniCloud.component.update.showModal.content\":\"是否更新该数据\",\"uniCloud.component.remove.showModal.title\":\"提示\",\"uniCloud.component.remove.showModal.content\":\"是否刪除數據\"}");
 
 /***/ }),
-/* 733 */,
-/* 734 */,
-/* 735 */,
 /* 736 */,
 /* 737 */,
 /* 738 */,
@@ -33432,7 +33438,10 @@ module.exports = JSON.parse("{\"uniCloud.component.add.success\":\"新增成功\
 /* 742 */,
 /* 743 */,
 /* 744 */,
-/* 745 */
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */
 /*!**********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-popup/props.js ***!
   \**********************************************************************************/
@@ -33529,14 +33538,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 746 */,
-/* 747 */,
-/* 748 */,
 /* 749 */,
 /* 750 */,
 /* 751 */,
 /* 752 */,
-/* 753 */
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-text/props.js ***!
   \*********************************************************************************/
@@ -33664,9 +33673,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 754 */,
-/* 755 */,
-/* 756 */,
 /* 757 */,
 /* 758 */,
 /* 759 */,
@@ -33683,7 +33689,10 @@ exports.default = _default;
 /* 770 */,
 /* 771 */,
 /* 772 */,
-/* 773 */
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */
 /*!*****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \*****************************************************************************************/
@@ -33760,14 +33769,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 774 */,
-/* 775 */,
-/* 776 */,
 /* 777 */,
 /* 778 */,
 /* 779 */,
 /* 780 */,
-/* 781 */
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */
 /*!*********************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \*********************************************************************************************/
@@ -33814,14 +33823,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 782 */,
-/* 783 */,
-/* 784 */,
 /* 785 */,
 /* 786 */,
 /* 787 */,
 /* 788 */,
-/* 789 */
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-line/props.js ***!
   \*********************************************************************************/
@@ -33872,14 +33881,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 790 */,
-/* 791 */,
-/* 792 */,
 /* 793 */,
 /* 794 */,
 /* 795 */,
 /* 796 */,
-/* 797 */
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */
 /*!**********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-badge/props.js ***!
   \**********************************************************************************/
@@ -33969,14 +33978,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 798 */,
-/* 799 */,
-/* 800 */,
 /* 801 */,
 /* 802 */,
 /* 803 */,
 /* 804 */,
-/* 805 */
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */
 /*!*****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-action-sheet/props.js ***!
   \*****************************************************************************************/
@@ -34048,14 +34057,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 806 */,
-/* 807 */,
-/* 808 */,
 /* 809 */,
 /* 810 */,
 /* 811 */,
 /* 812 */,
-/* 813 */
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */
 /*!****************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \****************************************************************************************/
@@ -34075,14 +34084,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 814 */,
-/* 815 */,
-/* 816 */,
 /* 817 */,
 /* 818 */,
 /* 819 */,
 /* 820 */,
-/* 821 */
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-icon/icons.js ***!
   \*********************************************************************************/
@@ -34313,7 +34322,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 822 */
+/* 825 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-icon/props.js ***!
   \*********************************************************************************/
@@ -34420,9 +34429,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 823 */,
-/* 824 */,
-/* 825 */,
 /* 826 */,
 /* 827 */,
 /* 828 */,
@@ -34432,7 +34438,10 @@ exports.default = _default;
 /* 832 */,
 /* 833 */,
 /* 834 */,
-/* 835 */
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */
 /*!*************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
   \*************************************************************************************************/
@@ -34935,9 +34944,6 @@ var fontData = [{
 exports.fontData = fontData;
 
 /***/ }),
-/* 836 */,
-/* 837 */,
-/* 838 */,
 /* 839 */,
 /* 840 */,
 /* 841 */,
@@ -34949,7 +34955,10 @@ exports.fontData = fontData;
 /* 847 */,
 /* 848 */,
 /* 849 */,
-/* 850 */
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */
 /*!*********************************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \*********************************************************************************************************/
@@ -35083,9 +35092,6 @@ function createAnimation(option, _this) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 851 */,
-/* 852 */,
-/* 853 */,
 /* 854 */,
 /* 855 */,
 /* 856 */,
@@ -35097,7 +35103,10 @@ function createAnimation(option, _this) {
 /* 862 */,
 /* 863 */,
 /* 864 */,
-/* 865 */
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */
 /*!***********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-avatar/props.js ***!
   \***********************************************************************************/
@@ -35193,9 +35202,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 866 */,
-/* 867 */,
-/* 868 */,
 /* 869 */,
 /* 870 */,
 /* 871 */,
@@ -35228,7 +35234,10 @@ exports.default = _default;
 /* 898 */,
 /* 899 */,
 /* 900 */,
-/* 901 */
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */
 /*!************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \************************************************************************************/
@@ -35270,14 +35279,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 902 */,
-/* 903 */,
-/* 904 */,
 /* 905 */,
 /* 906 */,
 /* 907 */,
 /* 908 */,
-/* 909 */
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */
 /*!***************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-transition/props.js ***!
   \***************************************************************************************/
@@ -35319,7 +35328,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 910 */
+/* 913 */
 /*!********************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \********************************************************************************************/
@@ -35336,7 +35345,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 911));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 914));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -35428,7 +35437,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 911 */
+/* 914 */
 /*!**********************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \**********************************************************************************************/
@@ -35621,14 +35630,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 912 */,
-/* 913 */,
-/* 914 */,
 /* 915 */,
 /* 916 */,
 /* 917 */,
 /* 918 */,
-/* 919 */
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */
 /*!***************************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \***************************************************************************************/
@@ -35654,14 +35663,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 920 */,
-/* 921 */,
-/* 922 */,
 /* 923 */,
 /* 924 */,
 /* 925 */,
 /* 926 */,
-/* 927 */
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-text/value.js ***!
   \*********************************************************************************/
@@ -35769,14 +35778,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 928 */,
-/* 929 */,
-/* 930 */,
 /* 931 */,
 /* 932 */,
 /* 933 */,
 /* 934 */,
-/* 935 */
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */
 /*!********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-gap/props.js ***!
   \********************************************************************************/
@@ -35818,14 +35827,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 936 */,
-/* 937 */,
-/* 938 */,
 /* 939 */,
 /* 940 */,
 /* 941 */,
 /* 942 */,
-/* 943 */
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */
 /*!*********************************************************************************!*\
   !*** F:/毕设/Formula 1 Community/uni_modules/uview-ui/components/u-link/props.js ***!
   \*********************************************************************************/

@@ -2,6 +2,7 @@
   "navigationBarTitleText": "圈子详情页",
   "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
     "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat",
     "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",

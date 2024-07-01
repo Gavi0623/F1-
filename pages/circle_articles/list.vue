@@ -1,15 +1,6 @@
 <template>
 	<view class="container">
-		<!-- 自定义导航栏 -->
-		<view class="navBarBox">
-			<!-- 状态栏占位 -->
-			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-			<!-- 真正的导航栏内容 -->
-			<view class="navBar">
-				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
-				<view>我的长文</view>
-			</view>
-		</view>
+		<nav-bar :title="pageTitle"></nav-bar>
 
 		<unicloud-db ref="udb" v-slot:default="{data, pagination, loading, hasMore, error}" :collection="collectionList"
 			field="user_id,title,description,tab,province,content,excerpt,article_status,last_comment_user_id,picurls,publish_date,publish_ip,last_modify_date,last_modify_ip"
@@ -40,10 +31,7 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
-				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
+				pageTitle: "我的长文",
 				collectionList: "circle_articles",
 				loadMore: {
 					contentdown: '',
@@ -59,10 +47,6 @@
 				uni.stopPullDownRefresh()
 			})
 		},
-		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
-		},
 		onReachBottom() {
 			this.$refs.udb.loadMore()
 		},
@@ -76,7 +60,7 @@
 			fabClick() {
 				// 打开新增页面
 				uni.navigateTo({
-					url: './add',
+					url: '/pages/index/edit/edit',
 					events: {
 						// 监听新增数据成功后, 刷新当前页面数据
 						refreshData: () => {
@@ -92,23 +76,5 @@
 </script>
 
 <style lang="scss" scoped>
-	.navBarBox {
-		.statusBar {}
 
-		.navBar {
-			padding: 3rpx 50rpx;
-			padding-bottom: 8rpx;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-
-			.logo {
-				width: 82rpx;
-				height: 82rpx;
-				margin-right: 10rpx;
-				filter: invert(1);
-			}
-		}
-	}
 </style>

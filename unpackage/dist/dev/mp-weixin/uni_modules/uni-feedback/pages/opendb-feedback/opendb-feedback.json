@@ -2,6 +2,7 @@
   "navigationBarTitleText": "反馈新增",
   "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms",
     "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item",
     "uni-file-picker": "/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker",

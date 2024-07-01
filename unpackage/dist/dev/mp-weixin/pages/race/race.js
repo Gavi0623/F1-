@@ -101,20 +101,23 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    navBar: function () {
+      return __webpack_require__.e(/*! import() | components/nav-bar/nav-bar */ "components/nav-bar/nav-bar").then(__webpack_require__.bind(null, /*! @/components/nav-bar/nav-bar.vue */ 428))
+    },
     uTabbar: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar/u-tabbar.vue */ 477))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar/u-tabbar.vue */ 480))
     },
     uTabbarItem: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item.vue */ 485))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabbar-item/u-tabbar-item.vue */ 488))
     },
     gameItem: function () {
-      return __webpack_require__.e(/*! import() | components/game-item/game-item */ "components/game-item/game-item").then(__webpack_require__.bind(null, /*! @/components/game-item/game-item.vue */ 493))
+      return __webpack_require__.e(/*! import() | components/game-item/game-item */ "components/game-item/game-item").then(__webpack_require__.bind(null, /*! @/components/game-item/game-item.vue */ 496))
     },
     driverItem: function () {
-      return __webpack_require__.e(/*! import() | components/driver-item/driver-item */ "components/driver-item/driver-item").then(__webpack_require__.bind(null, /*! @/components/driver-item/driver-item.vue */ 500))
+      return __webpack_require__.e(/*! import() | components/driver-item/driver-item */ "components/driver-item/driver-item").then(__webpack_require__.bind(null, /*! @/components/driver-item/driver-item.vue */ 503))
     },
     teamItem: function () {
-      return __webpack_require__.e(/*! import() | components/team-item/team-item */ "components/team-item/team-item").then(__webpack_require__.bind(null, /*! @/components/team-item/team-item.vue */ 507))
+      return __webpack_require__.e(/*! import() | components/team-item/team-item */ "components/team-item/team-item").then(__webpack_require__.bind(null, /*! @/components/team-item/team-item.vue */ 510))
     },
   }
 } catch (e) {
@@ -171,7 +174,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uniCloud, uni) {
+/* WEBPACK VAR INJECTION */(function(uniCloud, uni, wx) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -209,15 +212,25 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var db = uniCloud.database();
 var _default = {
   data: function data() {
     return {
-      // 状态栏高度
       statusBarHeight: 0,
-      // 导航栏高度
-      navBarHeight: 82 + 11,
+      navBarHeight: 0,
+      headerHeight: 0,
       value1: 0,
       scheduleList: [],
       team: null
@@ -228,10 +241,19 @@ var _default = {
     this.getteamData();
   },
   created: function created() {
-    //获取手机状态栏高度
-    this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
+    this.initHeaderHeight();
   },
   methods: {
+    initHeaderHeight: function initHeaderHeight() {
+      var systemInfo = uni.getSystemInfoSync();
+      this.statusBarHeight = systemInfo.statusBarHeight;
+      console.log(this.statusBarHeight);
+      this.menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+      this.navBarHeight = (this.menuButtonInfo.top + systemInfo.statusBarHeight) * 2 + this.menuButtonInfo.height;
+      console.log(this.menuButtonInfo.height);
+      console.log(this.menuButtonInfo.top);
+      this.headerHeight = this.navBarHeight;
+    },
     change1: function change1(e) {
       this.value1 = e;
       console.log('change1', e);
@@ -259,7 +281,7 @@ var _default = {
   }
 };
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

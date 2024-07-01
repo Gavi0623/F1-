@@ -1,15 +1,7 @@
 <template>
 	<view class="circle">
 		<!-- 自定义导航栏 -->
-		<view class="navBarBox">
-			<!-- 状态栏占位 -->
-			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-			<!-- 真正的导航栏内容 -->
-			<view class="navBar">
-				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
-				<view>F1 App</view>
-			</view>
-		</view>
+		<nav-bar></nav-bar>
 
 		<!-- 导航栏 -->
 		<view class="topnav">
@@ -64,10 +56,6 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
-				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
 				status: 'loadmore',
 				page: 1, // 当前页码
 				pageSize: 10, // 每页显示的数据条数
@@ -148,10 +136,6 @@
 				await this.refreshData();
 				this.fromDetailPage = false; // 重置标志
 			}
-		},
-		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 
 		methods: {

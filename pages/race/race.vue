@@ -1,16 +1,27 @@
 <template>
 	<view class="race">
-		<!-- 状态栏占位 -->
-		<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-		<view class="navbar">
-			<!-- 导航栏内容 -->
-			<u-tabbar :value="value1" @change="change1" :fixed="false" :placeholder="false"
-				:safeAreaInsetBottom="false">
-				<u-tabbar-item text="赛程" @click="click1"></u-tabbar-item>
-				<u-tabbar-item text="车手" @click="click1"></u-tabbar-item>
-				<u-tabbar-item text="车队" @click="click1"></u-tabbar-item>
-			</u-tabbar>
+		<view class="fixed-header">
+			<!-- 状态栏占位 -->
+			<!-- #ifndef MP-WEIXIN -->
+			<view class="statusBar" :style="{ height: statusBarHeight + 'px' }"></view>
+			<!-- #endif -->
+
+			<!-- #ifdef MP-WEIXIN -->
+			<nav-bar></nav-bar>
+			<!-- #endif -->
+			<view class="navbar">
+				<!-- 导航栏内容 -->
+				<u-tabbar :value="value1" @change="change1" :fixed="false" :placeholder="false"
+					:safeAreaInsetBottom="false">
+					<u-tabbar-item text="赛程" @click="click1"></u-tabbar-item>
+					<u-tabbar-item text="车手" @click="click1"></u-tabbar-item>
+					<u-tabbar-item text="车队" @click="click1"></u-tabbar-item>
+				</u-tabbar>
+			</view>
 		</view>
+
+		<!-- 占位元素，防止内容被固定header遮挡 -->
+		<view class="header-placeholder" :style="{ height: headerHeight + 'px' }"></view>
 
 		<view class="container">
 			<view class="schedule" v-if="value1==0" v-for="(schedule,index) in scheduleList" :key="index">
@@ -36,10 +47,9 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
 				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
+				navBarHeight: 0,
+				headerHeight: 0,
 				value1: 0,
 				scheduleList: [],
 				team: null
@@ -50,12 +60,37 @@
 			this.getSchedule();
 			this.getteamData();
 		},
+
 		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
+
+			this.initHeaderHeight();
 		},
 
 		methods: {
+			initHeaderHeight() {
+				const systemInfo = uni.getSystemInfoSync();
+				this.statusBarHeight = systemInfo.statusBarHeight;
+				console.log(this.statusBarHeight);
+
+				// #ifdef MP-WEIXIN
+				this.menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+				this.navBarHeight = (this.menuButtonInfo.top + systemInfo.statusBarHeight) * 2 + this.menuButtonInfo
+					.height;
+				console.log(this.menuButtonInfo.height);
+				console.log(this.menuButtonInfo.top);
+				// #endif
+
+				// #ifndef MP-WEIXIN
+				if (systemInfo.platform === 'android') {
+					this.navBarHeight = 80;
+				} else {
+					this.navBarHeight = 46;
+				}
+				// #endif
+
+				this.headerHeight = this.navBarHeight;
+			},
+
 			change1(e) {
 				this.value1 = e
 				console.log('change1', e);
@@ -86,14 +121,27 @@
 
 <style lang="scss">
 	.race {
-		// #ifdef MP-WEIXIN
-		padding-top: var(--status-bar-height);
-		// #endif
+		.fixed-header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 999;
+			background-color: #fff;
 
-		.statusBar {
-			// #ifdef MP-WEIXIN
-			padding-bottom: 20rpx;
-			// #endif
+			.statusBar {
+				width: 100%;
+			}
+
+			.navbar {
+				width: 100%;
+				display: flex;
+				align-items: center;
+			}
+		}
+
+		.header-placeholder {
+			width: 100%;
 		}
 	}
 </style>
