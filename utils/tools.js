@@ -1,10 +1,18 @@
 // 获取富文本内的图片url地址
+/**
+ * @param {string} richtext - 富文本内容
+ * @param {number} num - 要获取的图片URL数量，默认为9
+ * @returns {Array} - 返回包含图片URL的数组
+ */
 export function getImgSrc(richtext, num = 9) {
-	let imgList = [];
+	let imgList = []; // 初始化一个数组来存储图片URL
+	// 使用正则表达式匹配富文本中的<img>标签并提取其中的src属性值
 	richtext.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, (match, capture) => {
-		imgList.push(capture);
+		imgList.push(capture); // 将匹配到的src属性值（即图片URL）添加到imgList数组中
 	});
-	imgList = imgList.slice(0, num)
+	// 截取imgList数组的前num个元素
+	imgList = imgList.slice(0, num);
+	// 返回包含图片URL的数组
 	return imgList;
 }
 

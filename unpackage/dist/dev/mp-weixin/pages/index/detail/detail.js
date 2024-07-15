@@ -101,6 +101,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    navBar: function () {
+      return __webpack_require__.e(/*! import() | components/nav-bar/nav-bar */ "components/nav-bar/nav-bar").then(__webpack_require__.bind(null, /*! @/components/nav-bar/nav-bar.vue */ 428))
+    },
     uSkeleton: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-skeleton/u-skeleton */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-skeleton/u-skeleton")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-skeleton/u-skeleton.vue */ 435))
     },
@@ -219,14 +222,6 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 184);
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //

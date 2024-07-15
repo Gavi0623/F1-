@@ -1,5 +1,6 @@
 <template>
 	<view class="edit">
+		<nav-bar></nav-bar>
 		<view class="title">
 			<input type="text" v-model="artObj.title" placeholder="请输入标题" placeholder-class="placeholderClass" />
 		</view>

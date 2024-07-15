@@ -2,6 +2,7 @@
   "navigationBarTitleText": "首页详情",
   "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
     "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat",
     "u-parse": "/uni_modules/uview-ui/components/u-parse/u-parse",

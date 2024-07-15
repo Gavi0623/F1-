@@ -233,7 +233,8 @@ var _default = {
       headerHeight: 0,
       value1: 0,
       scheduleList: [],
-      team: null
+      team: null,
+      re: false
     };
   },
   onLoad: function onLoad() {

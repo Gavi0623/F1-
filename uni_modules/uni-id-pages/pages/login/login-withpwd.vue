@@ -1,6 +1,7 @@
 <!-- 账号密码登录页 -->
 <template>
 	<view class="uni-content">
+		<nav-bar></nav-bar>
 		<view class="login-logo">
 			<image :src="logo"></image>
 		</view>

@@ -101,6 +101,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    navBar: function () {
+      return __webpack_require__.e(/*! import() | components/nav-bar/nav-bar */ "components/nav-bar/nav-bar").then(__webpack_require__.bind(null, /*! @/components/nav-bar/nav-bar.vue */ 428))
+    },
     indexCommentItem: function () {
       return __webpack_require__.e(/*! import() | components/indexComment-item/indexComment-item */ "components/indexComment-item/indexComment-item").then(__webpack_require__.bind(null, /*! @/components/indexComment-item/indexComment-item.vue */ 662))
     },
@@ -209,6 +212,7 @@ var _store = __webpack_require__(/*! ../../../uni_modules/uni-id-pages/common/st
 //
 //
 //
+//
 
 var db = uniCloud.database();
 var _default = {
@@ -224,7 +228,9 @@ var _default = {
       childReplyArr: [],
       page: 1,
       pageSize: 10,
-      loadMoreStatus: 'more'
+      loadMoreStatus: 'more',
+      showImg: false,
+      title: ""
     };
   },
   onLoad: function onLoad(e) {
@@ -235,6 +241,9 @@ var _default = {
     this.commentObj.article_id = this.replyItem.article_id;
     this.commentObj.reply_user_id = this.replyItem.user_id[0]._id;
     this.commentObj.reply_comment_id = this.replyItem._id;
+
+    // 设置 title
+    this.title = "回复：" + this.giveName(this.replyItem);
     this.getComment();
   },
   onReachBottom: function onReachBottom() {

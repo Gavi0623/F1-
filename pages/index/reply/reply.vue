@@ -1,5 +1,6 @@
 <template>
 	<view class="reply">
+		<nav-bar :title="title" :showImg="showImg"></nav-bar>
 		<view class="top">
 			<indexComment-item :closeBtn="true" :childState="true" :item="replyItem"
 				:like_count.sync="replyItem.like_count"></indexComment-item>
@@ -46,6 +47,8 @@
 				page: 1,
 				pageSize: 10,
 				loadMoreStatus: 'more',
+				showImg: false,
+				title: ""
 			};
 		},
 		onLoad(e) {
@@ -56,6 +59,9 @@
 			this.commentObj.article_id = this.replyItem.article_id;
 			this.commentObj.reply_user_id = this.replyItem.user_id[0]._id;
 			this.commentObj.reply_comment_id = this.replyItem._id;
+
+			// 设置 title
+			this.title = "回复：" + this.giveName(this.replyItem);
 
 			this.getComment();
 		},

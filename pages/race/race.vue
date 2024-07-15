@@ -7,7 +7,7 @@
 			<!-- #endif -->
 
 			<!-- #ifdef MP-WEIXIN -->
-			<nav-bar></nav-bar>
+			<nav-bar :re="re"></nav-bar>
 			<!-- #endif -->
 			<view class="navbar">
 				<!-- 导航栏内容 -->
@@ -52,7 +52,8 @@
 				headerHeight: 0,
 				value1: 0,
 				scheduleList: [],
-				team: null
+				team: null,
+				re: false
 			};
 		},
 

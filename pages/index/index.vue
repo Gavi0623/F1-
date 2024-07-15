@@ -1,6 +1,6 @@
 <template>
 	<view class="index">
-		<nav-bar></nav-bar>
+		<nav-bar :re="re"></nav-bar>
 
 		<view class="content">
 			<view class="swiper">
@@ -32,8 +32,8 @@
 				<!-- 右半部分的图片 -->
 				<view class="pic">
 					<!-- 当图片上传成功后要动态请求数据库中的图片路径 -->
-					<image v-if="item.picurls && item.picurls.length" :src="item.picurls[0]" mode="aspectFit"></image>
-					<image v-else src="../../static/images/no-image.jpg" mode="aspectFit"></image>
+					<image v-if="item.picurls && item.picurls.length" :src="item.picurls[0]" mode=""></image>
+					<image v-else src="../../static/images/no-image.jpg" mode=""></image>
 				</view>
 			</view>
 
@@ -65,6 +65,7 @@
 				dataList: [],
 				swiperList: [],
 				fromDetailPage: false, // 新增
+				re: false
 			}
 		},
 		onLoad() {

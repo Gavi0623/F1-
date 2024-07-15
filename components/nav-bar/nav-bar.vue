@@ -1,13 +1,19 @@
 <template>
 	<view class="box">
 		<!-- 自定义导航栏 -->
-		<view class="navBarBox" :style="{ height: `${statusBarHeight + navBarHeight}px` }">
+		<view class="nav-BarBox" :style="{ height: `${statusBarHeight + navBarHeight}px` }">
 			<!-- 状态栏占位 -->
 			<view class="statusBar" :style="{ height: `${statusBarHeight}px` }"></view>
 			<!-- 真正的导航栏内容 -->
 			<view class="navBar" :style="{ height: `${navBarHeight}px` }">
-				<image v-if="showImg" class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
-				<view>{{ title }}</view>
+				<view class="re" @tap="goRe" v-if="re">
+					<text class="iconfont icon-fanhui"></text>
+				</view>
+				<view class="center-content">
+					<image v-if="showImg" class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
+					<view>{{ title }}</view>
+				</view>
+				<view class="re"></view> <!-- 添加一个空的view来平衡布局 -->
 			</view>
 		</view>
 		<!-- 占位，防止内容被导航栏遮挡 -->
@@ -24,6 +30,10 @@
 				default: 'F1 App'
 			},
 			showImg: {
+				type: Boolean,
+				default: true
+			},
+			re: {
 				type: Boolean,
 				default: true
 			}
@@ -56,18 +66,23 @@
 				this.navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height;
 				// #endif
 			},
+
+			// 返回上一页
+			goRe() {
+				uni.navigateBack();
+			}
 		},
 	};
 </script>
 
 <style lang="scss" scoped>
 	.box {
-		.navBarBox {
+		.nav-BarBox {
 			position: fixed;
 			top: 0;
 			left: 0;
-			right: 0;
-			z-index: 999;
+			z-index: 99;
+			width: 100%;
 			background-color: #fff;
 
 			.statusBar {
@@ -77,15 +92,27 @@
 			.navBar {
 				display: flex;
 				flex-direction: row;
-				justify-content: center;
+				justify-content: space-between; // 改为 space-between
 				align-items: center;
-				padding: 0 50rpx;
+				padding: 0 20rpx; // 减小左右padding
+
+				.re {
+					flex: 0 0 auto; // 不伸缩，保持自身大小
+				}
 
 				.logo {
 					width: 82rpx;
 					height: 82rpx;
 					margin-right: 10rpx;
 					filter: invert(1);
+				}
+
+				// 新增：将标题和logo包裹在一起
+				.center-content {
+					flex: 1;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 		}

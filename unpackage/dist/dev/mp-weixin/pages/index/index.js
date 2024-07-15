@@ -267,7 +267,9 @@ var _default = {
       title: 'Hello',
       dataList: [],
       swiperList: [],
-      fromDetailPage: false // 新增
+      fromDetailPage: false,
+      // 新增
+      re: false
     };
   },
   onLoad: function onLoad() {

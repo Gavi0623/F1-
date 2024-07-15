@@ -58,7 +58,8 @@
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/login/login-withpwd",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/login/login-smscode",
@@ -182,7 +183,8 @@
 		{
 			"path": "pages/index/reply/reply",
 			"style": {
-				"navigationBarTitleText": "首页回复页面"
+				"navigationBarTitleText": "首页回复页面",
+				"navigationStyle": "custom"
 			}
 		},
 		{

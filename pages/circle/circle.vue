@@ -1,7 +1,7 @@
 <template>
 	<view class="circle">
 		<!-- 自定义导航栏 -->
-		<nav-bar></nav-bar>
+		<nav-bar :re="re"></nav-bar>
 
 		<!-- 导航栏 -->
 		<view class="topnav">
@@ -107,6 +107,7 @@
 				clickable: true, // 标记是否可点击
 				lastClickTime: 0, // 上一次点击的时间
 				fromDetailPage: false, // 添加
+				re: false
 			};
 		},
 		onReachBottom() {

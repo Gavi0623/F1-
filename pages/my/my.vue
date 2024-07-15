@@ -1,7 +1,7 @@
 <template>
 	<view class="user">
 		<!-- 自定义导航栏 -->
-		<nav-bar></nav-bar>
+		<nav-bar :re="re"></nav-bar>
 
 		<view class="top">
 			<view class="group" @tap="toUserInfo">
@@ -120,7 +120,8 @@
 					artNum: 0,
 					likeNum: 0
 				},
-				date: null
+				date: null,
+				re: false
 			};
 		},
 		onLoad() {
@@ -138,9 +139,11 @@
 		},
 		computed: {
 			userInfo() {
+				console.log(store.userInfo);
 				return store.userInfo
 			},
 			hasLogin() {
+				console.log(store.hasLogin);
 				return store.hasLogin
 			},
 		},

@@ -9954,14 +9954,14 @@ var S = "development" === "development",
   T = I({
     "address": [
         "127.0.0.1",
+        "10.1.27.24",
         "192.168.137.1",
         "169.254.198.246",
-        "169.254.23.21",
-        "192.168.43.5"
+        "169.254.23.21"
     ],
-    "debugPort": 9001,
+    "debugPort": 9002,
     "initialLaunchType": "local",
-    "servePort": 7001,
+    "servePort": 7002,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.6.3.20220917/HBuilderX/plugins/unicloud/**/*.js"
@@ -18016,7 +18016,8 @@ var _default = {
   }, {
     "path": "pages/index/reply/reply",
     "style": {
-      "navigationBarTitleText": "首页回复页面"
+      "navigationBarTitleText": "首页回复页面",
+      "navigationStyle": "custom"
     }
   }, {
     "path": "pages/circle/reply/reply",

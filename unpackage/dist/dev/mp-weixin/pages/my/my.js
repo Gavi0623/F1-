@@ -288,7 +288,8 @@ var _default = {
         artNum: 0,
         likeNum: 0
       },
-      date: null
+      date: null,
+      re: false
     };
   },
   onLoad: function onLoad() {
@@ -306,9 +307,11 @@ var _default = {
   },
   computed: {
     userInfo: function userInfo() {
+      console.log(_store.store.userInfo);
       return _store.store.userInfo;
     },
     hasLogin: function hasLogin() {
+      console.log(_store.store.hasLogin);
       return _store.store.hasLogin;
     }
   },

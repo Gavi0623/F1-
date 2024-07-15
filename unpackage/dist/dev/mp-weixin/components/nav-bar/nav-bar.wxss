@@ -25,30 +25,39 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.box .navBarBox.data-v-010c2ed8 {
+.box .nav-BarBox.data-v-010c2ed8 {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 999;
+  z-index: 99;
+  width: 100%;
   background-color: #fff;
 }
-.box .navBarBox .statusBar.data-v-010c2ed8 {
+.box .nav-BarBox .statusBar.data-v-010c2ed8 {
   width: 100%;
 }
-.box .navBarBox .navBar.data-v-010c2ed8 {
+.box .nav-BarBox .navBar.data-v-010c2ed8 {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 50rpx;
+  padding: 0 20rpx;
 }
-.box .navBarBox .navBar .logo.data-v-010c2ed8 {
+.box .nav-BarBox .navBar .re.data-v-010c2ed8 {
+  flex: 0 0 auto;
+}
+.box .nav-BarBox .navBar .logo.data-v-010c2ed8 {
   width: 82rpx;
   height: 82rpx;
   margin-right: 10rpx;
   -webkit-filter: invert(1);
           filter: invert(1);
+}
+.box .nav-BarBox .navBar .center-content.data-v-010c2ed8 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .box .placeholder.data-v-010c2ed8 {
   width: 100%;

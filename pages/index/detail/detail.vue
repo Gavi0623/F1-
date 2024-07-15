@@ -2,15 +2,7 @@
 <template>
 	<view class="detail">
 		<!-- 自定义导航栏 -->
-		<view class="navBarBox">
-			<!-- 状态栏占位 -->
-			<view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }"></view>
-			<!-- 真正的导航栏内容 -->
-			<view class="navBar">
-				<image class="logo" src="/static/f1_logo.svg" mode="scaleToFill"></image>
-				<view>F1 App</view>
-			</view>
-		</view>
+		<nav-bar></nav-bar>
 
 		<view class="container">
 
@@ -110,10 +102,6 @@
 	export default {
 		data() {
 			return {
-				// 状态栏高度
-				statusBarHeight: 0,
-				// 导航栏高度
-				navBarHeight: 82 + 11,
 				artid: "",
 				tagStyle: {
 					p: "line-height: 1.7em;font-size: 32rpx;padding-bottom: 10rpx",
@@ -153,11 +141,6 @@
 			if (this.loadMoreStatus === 'more') {
 				this.getComment();
 			}
-		},
-
-		created() {
-			//获取手机状态栏高度
-			this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
 		},
 
 		methods: {
@@ -219,8 +202,6 @@
 				likeFun(this.artid);
 			},
 
-
-
 			getData() {
 				let artTemp = db.collection("news_articles").where(`_id=='${this.artid}'`).getTemp();
 				let userTemp = db.collection("uni-id-users").field("_id,username,nickname,avatar_file").getTemp();
@@ -247,9 +228,7 @@
 					if (store.hasLogin) isLike = res.result.data._id.news_like.length ? true : false;
 					res.result.data.isLike = isLike;
 					this.detailObj = res.result.data;
-					uni.setNavigationBarTitle({
-						title: this.detailObj.title
-					})
+					console.log(this.detailObj);
 				}).catch(err => {
 					this.errFun();
 				})
@@ -362,26 +341,6 @@
 	.detail {
 		background: #f8f8f8;
 		min-height: calc(100vh - var(--window-top));
-
-		.navBarBox {
-			.statusBar {}
-
-			.navBar {
-				padding: 3rpx 50rpx;
-				padding-bottom: 8rpx;
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				align-items: center;
-
-				.logo {
-					width: 82rpx;
-					height: 82rpx;
-					margin-right: 10rpx;
-					filter: invert(1);
-				}
-			}
-		}
 
 		.container {
 			padding: 30rpx;

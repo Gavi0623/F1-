@@ -285,7 +285,9 @@ var _default = {
       // 标记是否可点击
       lastClickTime: 0,
       // 上一次点击的时间
-      fromDetailPage: false // 添加
+      fromDetailPage: false,
+      // 添加
+      re: false
     };
   },
   onReachBottom: function onReachBottom() {

@@ -137,6 +137,12 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = {
   name: "nav-bar",
   props: {
@@ -145,6 +151,10 @@ var _default = {
       default: 'F1 App'
     },
     showImg: {
+      type: Boolean,
+      default: true
+    },
+    re: {
       type: Boolean,
       default: true
     }
@@ -175,6 +185,10 @@ var _default = {
 
       var menuButtonInfo = wx.getMenuButtonBoundingClientRect();
       this.navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height;
+    },
+    // 返回上一页
+    goRe: function goRe() {
+      uni.navigateBack();
     }
   }
 };
