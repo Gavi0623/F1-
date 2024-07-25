@@ -233,13 +233,11 @@ var _default = {
       headerHeight: 0,
       value1: 0,
       scheduleList: [],
-      team: null,
       re: false
     };
   },
   onLoad: function onLoad() {
     this.getSchedule();
-    this.getteamData();
   },
   created: function created() {
     this.initHeaderHeight();
@@ -262,19 +260,11 @@ var _default = {
     click1: function click1(e) {
       console.log('click1', e);
     },
-    // 获取车队数据
-    getteamData: function getteamData() {
-      var _this = this;
-      db.collection("teams2024").get().then(function (res) {
-        console.log(res);
-        _this.team = res.result.data;
-      });
-    },
     getSchedule: function getSchedule() {
-      var _this2 = this;
+      var _this = this;
       db.collection("schedule2024").get().then(function (res) {
         console.log(res);
-        _this2.scheduleList = res.result.data;
+        _this.scheduleList = res.result.data;
       }).catch(function (err) {
         console.error(err);
       });

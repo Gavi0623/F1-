@@ -107,7 +107,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = _vm.giveAvatar(_vm.item, "../../../static/images/user-default.jpg")
+  var m0 = _vm.giveAvatar(_vm.item, "/static/images/user-default.jpg")
   var m1 = _vm.giveName(_vm.item)
   var m2 =
     _vm.uniIDHasRole("Circle Manager") ||

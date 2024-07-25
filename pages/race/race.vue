@@ -52,14 +52,12 @@
 				headerHeight: 0,
 				value1: 0,
 				scheduleList: [],
-				team: null,
 				re: false
 			};
 		},
 
 		onLoad() {
 			this.getSchedule();
-			this.getteamData();
 		},
 
 		created() {
@@ -98,14 +96,6 @@
 			},
 			click1(e) {
 				console.log('click1', e);
-			},
-
-			// 获取车队数据
-			getteamData() {
-				db.collection("teams2024").get().then(res => {
-					console.log(res);
-					this.team = res.result.data;
-				})
 			},
 
 			getSchedule() {

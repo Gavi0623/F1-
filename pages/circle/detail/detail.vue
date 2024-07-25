@@ -182,10 +182,10 @@
 					// 调用点赞方法
 					await likeCirFun(this.artid);
 
-					if (!true) {
+					if (true) {
 						// 点赞成功后刷新页面
-						this.refreshPage();
-						return;
+						this.refreshPagelike();
+						// return;
 						uni.showToast({
 							title: '操作成功',
 							icon: 'success'
@@ -205,7 +205,7 @@
 			},
 
 			// 刷新页面方法
-			refreshPage() {
+			refreshPagelike() {
 				// 重新获取数据
 				this.getData();
 				// 重新获取点赞用户

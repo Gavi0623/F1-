@@ -2,7 +2,7 @@
 	<view>
 		<view class="comment-item">
 			<view class="avatar">
-				<u-avatar :src="giveAvatar(item, '../../../static/images/user-default.jpg')" size="26"></u-avatar>
+				<u-avatar :src="giveAvatar(item, '/static/images/user-default.jpg')" size="26"></u-avatar>
 			</view>
 
 			<view class="wrap">

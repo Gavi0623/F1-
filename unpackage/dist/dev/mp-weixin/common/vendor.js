@@ -1557,7 +1557,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8923,7 +8923,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8944,14 +8944,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9047,7 +9047,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"Formula 1 Community","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9954,14 +9954,14 @@ var S = "development" === "development",
   T = I({
     "address": [
         "127.0.0.1",
-        "10.1.27.24",
         "192.168.137.1",
         "169.254.198.246",
-        "169.254.23.21"
+        "169.254.23.21",
+        "192.168.43.5"
     ],
-    "debugPort": 9002,
+    "debugPort": 9001,
     "initialLaunchType": "local",
-    "servePort": 7002,
+    "servePort": 7001,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.6.3.20220917/HBuilderX/plugins/unicloud/**/*.js"
@@ -17899,7 +17899,8 @@ var _default = {
   }, {
     "path": "uni_modules/uni-id-pages/pages/login/login-withpwd",
     "style": {
-      "navigationBarTitleText": ""
+      "navigationBarTitleText": "",
+      "navigationStyle": "custom"
     }
   }, {
     "path": "uni_modules/uni-id-pages/pages/login/login-smscode",
@@ -27744,22 +27745,12 @@ var _default = {
   // 调试模式
   debug: false,
   /*
-  登录类型 未列举到的或运行环境不支持的，将被自动隐藏。
-  如果需要在不同平台有不同的配置，直接用条件编译即可
+  	登录类型 未列举到的或运行环境不支持的，将被自动隐藏。
+  	如果需要在不同平台有不同的配置，直接用条件编译即可
   */
   isAdmin: false,
   // 区分管理端与用户端
-  loginTypes: [
-  // "qq",
-  // "xiaomi",
-  // "sinaweibo",
-  // "taobao",
-  // "facebook",
-  // "google",
-  // "alipay",
-  // "douyin",
-
-  'weixin', 'username', 'smsCode'],
+  loginTypes: ["username"],
   // 政策协议
   agreements: {
     serviceUrl: 'https://xxx',
@@ -27779,24 +27770,24 @@ var _default = {
     }
   },
   /**
-  * 密码强度
-  * super（超强：密码必须包含大小写字母、数字和特殊符号，长度范围：8-16位之间）
-  * strong（强: 密密码必须包含字母、数字和特殊符号，长度范围：8-16位之间）
-  * medium (中：密码必须为字母、数字和特殊符号任意两种的组合，长度范围：8-16位之间)
-  * weak（弱：密码必须包含字母和数字，长度范围：6-16位之间）
-  * 为空或false则不验证密码强度
-  */
+   * 密码强度
+   * super（超强：密码必须包含大小写字母、数字和特殊符号，长度范围：8-16位之间）
+   * strong（强: 密密码必须包含字母、数字和特殊符号，长度范围：8-16位之间）
+   * medium (中：密码必须为字母、数字和特殊符号任意两种的组合，长度范围：8-16位之间)
+   * weak（弱：密码必须包含字母和数字，长度范围：6-16位之间）
+   * 为空或false则不验证密码强度
+   */
   passwordStrength: 'medium',
   /**
-  * 登录后允许用户设置密码（只针对未设置密码得用户）
-  * 开启此功能将 setPasswordAfterLogin 设置为 true 即可
-  * "setPasswordAfterLogin": false
-  *
-  * 如果允许用户跳过设置密码 将 allowSkip 设置为 true
-  * "setPasswordAfterLogin": {
-  *   "allowSkip": true
-  * }
-  * */
+   * 登录后允许用户设置密码（只针对未设置密码得用户）
+   * 开启此功能将 setPasswordAfterLogin 设置为 true 即可
+   * "setPasswordAfterLogin": false
+   *
+   * 如果允许用户跳过设置密码 将 allowSkip 设置为 true
+   * "setPasswordAfterLogin": {
+   *   "allowSkip": true
+   * }
+   * */
   setPasswordAfterLogin: false
 };
 exports.default = _default;
@@ -27829,13 +27820,21 @@ var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
 // 获取富文本内的图片url地址
+/**
+ * @param {string} richtext - 富文本内容
+ * @param {number} num - 要获取的图片URL数量，默认为9
+ * @returns {Array} - 返回包含图片URL的数组
+ */
 function getImgSrc(richtext) {
   var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 9;
-  var imgList = [];
+  var imgList = []; // 初始化一个数组来存储图片URL
+  // 使用正则表达式匹配富文本中的<img>标签并提取其中的src属性值
   richtext.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, function (match, capture) {
-    imgList.push(capture);
+    imgList.push(capture); // 将匹配到的src属性值（即图片URL）添加到imgList数组中
   });
+  // 截取imgList数组的前num个元素
   imgList = imgList.slice(0, num);
+  // 返回包含图片URL的数组
   return imgList;
 }
 

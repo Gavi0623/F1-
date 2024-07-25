@@ -235,13 +235,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _tools = __webpack_require__(/*! ../../../utils/tools.js */ 184);
 var _store = __webpack_require__(/*! @/uni_modules/uni-id-pages/common/store.js */ 182);
 var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
-var _methods;
 //
 //
 //
@@ -364,7 +362,7 @@ var _default = {
       this.getComment();
     }
   },
-  methods: (_methods = {
+  methods: {
     giveName: _tools.giveName,
     giveAvatar: _tools.giveAvatar,
     // 文章id为空处理
@@ -420,36 +418,37 @@ var _default = {
                 return (0, _tools.likeCirFun)(_this.artid);
               case 11:
                 if (true) {
-                  _context.next = 15;
-                  break;
+                  // 点赞成功后刷新页面
+                  _this.refreshPagelike();
+                  // return;
+                  uni.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  });
                 }
-                // 点赞成功后刷新页面
-                _this.refreshPage();
-                return _context.abrupt("return");
-              case 15:
-                _context.next = 21;
+                _context.next = 18;
                 break;
-              case 17:
-                _context.prev = 17;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](8);
                 console.error('点赞操作失败', _context.t0);
                 uni.showToast({
                   title: '操作失败，请稍后重试',
                   icon: 'none'
                 });
-              case 21:
+              case 18:
                 // 更新点赞时间戳
                 _this.likeTime = Date.now();
-              case 22:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[8, 17]]);
+        }, _callee, null, [[8, 14]]);
       }))();
     },
     // 刷新页面方法
-    refreshPage: function refreshPage() {
+    refreshPagelike: function refreshPagelike() {
       // 重新获取数据
       this.getData();
       // 重新获取点赞用户
@@ -630,19 +629,23 @@ var _default = {
           }
         }, _callee3, null, [[4, 28, 33, 36]]);
       }))();
+    },
+    // 评论成功后的回调
+    refreshPage: function refreshPage() {
+      this.page = 1;
+      this.loadMoreStatus = 'more';
+      this.commentList = [];
+      this.getComment();
+    },
+    // 删除评论的回调
+    P_removeEnv: function P_removeEnv(e) {
+      console.log(e);
+      var index = this.commentList.findIndex(function (item) {
+        return item._id == e.id;
+      });
+      this.commentList.splice(index, 1);
     }
-  }, (0, _defineProperty2.default)(_methods, "refreshPage", function refreshPage() {
-    this.page = 1;
-    this.loadMoreStatus = 'more';
-    this.commentList = [];
-    this.getComment();
-  }), (0, _defineProperty2.default)(_methods, "P_removeEnv", function P_removeEnv(e) {
-    console.log(e);
-    var index = this.commentList.findIndex(function (item) {
-      return item._id == e.id;
-    });
-    this.commentList.splice(index, 1);
-  }), _methods)
+  }
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))

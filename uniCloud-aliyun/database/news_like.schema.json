@@ -16,20 +16,16 @@
 		},
 		"article_id": {
 			"bsonType": "string",
-			"description": "文章ID，opendb-news-posts 表中的`_id`字段",
+			"description": "文章ID，news_articles 表中的`_id`字段",
 			"foreignKey": "news_articles._id"
 		},
 		"user_id": {
 			"bsonType": "string",
-			"description": "评论者ID，参考`uni-id-users` 表",
+			"description": "点赞者ID，参考`uni-id-users` 表",
 			"forceDefaultValue": {
 				"$env": "uid"
 			},
 			"foreignKey": "uni-id-users._id"
-		},
-		"like_count": {
-			"bsonType": "int",
-			"description": "评论喜欢数、点赞数"
 		},
 		"publish_date": {
 			"bsonType": "timestamp",

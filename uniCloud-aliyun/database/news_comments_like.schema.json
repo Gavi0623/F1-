@@ -16,12 +16,12 @@
 		},
 		"article_id": {
 			"bsonType": "string",
-			"description": "文章ID，opendb-news-posts 表中的`_id`字段",
+			"description": "评论ID，news_comments 表中的`_id`字段",
 			"foreignKey": "news_comments._id"
 		},
 		"user_id": {
 			"bsonType": "string",
-			"description": "评论者ID，参考`uni-id-users` 表",
+			"description": "评论点赞者ID，参考`uni-id-users` 表",
 			"forceDefaultValue": {
 				"$env": "uid"
 			},

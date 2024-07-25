@@ -314,10 +314,6 @@ var utilsObj = uniCloud.importObject("utilsObj", {
 var _default = {
   data: function data() {
     return {
-      // 状态栏高度
-      statusBarHeight: 0,
-      // 导航栏高度
-      navBarHeight: 82 + 11,
       artid: "",
       tagStyle: {
         p: "line-height: 1.7em;font-size: 32rpx;padding-bottom: 10rpx",
@@ -356,10 +352,6 @@ var _default = {
     if (this.loadMoreStatus === 'more') {
       this.getComment();
     }
-  },
-  created: function created() {
-    //获取手机状态栏高度
-    this.statusBarHeight = uni.getSystemInfoSync()['statusBarHeight'];
   },
   methods: {
     giveName: _tools.giveName,
@@ -457,9 +449,7 @@ var _default = {
         if (_store.store.hasLogin) isLike = res.result.data._id.news_like.length ? true : false;
         res.result.data.isLike = isLike;
         _this3.detailObj = res.result.data;
-        uni.setNavigationBarTitle({
-          title: _this3.detailObj.title
-        });
+        console.log(_this3.detailObj);
       }).catch(function (err) {
         _this3.errFun();
       });

@@ -233,10 +233,12 @@ var _default2 = {
     return {
       isLike: false,
       sheetShow: false,
-      list: [{
-        name: "修改",
-        type: "edit"
-      }, {
+      list: [
+      /* {
+      name: "修改",
+      type: "edit"
+      }, */
+      {
         name: "删除",
         type: "del",
         color: "#F56C6C",
